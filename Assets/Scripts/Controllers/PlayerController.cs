@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     public Vector3Int _cellPos = new Vector3Int();
 
+    private SpriteRenderer _spriteRenderer;
+
     void Start()
     {
         Init();
@@ -26,11 +29,13 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void Init()
     {
-
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     protected virtual void UpdateController()
     {
+        UpdatePlayerSight();
+
         switch (_state)
         {
             case Define.State.Idle:
@@ -51,6 +56,17 @@ public class PlayerController : MonoBehaviour
                 UpdateMoving();
                 break;
         }
+    }
+
+    private void UpdatePlayerSight()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        Vector3 point = Camera.main.ScreenToWorldPoint(mousePosition + new Vector3(0, 0, 0));
+
+        if (point.x > transform.position.x)
+            _spriteRenderer.flipX = false;
+        else
+            _spriteRenderer.flipX = true;
     }
 
     protected virtual void UpdateIdle()
