@@ -17,14 +17,19 @@ public class PlayerController : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
 
-    void Start()
+    private void Start()
     {
         Init();
     }
 
-    void Update()
+    private void Update()
     {
         UpdateController();
+    }
+
+    private void LateUpdate()
+    {
+        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
 
     protected virtual void Init()
