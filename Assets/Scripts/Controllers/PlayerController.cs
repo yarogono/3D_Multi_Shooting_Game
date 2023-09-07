@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float _speed = 5.0f;
+    [SerializeField]
+    float _speed = 5.0f;
 
     private Define.State _state = Define.State.Moving;
 
@@ -13,9 +11,10 @@ public class PlayerController : MonoBehaviour
 
     private Define.MoveDir _moveDir = Define.MoveDir.Down;
 
-    public Vector3Int _cellPos = new Vector3Int();
-
     private SpriteRenderer _spriteRenderer;
+
+    private Rigidbody2D _rigidbody2D;
+
 
     private void Start()
     {
@@ -24,6 +23,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+    }
+
+    private void FixedUpdate()
+    {   
         UpdateController();
     }
 
@@ -35,6 +38,7 @@ public class PlayerController : MonoBehaviour
     protected virtual void Init()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     protected virtual void UpdateController()
@@ -79,24 +83,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    protected virtual void UpdateMoving()
-    {
-        Vector3 destPos = _cellPos + new Vector3(0.5f, 0.5f);
-        Vector3 moveDir = destPos - transform.position;
-
-        float dist = moveDir.magnitude;
-        if (dist < _speed * Time.deltaTime)
-        {
-            transform.position = destPos;
-            MoveToNextPos();
-        }
-        else
-        {
-            transform.position += moveDir.normalized * _speed * Time.deltaTime;
-            _state = Define.State.Moving;
-        }
-    }
-
     void GetDirInput()
     {
         _moveKeyPressed = true;
@@ -124,11 +110,12 @@ public class PlayerController : MonoBehaviour
         else
         {
             _moveKeyPressed = false;
+            _rigidbody2D.velocity = Vector2.zero;
         }
     }
 
 
-    protected virtual void MoveToNextPos()
+    protected virtual void UpdateMoving()
     {
         if (_moveKeyPressed == false)
         {
@@ -136,19 +123,22 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        float xMove = Input.GetAxis("Horizontal");
+        float zMove = Input.GetAxis("Vertical");
+
         switch (_moveDir)
         {
             case Define.MoveDir.Up:
-                _cellPos += Vector3Int.up;
+                _rigidbody2D.velocity = Vector2.up * _speed;
                 break;
             case Define.MoveDir.Down:
-                _cellPos += Vector3Int.down;
+                _rigidbody2D.velocity = Vector2.down * _speed;
                 break;
             case Define.MoveDir.Left:
-                _cellPos += Vector3Int.left;
+                _rigidbody2D.velocity = Vector2.left * _speed;
                 break;
             case Define.MoveDir.Right:
-                _cellPos += Vector3Int.right;
+                _rigidbody2D.velocity = Vector2.right * _speed;
                 break;
         }
     }
