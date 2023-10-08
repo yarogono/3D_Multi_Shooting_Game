@@ -9675,6 +9675,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4143658957206762824, guid: bd700e01e110ddf4f87418058191d1a6, type: 3}
+      propertyPath: _speed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 9177044600079950362, guid: bd700e01e110ddf4f87418058191d1a6, type: 3}
       propertyPath: m_Name
       value: penguin

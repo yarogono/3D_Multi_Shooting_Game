@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PDL>
+	<packet name="C_PlayerLogin">
+		<string name="ip"/>
+	</packet>
+	<packet name="S_PlayerInfo">
+		<int name="health"/>
+		<float name="speed"/>
+		<int name="attack"/>
+		<int name="def"/>
+		<float name="evasion"/>
+		<int name="gold"/>
+		<list name="item">
+			<int name="id"/>
+			<string name="name"/>
+			<int name="itemType"/>
+			<int name="price"/>
+			<string name="prefab"/>
+		</list>
+	</packet>
+	<packet name="C_SavePlayer">
+		<string name="ip"/>
+	</packet>
+</PDL>
