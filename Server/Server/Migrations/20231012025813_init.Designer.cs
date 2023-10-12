@@ -10,7 +10,7 @@ using Server.DB;
 namespace Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231011170138_init")]
+    [Migration("20231012025813_init")]
     partial class init
     {
         /// <inheritdoc />

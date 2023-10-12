@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 1965720962496472463}
   - component: {fileID: 3577371159152493451}
   m_Layer: 5
-  m_Name: PasswordInput2
+  m_Name: PasswordInputTwo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -707,7 +707,7 @@ GameObject:
   - component: {fileID: 4589836675711415714}
   - component: {fileID: 7479847805389621539}
   m_Layer: 5
-  m_Name: PasswordText2
+  m_Name: PasswordTextTwo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,6 +8,11 @@ using UnityEngine.UI;
 public abstract class UI_Base : MonoBehaviour
 {
     private Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>();
+
+    private void Start()
+    {
+        Init();
+    }
 
     public abstract void Init();
 
@@ -41,6 +47,7 @@ public abstract class UI_Base : MonoBehaviour
     protected Button GetButton(int idx) { return Get<Button>(idx); }
     protected Image GetImage(int idx) { return Get<Image>(idx); }
     protected GameObject GetGameObject(int idx) { return Get<GameObject>(idx); }
+    protected TMP_InputField GetTMPInputField(int idx) { return Get<TMP_InputField>(idx); }
 
     public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {

@@ -280,6 +280,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1020871604520071826, guid: 5fe29f89c4da5414185c98c83eb976a2, type: 3}
+      propertyPath: m_Name
+      value: SignUpButton
+      objectReference: {fileID: 0}
     - target: {fileID: 1361631004297940472, guid: 5fe29f89c4da5414185c98c83eb976a2, type: 3}
       propertyPath: m_Name
       value: StartCanvas

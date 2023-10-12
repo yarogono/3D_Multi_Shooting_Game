@@ -11,4 +11,14 @@ class PacketHandler
         //Console.WriteLine(chatPacket.chat);
         
     }
+
+    public static void S_PlayerLoginHandler(PacketSession session, IPacket packet)
+    {
+
+    }
+
+    public static void S_SavePlayerHandler(PacketSession session, IPacket packet)
+    {
+
+    }
 }
