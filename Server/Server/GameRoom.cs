@@ -41,15 +41,5 @@ namespace Server
 		{
 			_sessions.Remove(session);
 		}
-
-        internal void PlayerLogin(C_PlayerLogin packet)
-        {
-			if (packet == null)
-				return;
-
-
-
-            S_PlayerInfo playerInfo = new S_PlayerInfo() { health = 100, attack = 1, def = 1, evasion = 1f, speed = 1f, gold = 0};
-        }
     }
 }

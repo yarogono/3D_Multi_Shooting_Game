@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Org.BouncyCastle.Bcpg;
 
 namespace Server.Session
 {
@@ -45,17 +46,13 @@ namespace Server.Session
 
         public void SavePlayer(PacketSession session, C_SavePlayer packet)
         {
-            if (packet == null)
-                return;
-
             using (AppDbContext db = new AppDbContext())
             {
                 AccountDb findAccount = db.Accounts.Where(a => a.AccountName == packet.username).FirstOrDefault();
 
                 if (findAccount != null)
                 {
-                    S_SavePlayer saveOk = new S_SavePlayer() { saveOk = 1 };
-                    Send(saveOk.Write());
+                    // ToDo : 이미 가입한 아이디 관련 패킷 클라에게 전송
                 }
                 else
                 {
@@ -69,6 +66,28 @@ namespace Server.Session
                     AccountDb newAccount = new AccountDb() { AccountName = packet.username, AccountPassword = encryptString };
                     db.Accounts.Add(newAccount);
                     db.SaveChanges();
+
+                    S_SavePlayer saveOk = new S_SavePlayer() { saveOk = 1 };
+                    Send(saveOk.Write());
+                }
+            }
+        }
+
+        internal void PlayerLogin(PacketSession session, C_PlayerLogin packet)
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                AccountDb findAccount = db.Accounts.Where(a => a.AccountName == packet.username).FirstOrDefault();
+
+                if (findAccount != null)
+                {
+                    S_PlayerLogin playerLoginPacket = new S_PlayerLogin() { loginOk = 1 };
+                    Send(playerLoginPacket.Write());
+                }
+                else
+                {
+                    S_PlayerLogin playerLoginPacket = new S_PlayerLogin() { loginOk = 0 };
+                    Send(playerLoginPacket.Write());
                 }
             }
         }

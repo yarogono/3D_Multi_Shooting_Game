@@ -33,7 +33,17 @@ public class UI_Login : UI_Popup
 
     public void OnLoginButtonClicked(PointerEventData data)
     {
-        
+        string id = GetTMPInputField((int)InputFields.IDinput).text;
+        string password = GetTMPInputField((int)InputFields.PasswordInput).text;
+
+        if (id == null || password == null)
+            return;
+
+        if (id.Length == 0 || password.Length == 0)
+            return;
+
+        C_PlayerLogin playerLoginPacket = new C_PlayerLogin() { username = id, password = password };
+        NetworkManager.Instance.Send(playerLoginPacket.Write());
     }
 
     public void OnExitButtonClicked(PointerEventData data)

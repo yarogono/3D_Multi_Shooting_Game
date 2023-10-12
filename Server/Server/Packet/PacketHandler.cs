@@ -12,10 +12,10 @@ class PacketHandler
         if (clientSession.Room == null)
             return;
 
-        GameRoom room = clientSession.Room;
-        room.Push(
-            () => room.PlayerLogin(playerLoginPacket)
-        );
+        if (playerLoginPacket == null)
+            return;
+
+        clientSession.PlayerLogin(session, playerLoginPacket);
     }
 
     public static void C_SavePlayerHandler(PacketSession session, IPacket packet)
@@ -24,6 +24,9 @@ class PacketHandler
         ClientSession clientSession = session as ClientSession;
 
         if (clientSession.Room == null)
+            return;
+
+        if (savePlayerPacket == null)
             return;
 
         clientSession.SavePlayer(session, savePlayerPacket);
