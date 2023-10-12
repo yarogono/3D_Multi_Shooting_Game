@@ -46,9 +46,6 @@ public class UI_SignUp : UI_Popup
 
         C_SavePlayer savePlayerPacket = new C_SavePlayer() { username = id, password = password };
         NetworkManager.Instance.Send(savePlayerPacket.Write());
-        Debug.Log("아이디가 생성되었습니다.");
-
-        ClosePopupUI();
     }
 
 
