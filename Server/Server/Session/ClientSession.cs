@@ -1,5 +1,9 @@
-﻿using ServerCore;
+﻿using Server.DB;
+using ServerCore;
 using System.Net;
+using System.Text;
+using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Server.Session
 {
@@ -8,6 +12,7 @@ namespace Server.Session
         public int SessionId { get; set; }
         public GameRoom Room { get; set; }
 
+        #region SessionCore
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"OnConnected : {endPoint}");
@@ -35,6 +40,37 @@ namespace Server.Session
         public override void OnSend(int numOfBytes)
         {
             Console.WriteLine($"Transferred bytes: {numOfBytes}");
+        }
+        #endregion
+
+        public void SavePlayer(PacketSession session, C_SavePlayer packet)
+        {
+            if (packet == null)
+                return;
+
+            using (AppDbContext db = new AppDbContext())
+            {
+                AccountDb findAccount = db.Accounts.Where(a => a.AccountName == packet.username).FirstOrDefault();
+
+                if (findAccount != null)
+                {
+                    S_SavePlayer saveOk = new S_SavePlayer() { saveOk = 1 };
+                    Send(saveOk.Write());
+                }
+                else
+                {
+
+                    SHA256Managed sha256Managed = new SHA256Managed();
+                    byte[] encryptBytes = sha256Managed.ComputeHash(Encoding.UTF8.GetBytes(packet.password));
+
+                    //base64
+                    String encryptString = Convert.ToBase64String(encryptBytes);
+
+                    AccountDb newAccount = new AccountDb() { AccountName = packet.username, AccountPassword = encryptString };
+                    db.Accounts.Add(newAccount);
+                    db.SaveChanges();
+                }
+            }
         }
     }
 }

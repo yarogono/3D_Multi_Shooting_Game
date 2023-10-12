@@ -3,6 +3,8 @@ using UnityEngine;
 public class UIManager : CustomSingleton<UIManager>
 {
     UI_Popup _popup = null;
+    UI_Scene _sceneUI = null;
+
 
     public GameObject Root
     {
@@ -13,6 +15,20 @@ public class UIManager : CustomSingleton<UIManager>
                 root = new GameObject { name = "@UI_Root" };
             return root;
         }
+    }
+
+    public T ShowSceneUI<T>(string name = null) where T : UI_Scene
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        GameObject go = ResourceManager.Instance.Instantiate($"UI/Scene/{name}");
+        T sceneUI = Util.GetOrAddComponent<T>(go);
+        _sceneUI = sceneUI;
+
+        go.transform.SetParent(Root.transform);
+
+        return sceneUI;
     }
 
     public T ShowPopupUI<T>(string name = null) where T : UI_Popup

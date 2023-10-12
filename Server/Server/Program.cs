@@ -1,4 +1,5 @@
-﻿using Server.Session;
+﻿using Server.Data;
+using Server.Session;
 using ServerCore;
 using System.Net;
 
@@ -17,6 +18,9 @@ namespace Server
 
         static void Main(string[] args)
         {
+            ConfigManager.LoadConfig();
+            DataManager.LoadData();
+
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);
             IPAddress ipAddr = ipHost.AddressList[0];

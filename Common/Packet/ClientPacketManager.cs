@@ -19,8 +19,12 @@ class PacketManager
 		
 	public void Register()
 	{
+		_makeFunc.Add((ushort)PacketID.S_PlayerLogin, MakePacket<S_PlayerLogin>);
+		_handler.Add((ushort)PacketID.S_PlayerLogin, PacketHandler.S_PlayerLoginHandler);
 		_makeFunc.Add((ushort)PacketID.S_PlayerInfo, MakePacket<S_PlayerInfo>);
 		_handler.Add((ushort)PacketID.S_PlayerInfo, PacketHandler.S_PlayerInfoHandler);
+		_makeFunc.Add((ushort)PacketID.S_SavePlayer, MakePacket<S_SavePlayer>);
+		_handler.Add((ushort)PacketID.S_SavePlayer, PacketHandler.S_SavePlayerHandler);
 
 	}
 

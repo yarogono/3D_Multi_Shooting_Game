@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PDL>
 	<packet name="C_PlayerLogin">
-		<string name="ip"/>
+		<string name="username"/>
+		<string name="password"/>
+	</packet>
+	<packet name="S_PlayerLogin">
+		<int name="loginOk"/>
 	</packet>
 	<packet name="S_PlayerInfo">
 		<int name="health"/>
@@ -19,6 +23,10 @@
 		</list>
 	</packet>
 	<packet name="C_SavePlayer">
-		<string name="ip"/>
+		<string name="username"/>
+		<string name="password"/>
+	</packet>
+	<packet name="S_SavePlayer">
+		<int name="saveOk"/>
 	</packet>
 </PDL>

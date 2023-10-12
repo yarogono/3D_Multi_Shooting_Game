@@ -20,15 +20,12 @@ class PacketHandler
 
     public static void C_SavePlayerHandler(PacketSession session, IPacket packet)
     {
-        C_SavePlayer playerLoginPacket = packet as C_SavePlayer;
+        C_SavePlayer savePlayerPacket = packet as C_SavePlayer;
         ClientSession clientSession = session as ClientSession;
 
         if (clientSession.Room == null)
             return;
 
-        //GameRoom room = clientSession.Room;
-        //room.Push(
-        //    () => room.SavePlayer(playerLoginPacket)
-        //);
+        clientSession.SavePlayer(session, savePlayerPacket);
     }
 }

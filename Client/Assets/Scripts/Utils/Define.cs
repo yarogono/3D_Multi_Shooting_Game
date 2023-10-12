@@ -29,7 +29,7 @@ public class Define
     public enum Scene
     {
         Unknown,
-        Main,
+        Game,
         Start,
     }
 }
