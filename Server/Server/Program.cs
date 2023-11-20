@@ -1,4 +1,5 @@
 ﻿using Server.Data;
+using Server.Game.Room;
 using Server.Session;
 using ServerCore;
 using System.Net;
@@ -8,12 +9,29 @@ namespace Server
     class Program
     {
         static Listener _listener = new Listener();
-        public static GameRoom Room = new GameRoom();
+        static List<System.Timers.Timer> _timers = new List<System.Timers.Timer>();
 
-        static void FlushRoom()
+        static void GameLogicTask()
         {
-            Room.Push(() => Room.Flush());
-            JobTimer.Instance.Push(FlushRoom, 250);
+            while (true)
+            {
+                GameLogic.Instance.Update();
+                Thread.Sleep(0);
+            }
+        }
+
+        static void NetworkTask()
+        {
+            while (true)
+            {
+                List<ClientSession> sessions = SessionManager.Instance.GetSessions();
+                foreach (ClientSession session in sessions)
+                {
+                    session.FlushSend();
+                }
+
+                Thread.Sleep(0);
+            }
         }
 
         static void Main(string[] args)
@@ -29,13 +47,16 @@ namespace Server
             _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
             Console.WriteLine("Listening...");
 
-            //FlushRoom();
-            JobTimer.Instance.Push(FlushRoom);
-
-            while (true)
+            // NetworkTask
             {
-                JobTimer.Instance.Flush();
+                Thread t = new Thread(NetworkTask);
+                t.Name = "Network Send";
+                t.Start();
             }
+
+            // GameLogic
+            Thread.CurrentThread.Name = "GameLogic";
+            GameLogicTask();
         }
     }
 }

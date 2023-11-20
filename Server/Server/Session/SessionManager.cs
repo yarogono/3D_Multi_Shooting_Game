@@ -4,14 +4,26 @@ namespace Server
 {
 	class SessionManager
 	{
-		static SessionManager _session = new SessionManager();
-		public static SessionManager Instance { get { return _session; } }
+        static SessionManager _session = new SessionManager();
+        public static SessionManager Instance { get { return _session; } }
 
-		int _sessionId = 0;
+        int _sessionId = 0;
 		Dictionary<int, ClientSession> _sessions = new Dictionary<int, ClientSession>();
 		object _lock = new object();
 
-		public ClientSession Generate()
+        public List<ClientSession> GetSessions()
+        {
+            List<ClientSession> sessions = new List<ClientSession>();
+
+            lock (_lock)
+            {
+                sessions = _sessions.Values.ToList();
+            }
+
+            return sessions;
+        }
+
+        public ClientSession Generate()
 		{
 			lock (_lock)
 			{

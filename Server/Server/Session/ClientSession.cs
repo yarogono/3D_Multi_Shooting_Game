@@ -1,34 +1,85 @@
-﻿using Server.DB;
-using ServerCore;
+﻿using ServerCore;
 using System.Net;
-using System.Text;
-using System.Security.Cryptography;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Org.BouncyCastle.Bcpg;
+using Server.Game.Room;
+using Server.Game.Object;
+using Google.Protobuf.Protocol;
+using Google.Protobuf;
 
 namespace Server.Session
 {
     public class ClientSession : PacketSession
     {
+        public Player MyPlayer { get; set; }
         public int SessionId { get; set; }
-        public GameRoom Room { get; set; }
 
-        #region SessionCore
+        object _lock = new object();
+        List<ArraySegment<byte>> _reserveQueue = new List<ArraySegment<byte>>();
+
+        // 패킷 모아 보내기
+        int _reservedSendBytes = 0;
+        long _lastSendTick = 0;
+
+        private const int SizeOffset = 0;
+        private const int MsgIdOffset = 2;
+        private const int HeaderSize = 4;
+        // 예약만 하고 보내지는 않는다
+        public void Send(IMessage packet)
+        {
+            string msgName = packet.Descriptor.Name.Replace("_", string.Empty);
+            MsgId msgId = (MsgId)Enum.Parse(typeof(MsgId), msgName);
+            ushort size = (ushort)packet.CalculateSize();
+            byte[] sendBuffer = new byte[size + 4];
+            Buffer.BlockCopy(BitConverter.GetBytes((ushort)(size + HeaderSize)), 0, sendBuffer, SizeOffset, sizeof(ushort));
+            Buffer.BlockCopy(BitConverter.GetBytes((ushort)msgId), 0, sendBuffer, MsgIdOffset, sizeof(ushort));
+            Buffer.BlockCopy(packet.ToByteArray(), 0, sendBuffer, HeaderSize, size);
+
+            lock (_lock)
+            {
+                _reserveQueue.Add(sendBuffer);
+                _reservedSendBytes += sendBuffer.Length;
+            }
+        }
+
+        // 실제 Network IO 보내는 부분
+        public void FlushSend()
+        {
+            List<ArraySegment<byte>> sendList = null;
+
+            lock (_lock)
+            {
+                // 0.1초가 지났거나, 너무 패킷이 많이 모일 때 (1만 바이트)
+                long delta = (System.Environment.TickCount64 - _lastSendTick);
+                if (delta < 100 && _reservedSendBytes < 10000)
+                    return;
+
+                // 패킷 모아 보내기
+                _reservedSendBytes = 0;
+                _lastSendTick = System.Environment.TickCount64;
+
+                sendList = _reserveQueue;
+                _reserveQueue = new List<ArraySegment<byte>>();
+            }
+
+            Send(sendList);
+        }
+
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"OnConnected : {endPoint}");
-            Program.Room.Push(() => Program.Room.Enter(this));
         }
 
         public override void OnDisconnected(EndPoint endPoint)
         {
-            SessionManager.Instance.Remove(this);
-            if (Room != null)
+            if (MyPlayer == null)
+                return;
+
+            GameLogic.Instance.Push(() =>
             {
-                GameRoom room = Room;
-                room.Push(() => room.Leave(this));
-                Room = null;
-            }
+                GameRoom room = GameLogic.Instance.Find(1);
+                room.Push(room.LeaveGame, MyPlayer.Info.ObjectId);
+            });
+
+            SessionManager.Instance.Remove(this);
 
             Console.WriteLine($"OnDisconnected : {endPoint}");
         }
@@ -41,55 +92,6 @@ namespace Server.Session
         public override void OnSend(int numOfBytes)
         {
             Console.WriteLine($"Transferred bytes: {numOfBytes}");
-        }
-        #endregion
-
-        public void SavePlayer(PacketSession session, C_SavePlayer packet)
-        {
-            using (AppDbContext db = new AppDbContext())
-            {
-                AccountDb findAccount = db.Accounts.Where(a => a.AccountName == packet.username).FirstOrDefault();
-
-                if (findAccount != null)
-                {
-                    // ToDo : 이미 가입한 아이디 관련 패킷 클라에게 전송
-                }
-                else
-                {
-
-                    SHA256Managed sha256Managed = new SHA256Managed();
-                    byte[] encryptBytes = sha256Managed.ComputeHash(Encoding.UTF8.GetBytes(packet.password));
-
-                    //base64
-                    String encryptString = Convert.ToBase64String(encryptBytes);
-
-                    AccountDb newAccount = new AccountDb() { AccountName = packet.username, AccountPassword = encryptString };
-                    db.Accounts.Add(newAccount);
-                    db.SaveChanges();
-
-                    S_SavePlayer saveOk = new S_SavePlayer() { saveOk = 1 };
-                    Send(saveOk.Write());
-                }
-            }
-        }
-
-        internal void PlayerLogin(PacketSession session, C_PlayerLogin packet)
-        {
-            using (AppDbContext db = new AppDbContext())
-            {
-                AccountDb findAccount = db.Accounts.Where(a => a.AccountName == packet.username).FirstOrDefault();
-
-                if (findAccount != null)
-                {
-                    S_PlayerLogin playerLoginPacket = new S_PlayerLogin() { loginOk = 1 };
-                    Send(playerLoginPacket.Write());
-                }
-                else
-                {
-                    S_PlayerLogin playerLoginPacket = new S_PlayerLogin() { loginOk = 0 };
-                    Send(playerLoginPacket.Write());
-                }
-            }
         }
     }
 }
