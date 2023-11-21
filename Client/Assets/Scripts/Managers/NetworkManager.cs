@@ -2,7 +2,7 @@ using ServerCore;
 using System.Collections.Generic;
 using System;
 using System.Net;
-using UnityEditor.VersionControl;
+using Google.Protobuf;
 
 public class NetworkManager : CustomSingleton<NetworkManager>
 {
@@ -30,9 +30,15 @@ public class NetworkManager : CustomSingleton<NetworkManager>
 
     void Update()
     {
-        List<IPacket> list = PacketQueue.Instance.PopAll();
-        foreach (IPacket packet in list)
-            PacketManager.Instance.HandlePacket(_session, packet);
+        List<PacketMessage> list = PacketQueue.Instance.PopAll();
+        if (list.Count != 0)
+        {
+            foreach (PacketMessage packet in list)
+            {
+                Action<PacketSession, IMessage> handler = PacketManager.Instance.GetPacketHandler(packet.Id);
+                handler?.Invoke(_session, packet.Message);
+            }
+        }
     }
 
     public void Send(ArraySegment<byte> sendBuff)

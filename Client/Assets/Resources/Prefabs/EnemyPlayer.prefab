@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2440095803248850997}
   m_Layer: 0
-  m_Name: Ludo
+  m_Name: EnemyPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,14 +6,6 @@ public class Define
         Moving,
     }
 
-    public enum MoveDir
-    {
-        Up,
-        Down,
-        Left,
-        Right,
-    }
-
     public enum Sound
     {
         Bgm,

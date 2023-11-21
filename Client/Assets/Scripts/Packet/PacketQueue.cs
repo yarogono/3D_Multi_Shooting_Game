@@ -1,21 +1,28 @@
+using Google.Protobuf;
 using System.Collections.Generic;
+
+public class PacketMessage
+{
+    public ushort Id { get; set; }
+    public IMessage Message { get; set; }
+}
 
 public class PacketQueue
 {
     public static PacketQueue Instance { get; } = new PacketQueue();
 
-    Queue<IPacket> _packetQueue = new Queue<IPacket>();
+    Queue<PacketMessage> _packetQueue = new Queue<PacketMessage>();
     object _lock = new object();
 
-    public void Push(IPacket packet)
+    public void Push(ushort id, IMessage packet)
     {
         lock (_lock)
         {
-            _packetQueue.Enqueue(packet);
+            _packetQueue.Enqueue(new PacketMessage() { Id = id, Message = packet });
         }
     }
 
-    public IPacket Pop()
+    public PacketMessage Pop()
     {
         lock (_lock)
         {
@@ -26,9 +33,9 @@ public class PacketQueue
         }
     }
 
-    public List<IPacket> PopAll()
+    public List<PacketMessage> PopAll()
     {
-        List<IPacket> list = new List<IPacket>();
+        List<PacketMessage> list = new List<PacketMessage>();
 
         lock (_lock)
         {
