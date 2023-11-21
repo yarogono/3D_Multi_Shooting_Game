@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package Protocol;
+import "google/protobuf/timestamp.proto";
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+enum MsgId {
+	C_ENTER_GAME = 0;
+	S_ENTER_GAME = 1;
+	C_LEAVE_GAME = 2;
+	S_LEAVE_GAME = 3;
+	S_SPAWN = 4;
+	S_DESPAWN = 5;
+	C_MOVE = 6;
+	S_MOVE = 7;
+}
+
+enum GameObjectType {
+	NONE = 0;
+	PLAYER = 1;
+	MONSTER = 2;
+}
+
+message C_EnterGame {
+	ObjectInfo player = 1;
+}
+
+message S_EnterGame {
+	ObjectInfo player = 1;
+}
+
+message S_LeaveGame {
+	int32 playerId = 1;
+}
+
+message C_LeaveGame {
+	int32 playerId = 1;
+}
+
+message S_Spawn {
+	repeated ObjectInfo objects = 1;
+}
+
+message S_Despawn {
+	repeated int32 objectIds = 1;
+}
+
+message C_Move {
+	int32 state = 1;
+	PositionInfo posInfo = 2;
+}
+
+message S_Move {
+	int32 objectId = 1;
+	int32 state = 2;
+	PositionInfo posInfo = 3;
+}
+
+message S_Ping {
+}
+
+message C_Pong {
+}
+
+message ObjectInfo {
+	int32 objectId = 1;
+	string name = 2;
+	PositionInfo posInfo = 3;
+	StatInfo statInfo = 4;
+	int32 state = 5;
+}
+
+message StatInfo {
+	int32 level = 1;
+	int32 hp = 2;
+	int32 maxHp =3;
+	int32 attack = 4;
+	float speed = 5;
+}
+
+message PositionInfo {
+	float posX = 1;
+	float posY = 2;
+	float posZ = 3;
+}
+
+message DirectionInfo {
+	float dirX = 1;
+	float dirY = 2;
+	float dirZ = 3;
+}
