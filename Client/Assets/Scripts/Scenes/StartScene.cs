@@ -1,3 +1,4 @@
+using Assets.Scripts.UI.Scene;
 using UnityEngine;
 
 public class StartScene : BaseScene
@@ -6,6 +7,7 @@ public class StartScene : BaseScene
     {
         base.Init();
         SceneType = Define.Scene.Start;
+        UIManager.Instance.ShowSceneUI<UI_Scene>("StartCanvas");
     }
 
     public override void Clear()

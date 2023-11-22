@@ -1,14 +1,6 @@
 using UnityEngine;
 
-public class EnemyPlayerController : MonoBehaviour
+public class EnemyPlayerController : CreatureController
 {
-    void Start()
-    {
-        
-    }
 
-    void Update()
-    {
-        
-    }
 }

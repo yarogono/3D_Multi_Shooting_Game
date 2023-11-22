@@ -39,6 +39,12 @@ namespace Server
             ConfigManager.LoadConfig();
             DataManager.LoadData();
 
+            GameLogic.Instance.Push(() =>
+            {
+                GameRoom room = GameLogic.Instance.Add();
+                room.Init();
+            });
+
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);
             IPAddress ipAddr = ipHost.AddressList[0];

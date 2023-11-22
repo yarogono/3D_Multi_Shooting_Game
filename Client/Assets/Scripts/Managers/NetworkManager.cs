@@ -41,8 +41,8 @@ public class NetworkManager : CustomSingleton<NetworkManager>
         }
     }
 
-    public void Send(ArraySegment<byte> sendBuff)
+    public void Send(IMessage packet)
     {
-        _session.Send(sendBuff);
+        _session.Send(packet);
     }
 }

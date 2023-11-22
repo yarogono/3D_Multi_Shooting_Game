@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectManager : CustomSingleton<ObjectManager>
 {
-    public PlayerController MyPlayer { get; set; }
+    public MyPlayerController MyPlayer { get; set; }
     readonly Dictionary<int, GameObject> _objects = new();
 
     public static GameObjectType GetObjectTypeById(int id)
@@ -13,21 +13,24 @@ public class ObjectManager : CustomSingleton<ObjectManager>
         return (GameObjectType)type;
     }
 
-    public void Add(ObjectInfo info, bool pilotPlayer = false)
+    public void Add(ObjectInfo info, bool isMyPlayer = false)
     {
         GameObjectType objectType = GetObjectTypeById(info.ObjectId);
 
         if (objectType == GameObjectType.Player)
         {
-            if (pilotPlayer)
+            if (isMyPlayer)
             {
                 GameObject gameObject = ResourceManager.Instance.Instantiate("MyPlayer");
 
                 gameObject.name = info.Name;
                 _objects.Add(info.ObjectId, gameObject);
 
-                // TODO
-                MyPlayer = gameObject.GetComponent<PlayerController>();
+                MyPlayerController MyPlayer = gameObject.GetComponent<MyPlayerController>();
+                MyPlayer.Id = info.ObjectId;
+                MyPlayer.Name = info.Name;
+                MyPlayer.PosInfo = info.PosInfo;
+                MyPlayer.StatInfo = info.StatInfo;
             }
             else
             {
@@ -35,8 +38,10 @@ public class ObjectManager : CustomSingleton<ObjectManager>
 
                 _objects.Add(info.ObjectId, gameObject);
 
-                // TODO
                 EnemyPlayerController enemyPlayer = gameObject.GetComponent<EnemyPlayerController>();
+                enemyPlayer.Id = info.ObjectId;
+                enemyPlayer.Name = info.Name;
+                enemyPlayer.PosInfo = info.PosInfo;
             }
         }
     }

@@ -1,7 +1,10 @@
-public class UI_Scene : UI_Base
+﻿namespace Assets.Scripts.UI.Scene
 {
-    public override void Init()
+    public class UI_Scene : UI_Base
     {
+        public override void Init()
+        {
 
+        }
     }
 }
