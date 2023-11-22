@@ -1,3 +1,4 @@
+using Assets.Scripts.UI.Scene;
 using UnityEngine;
 
 public class UIManager : CustomSingleton<UIManager>

@@ -1,9 +1,12 @@
+using Google.Protobuf.Protocol;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class MyPlayerController : CreatureController
 {
     [SerializeField]
     float _speed = 5.0f;
+
+    public StatInfo StatInfo { get; set; }
 
     private float hAxis;
     private float vAxis;
@@ -14,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Animator _anim;
 
     private Define.State _state;
+
 
     private void Awake()
     {
