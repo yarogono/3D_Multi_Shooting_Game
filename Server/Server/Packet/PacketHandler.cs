@@ -46,6 +46,17 @@ class PacketHandler
 
     public static void C_MoveHandler(PacketSession session, IMessage packet)
     {
+        C_Move movePacket = (C_Move)packet;
+        ClientSession clientSession = (ClientSession)session;
 
+        Player player = clientSession.MyPlayer;
+        if (player == null)
+            return;
+
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
+
+        room.Push(room.HandleMove, player, movePacket);
     }
 }

@@ -46,14 +46,12 @@ message S_Despawn {
 }
 
 message C_Move {
-	int32 state = 1;
-	PositionInfo posInfo = 2;
+	PositionInfo posInfo = 1;
 }
 
 message S_Move {
 	int32 objectId = 1;
-	int32 state = 2;
-	PositionInfo posInfo = 3;
+	PositionInfo posInfo = 2;
 }
 
 message S_Ping {
@@ -67,7 +65,6 @@ message ObjectInfo {
 	string name = 2;
 	PositionInfo posInfo = 3;
 	StatInfo statInfo = 4;
-	int32 state = 5;
 }
 
 message StatInfo {
@@ -82,10 +79,18 @@ message PositionInfo {
 	float posX = 1;
 	float posY = 2;
 	float posZ = 3;
+	CreatureState state = 4;
 }
 
 message DirectionInfo {
 	float dirX = 1;
 	float dirY = 2;
 	float dirZ = 3;
+}
+
+enum CreatureState {
+    IDLE = 0;
+    MOVING = 1;
+    SKILL = 2;
+    DEAD = 3;
 }

@@ -89,6 +89,24 @@ namespace Server.Game.Room
             }
         }
 
+        public void HandleMove(Player player, C_Move movePacket)
+        {
+            if (player == null)
+                return;
+
+            ObjectInfo info = player.Info;
+
+            PositionInfo posInfo = movePacket.PosInfo;
+            info.PosInfo = posInfo;
+
+            // 다른 플레이어한테도 알려준다
+            S_Move resMovePacket = new S_Move();
+            resMovePacket.ObjectId = player.Id;
+            resMovePacket.PosInfo = new PositionInfo(posInfo);
+
+            Broadcast(resMovePacket, player.Id);
+        }
+
         public Player FindPlayer(Func<GameObject, bool> condition)
         {
             foreach (Player player in _players.Values)
