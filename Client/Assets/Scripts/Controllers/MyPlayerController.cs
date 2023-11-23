@@ -4,7 +4,7 @@ using UnityEngine;
 public class MyPlayerController : CreatureController
 {
     [SerializeField]
-    float _speed = 5.0f;
+    float _speed = 15.0f;
 
     public StatInfo StatInfo { get; set; }
 
@@ -12,12 +12,9 @@ public class MyPlayerController : CreatureController
     private float vAxis;
     private bool wDown;
 
-    private Vector3 moveVec;
-
     private Animator _anim;
 
-    private Define.State _state;
-
+    private Vector3 _moveVec;
 
     private void Awake()
     {
@@ -34,13 +31,20 @@ public class MyPlayerController : CreatureController
     {
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
-        wDown = Input.GetButton("Walk");
 
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
-        if (transform.position != moveVec)
-            _state = Define.State.Moving;
-        else if (transform.position == moveVec)
-            _state = Define.State.Idle;
+        _moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+
+        _anim.SetBool("isRun", _moveVec != Vector3.zero);
+        _anim.SetBool("isWalk", wDown);
+
+        if (_moveVec == Vector3.zero)
+        {
+            State = CreatureState.Idle;
+        }
+        else
+        {
+            State = CreatureState.Moving;
+        }
 
         UpdateController();
     }
@@ -52,34 +56,45 @@ public class MyPlayerController : CreatureController
 
     protected virtual void UpdateController()
     {
-        switch (_state)
+        switch (State)
         {
-            case Define.State.Idle:
+            case CreatureState.Idle:
                 UpdateIdle();
                 break;
-            case Define.State.Moving:
+            case CreatureState.Moving:
                 UpdateMoving();
                 break;
         }
     }
 
-    protected virtual void UpdateIdle()
+    private void UpdateIdle()
     {
 
     }
 
-    protected virtual void UpdateMoving()
+    private void UpdateMoving()
     {
+        wDown = Input.GetButton("Walk");
         if (wDown)
-            transform.position += moveVec * _speed * 0.3f * Time.deltaTime;
+            transform.position += _moveVec * _speed * 0.3f * Time.deltaTime;
         else
-            transform.position += moveVec * _speed * Time.deltaTime;
+            transform.position += _moveVec * _speed * Time.deltaTime;
 
-        _anim.SetBool("isRun", moveVec != Vector3.zero);
-        _anim.SetBool("isWalk", wDown);
+        transform.LookAt(transform.position + _moveVec);
 
-        transform.LookAt(transform.position + moveVec);
+        CellPos = transform.position;
 
-        _state = Define.State.Idle;
+        C_Move movePacket = new C_Move()
+        {
+            PosInfo = new()
+            {
+                PosX = transform.position.x,
+                PosY = transform.position.y,
+                PosZ = transform.position.z,
+                State = CreatureState.Moving
+            }
+        };
+        NetworkManager.Instance.Send(movePacket);
+
     }
 }

@@ -26,11 +26,12 @@ public class ObjectManager : CustomSingleton<ObjectManager>
                 gameObject.name = info.Name;
                 _objects.Add(info.ObjectId, gameObject);
 
-                MyPlayerController MyPlayer = gameObject.GetComponent<MyPlayerController>();
-                MyPlayer.Id = info.ObjectId;
-                MyPlayer.Name = info.Name;
-                MyPlayer.PosInfo = info.PosInfo;
-                MyPlayer.StatInfo = info.StatInfo;
+                MyPlayerController myPlayer = gameObject.GetComponent<MyPlayerController>();
+                myPlayer.Id = info.ObjectId;
+                myPlayer.Name = info.Name;
+                myPlayer.PosInfo = info.PosInfo;
+                myPlayer.StatInfo = info.StatInfo;
+                MyPlayer = myPlayer;
             }
             else
             {
