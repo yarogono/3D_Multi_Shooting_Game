@@ -1,8 +1,10 @@
 using Google.Protobuf.Protocol;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameScene : BaseScene
 {
+    
     protected override void Init()
     {
         base.Init();

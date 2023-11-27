@@ -21,16 +21,20 @@ public class ObjectManager : CustomSingleton<ObjectManager>
         {
             if (isMyPlayer)
             {
-                GameObject gameObject = ResourceManager.Instance.Instantiate("MyPlayer");
+                GameObject cameraGameObject = ResourceManager.Instance.Instantiate("Main Camera");
+                GameObject myPlayerGameObject = ResourceManager.Instance.Instantiate("MyPlayer");
 
-                gameObject.name = info.Name;
-                _objects.Add(info.ObjectId, gameObject);
+                PlayerCameraController _controller = cameraGameObject.GetComponent<PlayerCameraController>();
+                Transform target = myPlayerGameObject.GetComponent<Transform>();
+                _controller.TargetSetting(target);
 
-                MyPlayerController myPlayer = gameObject.GetComponent<MyPlayerController>();
+                myPlayerGameObject.name = info.Name;
+                _objects.Add(info.ObjectId, myPlayerGameObject);
+
+                MyPlayerController myPlayer = myPlayerGameObject.GetComponent<MyPlayerController>();
                 myPlayer.Id = info.ObjectId;
                 myPlayer.Name = info.Name;
                 myPlayer.PosInfo = info.PosInfo;
-                myPlayer.StatInfo = info.StatInfo;
                 MyPlayer = myPlayer;
             }
             else
