@@ -1,4 +1,5 @@
 using Google.Protobuf.Protocol;
+using System;
 using UnityEngine;
 
 public class MyPlayerController : MonoBehaviour
@@ -12,9 +13,8 @@ public class MyPlayerController : MonoBehaviour
     private PlayerInputController _controller;
 
     private Vector3 _movementDirection = Vector3.zero;
-    //private Rigidbody _rigidbody;
-    private bool wDown;
     private Animator _anim;
+    private bool wDown;
 
     public int Id { get; set; }
 
@@ -67,7 +67,6 @@ public class MyPlayerController : MonoBehaviour
     private void Awake()
     {
         _controller = GetComponent<PlayerInputController>();
-        //_rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
     }
 
@@ -106,19 +105,28 @@ public class MyPlayerController : MonoBehaviour
 
     private void ApplyMovement(Vector3 direction)
     {
-
         _anim.SetBool("isWalk", wDown);
-        _anim.SetBool("isRun", true);
         wDown = Input.GetButton("Walk");
         if (wDown)
             direction = direction * 5f;
         else
             direction = direction * _moveSpeed;
 
-        transform.position += direction * Time.deltaTime;
+        if (IsWallCheck() == false)
+        {
+            transform.position += direction * Time.deltaTime;
+            _anim.SetBool("isRun", true);
+        }
+
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * _rotationSpeed);
 
         SendMovePacket();
+    }
+
+    private bool IsWallCheck()
+    {
+        bool isWall = Physics.Raycast(transform.position, transform.forward + Vector3.up, 3, LayerMask.GetMask("Wall"));
+        return isWall;
     }
 
     private void SendMovePacket()
