@@ -34,6 +34,11 @@ public class EnemyPlayerController : CreatureController
 
     protected virtual void UpdateController()
     {
+        if (transform.position != new Vector3(PosInfo.PosX, PosInfo.PosY, PosInfo.PosZ))
+            State = CreatureState.Moving;
+        else
+            State = CreatureState.Idle;
+
         switch (State)
         {
             case CreatureState.Idle:
@@ -47,16 +52,17 @@ public class EnemyPlayerController : CreatureController
 
     protected virtual void UpdateIdle()
     {
-
+        _anim.SetBool("isRun", false);
     }
 
     protected virtual void UpdateMoving()
     {
         Vector3 destPos = new Vector3(PosInfo.PosX, PosInfo.PosY, PosInfo.PosZ);
-        _anim.SetBool("isRun", transform.position != destPos);
 
         // 부드러운 데드 레커닝을 위해 SmoothDamp 사용
         Vector3 nextPosition = Vector3.SmoothDamp(transform.position, destPos, ref velocity, smoothTime, _speed);
+
+        _anim.SetBool("isRun", transform.position != nextPosition);
 
         Vector3 moveDir = nextPosition - transform.position;
         transform.LookAt(transform.position + moveDir.normalized);
