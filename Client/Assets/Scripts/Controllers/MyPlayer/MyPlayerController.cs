@@ -1,16 +1,18 @@
 using Google.Protobuf.Protocol;
-using System;
 using UnityEngine;
 
 public class MyPlayerController : MonoBehaviour
 {
     [SerializeField]
-    float _speed = 15.0f;
+    float _moveSpeed = 15.0f;
+
+    [SerializeField]
+    float _rotationSpeed = 15.0f;
 
     private PlayerInputController _controller;
 
     private Vector3 _movementDirection = Vector3.zero;
-    private Rigidbody _rigidbody;
+    //private Rigidbody _rigidbody;
     private bool wDown;
     private Animator _anim;
 
@@ -65,7 +67,7 @@ public class MyPlayerController : MonoBehaviour
     private void Awake()
     {
         _controller = GetComponent<PlayerInputController>();
-        _rigidbody = GetComponent<Rigidbody>();
+        //_rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
     }
 
@@ -74,9 +76,19 @@ public class MyPlayerController : MonoBehaviour
         _controller.OnMoveEvent += Move;
     }
 
-
-    private void FixedUpdate()
+    private void Update()
     {
+        if (_movementDirection == Vector3.zero)
+        {
+            _anim.SetBool("isRun", false);
+            State = CreatureState.Idle;
+        }
+        else
+        {
+            State = CreatureState.Moving;
+        }
+
+
         switch (State)
         {
             case CreatureState.Idle:
@@ -85,32 +97,26 @@ public class MyPlayerController : MonoBehaviour
                 ApplyMovement(_movementDirection);
                 break;
         }
-
-        if (State == CreatureState.Moving)
-            State = CreatureState.Idle;
     }
-
 
     private void Move(Vector3 direction)
     {
-        State = CreatureState.Moving;
         _movementDirection = direction;
     }
 
     private void ApplyMovement(Vector3 direction)
     {
-        _anim.SetBool("isRun", direction != Vector3.zero);
-        _anim.SetBool("isWalk", wDown);
 
+        _anim.SetBool("isWalk", wDown);
+        _anim.SetBool("isRun", true);
         wDown = Input.GetButton("Walk");
         if (wDown)
-            direction = direction * _speed * 0.3f;
+            direction = direction * 5f;
         else
-            direction = direction * _speed;
+            direction = direction * _moveSpeed;
 
-        _rigidbody.velocity = direction;
-
-        transform.LookAt(transform.position + direction);
+        transform.position += direction * Time.deltaTime;
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * _rotationSpeed);
 
         SendMovePacket();
     }
