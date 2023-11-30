@@ -1,20 +1,22 @@
 using Google.Protobuf.Protocol;
-using System;
 using UnityEngine;
 
 public class MyPlayerController : MonoBehaviour
 {
     [SerializeField]
-    float _moveSpeed = 15.0f;
+    private float _runSpeed = 15.0f;
 
     [SerializeField]
-    float _rotationSpeed = 15.0f;
+    private float _rotationSpeed = 15.0f;
+
+    [SerializeField]
+    private float _walkSpeed = 5.0f;
 
     private PlayerInputController _controller;
-
-    private Vector3 _movementDirection = Vector3.zero;
     private Animator _anim;
-    private bool wDown;
+
+    private bool _isWalk;
+    private Vector3 _movementDirection = Vector3.zero;
 
     public int Id { get; set; }
 
@@ -93,7 +95,7 @@ public class MyPlayerController : MonoBehaviour
             case CreatureState.Idle:
                 break;
             case CreatureState.Moving:
-                ApplyMovement(_movementDirection);
+                UpdateMoving(_movementDirection);
                 break;
         }
     }
@@ -103,29 +105,35 @@ public class MyPlayerController : MonoBehaviour
         _movementDirection = direction;
     }
 
-    private void ApplyMovement(Vector3 direction)
+    private void UpdateMoving(Vector3 direction)
     {
-        _anim.SetBool("isWalk", wDown);
-        wDown = Input.GetButton("Walk");
-        if (wDown)
-            direction = direction * 5f;
-        else
-            direction = direction * _moveSpeed;
-
-        if (IsWallCheck() == false)
-        {
-            transform.position += direction * Time.deltaTime;
-            _anim.SetBool("isRun", true);
-        }
+        direction = MultiplyMyPlayerMoveSpeed(direction);
 
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * _rotationSpeed);
+        
+        if (IsWallCheck() == true)
+            return;
+
+        _anim.SetBool("isRun", true);
+        transform.position += direction * Time.deltaTime;
 
         SendMovePacket();
     }
 
+    private Vector3 MultiplyMyPlayerMoveSpeed(Vector3 direction)
+    {
+        _anim.SetBool("isWalk", _isWalk);
+        _isWalk = Input.GetButton("Walk");
+        if (_isWalk)
+            direction = direction * _walkSpeed;
+        else
+            direction = direction * _runSpeed;
+        return direction;
+    }
+
     private bool IsWallCheck()
     {
-        bool isWall = Physics.Raycast(transform.position, transform.forward + Vector3.up, 3, LayerMask.GetMask("Wall"));
+        bool isWall = Physics.Raycast(transform.position, transform.forward + Vector3.up, 3, LayerMask.GetMask("Wall", "Cube"));
         return isWall;
     }
 
