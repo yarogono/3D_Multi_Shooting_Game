@@ -14,7 +14,13 @@ class PacketHandler
 
     public static void S_LeaveGameHandler(PacketSession session, IMessage packet)
     {
+        S_LeaveGame leaveGamePacket = packet as S_LeaveGame;
 
+        int myPlayerId = ObjectManager.Instance.MyPlayer.Id;
+        if (myPlayerId != leaveGamePacket.PlayerId)
+            return;
+
+        ObjectManager.Instance.Clear();
     }
 
 
