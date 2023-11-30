@@ -41,7 +41,21 @@ class PacketHandler
 
     public static void C_LeaveGameHandler(PacketSession session, IMessage packet)
     {
+        C_LeaveGame leaveGamePacket = (C_LeaveGame)packet;
+        ClientSession clientSession = (ClientSession)session;
 
+        Player player = clientSession.MyPlayer;
+        if (player == null)
+            return;
+
+        if (player.Id != leaveGamePacket.PlayerId)
+            return;
+
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
+
+        room.Push(room.LeaveGame, leaveGamePacket.PlayerId);
     }
 
     public static void C_MoveHandler(PacketSession session, IMessage packet)
