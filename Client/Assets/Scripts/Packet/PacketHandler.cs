@@ -58,4 +58,23 @@ class PacketHandler
 
         enemyPlayer.PosInfo = movePacket.PosInfo;
     }
+
+    public static void S_SpawnItemHandler(PacketSession session, IMessage packet)
+    {
+        S_Move movePacket = (S_Move)packet;
+
+        GameObject gameObject = ObjectManager.Instance.FindById(movePacket.ObjectId);
+
+        if (gameObject == null)
+            return;
+
+        if (ObjectManager.Instance.MyPlayer.Id == movePacket.ObjectId)
+            return;
+
+
+        if (!gameObject.TryGetComponent<EnemyPlayerController>(out var enemyPlayer))
+            return;
+
+        enemyPlayer.PosInfo = movePacket.PosInfo;
+    }
 }

@@ -42,13 +42,14 @@ namespace Google.Protobuf.Protocol {
             "SW5mbxIMCgRwb3NYGAEgASgCEgwKBHBvc1kYAiABKAISDAoEcG9zWhgDIAEo",
             "AhImCgVzdGF0ZRgEIAEoDjIXLlByb3RvY29sLkNyZWF0dXJlU3RhdGUiOQoN",
             "RGlyZWN0aW9uSW5mbxIMCgRkaXJYGAEgASgCEgwKBGRpclkYAiABKAISDAoE",
-            "ZGlyWhgDIAEoAiqDAQoFTXNnSWQSEAoMQ19FTlRFUl9HQU1FEAASEAoMU19F",
+            "ZGlyWhgDIAEoAiqVAQoFTXNnSWQSEAoMQ19FTlRFUl9HQU1FEAASEAoMU19F",
             "TlRFUl9HQU1FEAESEAoMQ19MRUFWRV9HQU1FEAISEAoMU19MRUFWRV9HQU1F",
             "EAMSCwoHU19TUEFXThAEEg0KCVNfREVTUEFXThAFEgoKBkNfTU9WRRAGEgoK",
-            "BlNfTU9WRRAHKjMKDkdhbWVPYmplY3RUeXBlEggKBE5PTkUQABIKCgZQTEFZ",
-            "RVIQARILCgdNT05TVEVSEAIqOgoNQ3JlYXR1cmVTdGF0ZRIICgRJRExFEAAS",
-            "CgoGTU9WSU5HEAESCQoFU0tJTEwQAhIICgRERUFEEANCG6oCGEdvb2dsZS5Q",
-            "cm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
+            "BlNfTU9WRRAHEhAKDFNfU1BBV05fSVRFTRAIKj0KDkdhbWVPYmplY3RUeXBl",
+            "EggKBE5PTkUQABIKCgZQTEFZRVIQARILCgdNT05TVEVSEAISCAoESVRFTRAD",
+            "KjoKDUNyZWF0dXJlU3RhdGUSCAoESURMRRAAEgoKBk1PVklORxABEgkKBVNL",
+            "SUxMEAISCAoEREVBRBADQhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9jb2xi",
+            "BnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -81,12 +82,14 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_DESPAWN")] SDespawn = 5,
     [pbr::OriginalName("C_MOVE")] CMove = 6,
     [pbr::OriginalName("S_MOVE")] SMove = 7,
+    [pbr::OriginalName("S_SPAWN_ITEM")] SSpawnItem = 8,
   }
 
   public enum GameObjectType {
     [pbr::OriginalName("NONE")] None = 0,
     [pbr::OriginalName("PLAYER")] Player = 1,
     [pbr::OriginalName("MONSTER")] Monster = 2,
+    [pbr::OriginalName("ITEM")] Item = 3,
   }
 
   public enum CreatureState {

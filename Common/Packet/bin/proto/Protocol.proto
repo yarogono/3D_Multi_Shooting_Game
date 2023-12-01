@@ -13,12 +13,14 @@ enum MsgId {
 	S_DESPAWN = 5;
 	C_MOVE = 6;
 	S_MOVE = 7;
+	S_SPAWN_ITEM = 8;
 }
 
 enum GameObjectType {
 	NONE = 0;
 	PLAYER = 1;
 	MONSTER = 2;
+	ITEM = 3;
 }
 
 message C_EnterGame {
