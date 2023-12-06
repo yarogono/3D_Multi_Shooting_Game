@@ -66,7 +66,6 @@ message ObjectInfo {
 	int32 objectId = 1;
 	string name = 2;
 	PositionInfo posInfo = 3;
-	StatInfo statInfo = 4;
 }
 
 message StatInfo {
@@ -95,4 +94,10 @@ enum CreatureState {
     MOVING = 1;
     SKILL = 2;
     DEAD = 3;
+}
+
+message Vec3 {
+	float x = 1;
+	float y = 2;
+	float z = 3;
 }

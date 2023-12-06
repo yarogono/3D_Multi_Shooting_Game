@@ -11,7 +11,6 @@ namespace Server.Game.Object
         public Player()
         {
             ObjectType = GameObjectType.Player;
-            Info.StatInfo = Stat;
         }
 
         public virtual void HpDamage()

@@ -11,8 +11,7 @@ public class GameScene : BaseScene
         SceneType = Define.Scene.Game;
 
         PositionInfo posInfo = new PositionInfo() { PosX = 0, PosY = 1, PosZ = 0, State = CreatureState.Idle };
-        StatInfo statInfo = new StatInfo() { Attack = 1, Hp = 100, Level = 1, MaxHp = 100, Speed = 15 };
-        ObjectInfo myPlayer = new ObjectInfo() { Name = "MyPlayer", PosInfo = posInfo, StatInfo = statInfo };
+        ObjectInfo myPlayer = new ObjectInfo() { Name = "MyPlayer", PosInfo = posInfo };
         C_EnterGame enterGamePacket = new C_EnterGame() { Player = myPlayer };
         NetworkManager.Instance.Send(enterGamePacket);
     }

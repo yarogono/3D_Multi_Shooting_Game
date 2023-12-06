@@ -1,5 +1,6 @@
-﻿using Google.Protobuf;
+using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using Server.Data;
 using Server.Game.Job;
 using Server.Game.Object;
 
@@ -10,10 +11,39 @@ namespace Server.Game.Room
         public int RoomId { get; set; }
 
         Dictionary<int, Player> _players = new Dictionary<int, Player>();
+        Dictionary<int, Item> _items = new Dictionary<int, Item>();
+
 
         public void Init()
         {
+            GameIRoomItemsSetting();
+        }
 
+        private void GameIRoomItemsSetting()
+        {
+            var itemDict = DataManager.ItemDict;
+            foreach (WeaponItem weaponItem in itemDict.Values)
+            {
+                Item item = new Item();
+                item.damage = weaponItem.damage;
+                item.Id = weaponItem.id;
+                item.Room = this;
+                PositionInfo posInfo = new PositionInfo()
+                {
+                    PosX = weaponItem.posX,
+                    PosY = weaponItem.posY,
+                    PosZ = weaponItem.posZ
+                };
+
+                item.Info = new ObjectInfo()
+                {
+                    ObjectId = item.Id,
+                    Name = weaponItem.name,
+                    PosInfo = posInfo
+                };
+
+                _items.Add(item.Id, item);
+            }
         }
 
         // 누군가 주기적으로 호출해줘야 한다
@@ -48,6 +78,9 @@ namespace Server.Game.Room
                         if (player != p)
                             spawnPacket.Objects.Add(p.Info);
                     }
+
+                    foreach (Item item in _items.Values)
+                        spawnPacket.Objects.Add(item.Info);
 
                     player.Session.Send(spawnPacket);
                 }
