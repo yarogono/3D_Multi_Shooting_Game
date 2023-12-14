@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package Protocol;
 
-import "Protocol.proto";
+import "protocol.proto";
 option csharp_namespace = "Google.Protobuf.Protocol";
 
 message S_SpawnItem {
