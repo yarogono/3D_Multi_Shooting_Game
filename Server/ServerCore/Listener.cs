@@ -1,4 +1,4 @@
-﻿using System.Net.Sockets;
+using System.Net.Sockets;
 using System.Net;
 
 namespace ServerCore
@@ -29,21 +29,35 @@ namespace ServerCore
         {
             args.AcceptSocket = null;
 
-            bool pending = _listenSocket.AcceptAsync(args);
-            if (pending == false)
-                OnAcceptCompleted(null, args);
+            try
+            {
+                bool pending = _listenSocket.AcceptAsync(args);
+                if (pending == false)
+                    OnAcceptCompleted(null, args);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         void OnAcceptCompleted(object sender, SocketAsyncEventArgs args)
         {
-            if (args.SocketError == SocketError.Success)
+            try
             {
-                Session session = _sessionFactory.Invoke();
-                session.Start(args.AcceptSocket);
-                session.OnConnected(args.AcceptSocket.RemoteEndPoint);
+                if (args.SocketError == SocketError.Success)
+                {
+                    Session session = _sessionFactory.Invoke();
+                    session.Start(args.AcceptSocket);
+                    session.OnConnected(args.AcceptSocket.RemoteEndPoint);
+                }
+                else
+                    Console.WriteLine(args.SocketError.ToString());
             }
-            else
-                Console.WriteLine(args.SocketError.ToString());
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
 
             RegisterAccept(args);
         }
