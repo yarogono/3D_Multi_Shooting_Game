@@ -89,7 +89,6 @@ public class MyPlayerController : MonoBehaviour
             State = CreatureState.Moving;
         }
 
-
         switch (State)
         {
             case CreatureState.Idle:
@@ -114,7 +113,6 @@ public class MyPlayerController : MonoBehaviour
         if (IsWallCheck() == true)
             return;
 
-        _anim.SetBool("isRun", true);
         transform.position += direction * Time.deltaTime;
 
         SendMovePacket();
@@ -122,12 +120,17 @@ public class MyPlayerController : MonoBehaviour
 
     private Vector3 MultiplyMyPlayerMoveSpeed(Vector3 direction)
     {
-        _anim.SetBool("isWalk", _isWalk);
         _isWalk = Input.GetButton("Walk");
+        _anim.SetBool("isWalk", _isWalk);
         if (_isWalk)
+        {
             direction = direction * _walkSpeed;
+        }
         else
+        {
+            _anim.SetBool("isRun", true);
             direction = direction * _runSpeed;
+        }
         return direction;
     }
 

@@ -1,23 +1,35 @@
-﻿using DummyClient;
+using DummyClient;
+using Google.Protobuf;
 using ServerCore;
 
 class PacketHandler
 {
-	public static void S_PlayerInfoHandler(PacketSession session, IPacket packet)
+	public static void S_EnterGameHandler(PacketSession session, IMessage packet)
 	{
-        //S_Chat chatPacket = packet as S_Chat;
-        //ServerSession serverSession = session as ServerSession;
-
-        //Console.WriteLine(chatPacket.chat);
         
     }
 
-    public static void S_PlayerLoginHandler(PacketSession session, IPacket packet)
+    public static void S_LeaveGameHandler(PacketSession session, IMessage packet)
     {
 
     }
 
-    public static void S_SavePlayerHandler(PacketSession session, IPacket packet)
+    public static void S_SpawnHandler(PacketSession session, IMessage packet)
+    {
+
+    }
+
+    public static void S_DespawnHandler(PacketSession session, IMessage packet)
+    {
+
+    }
+
+    public static void S_MoveHandler(PacketSession session, IMessage packet)
+    {
+
+    }
+
+    public static void S_SpawnItemHandler(PacketSession session, IMessage packet)
     {
 
     }

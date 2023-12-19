@@ -24,9 +24,6 @@ class PacketHandler
             player.Info.Name = enterGamePacket.Player.Name;
             player.Info.PosInfo = packetPlayer.PosInfo;
 
-            StatInfo stat = enterGamePacket.Player.StatInfo;
-            player.Stat.MergeFrom(stat);
-
             player.Session = clientSession;
         }
 

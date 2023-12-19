@@ -1,12 +1,16 @@
-﻿using ServerCore;
+using ServerCore;
 using System.Net;
 
 namespace DummyClient
 {
     class Program
     {
+        static int DummyClientCount { get; } = 500;
+
         static void Main(string[] args)
         {
+            Thread.Sleep(3000);
+
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);
             IPAddress ipAddr = ipHost.AddressList[0];
@@ -14,20 +18,13 @@ namespace DummyClient
 
             Connector connector = new Connector();
 
-            connector.Connect(endPoint, () => { return new ServerSession(); });
+            connector.Connect(endPoint, 
+                () => { return SessionManager.Instance.Generate(); },
+                Program.DummyClientCount);
 
             while (true)
             {
-                try
-                {
-                    SessionManager.Instance.SendForEach();
-                }
-                catch
-                (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-                Thread.Sleep(1000);
+                Thread.Sleep(10000);
             }
         }
     }

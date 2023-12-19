@@ -1,0 +1,29 @@
+{
+  "Items": [
+    {
+      "id": "1",
+      "name": "망치",
+      "damage": "10",
+      "posX": 5,
+      "posY": 5,
+      "posZ": 5
+    },
+    {
+      "id": "2",
+      "name": "권총",
+      "damage": "5",
+      "posX": 7,
+      "posY": 7,
+      "posZ": 7
+    },
+
+    {
+      "id": "2",
+      "name": "서브머신건",
+      "damage": "7",
+      "posX": 10,
+      "posY": 10,
+      "posZ": 10
+    }
+  ]
+} 

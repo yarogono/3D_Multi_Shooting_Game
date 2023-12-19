@@ -1,4 +1,4 @@
-﻿using System.Net.Sockets;
+using System.Net.Sockets;
 using System.Net;
 
 namespace ServerCore
@@ -30,22 +30,36 @@ namespace ServerCore
             if (socket == null)
                 return;
 
-            bool pending = socket.ConnectAsync(args);
-            if (pending == false)
-                OnConnectCompleted(null, args);
+            try
+            {
+                bool pending = socket.ConnectAsync(args);
+                if (pending == false)
+                    OnConnectCompleted(null, args);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         void OnConnectCompleted(object sender, SocketAsyncEventArgs args)
         {
-            if (args.SocketError == SocketError.Success)
+            try
             {
-                Session session = _sessionFactory.Invoke();
-                session.Start(args.ConnectSocket);
-                session.OnConnected(args.RemoteEndPoint);
+                if (args.SocketError == SocketError.Success)
+                {
+                    Session session = _sessionFactory.Invoke();
+                    session.Start(args.ConnectSocket);
+                    session.OnConnected(args.RemoteEndPoint);
+                }
+                else
+                {
+                    Console.WriteLine($"OnConnectCompleted Fail: {args.SocketError}");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine($"OnConnectCompleted Fail: {args.SocketError}");
+                Console.WriteLine(ex);
             }
         }
     }
