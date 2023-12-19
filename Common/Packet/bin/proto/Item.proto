@@ -6,5 +6,5 @@ import "protocol.proto";
 option csharp_namespace = "Google.Protobuf.Protocol";
 
 message S_SpawnItem {
-	repeated Protocol.ObjectInfo objects = 1;
+
 }
