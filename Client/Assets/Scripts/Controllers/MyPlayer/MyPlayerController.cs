@@ -22,8 +22,8 @@ public class MyPlayerController : MonoBehaviour
 
     public string Name { get; set; }
 
-    private PositionInfo _positionInfo = new PositionInfo();
-    public PositionInfo PosInfo
+    private Vec3 _positionInfo = new Vec3();
+    public Vec3 PosInfo
     {
         get { return _positionInfo; }
         set
@@ -31,8 +31,7 @@ public class MyPlayerController : MonoBehaviour
             if (_positionInfo.Equals(value))
                 return;
 
-            CellPos = new Vector3(value.PosX, value.PosY, value.PosZ);
-            State = value.State;
+            CellPos = new Vector3(value.X, value.Y, value.Z);
         }
     }
 
@@ -40,34 +39,37 @@ public class MyPlayerController : MonoBehaviour
     {
         get
         {
-            return new Vector3(PosInfo.PosX, PosInfo.PosY, PosInfo.PosZ);
+            return new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
         }
 
         set
         {
-            if (PosInfo.PosX == value.x && PosInfo.PosY == value.y)
+            if (PosInfo.X == value.x && PosInfo.Y == value.y)
                 return;
 
-            PosInfo.PosX = value.x;
-            PosInfo.PosY = value.y;
-            PosInfo.PosZ = value.z;
+            PosInfo.X = value.x;
+            PosInfo.Y = value.y;
+            PosInfo.Z = value.z;
         }
     }
 
+    private CreatureState _state = new CreatureState();
+
     public CreatureState State
     {
-        get { return PosInfo.State; }
+        get { return _state; }
         set
         {
-            if (PosInfo.State == value)
+            if (_state == value)
                 return;
 
-            PosInfo.State = value;
+            _state = value;
         }
     }
 
     private void Awake()
     {
+        _state = CreatureState.Idle;
         _controller = GetComponent<PlayerInputController>();
         _anim = GetComponentInChildren<Animator>();
     }
@@ -146,11 +148,10 @@ public class MyPlayerController : MonoBehaviour
         {
             PosInfo = new()
             {
-                PosX = transform.position.x,
-                PosY = transform.position.y,
-                PosZ = transform.position.z,
-                State = CreatureState.Moving
-            }
+                X = transform.position.x,
+                Y = transform.position.y,
+                Z = transform.position.z,
+            },
         };
         NetworkManager.Instance.Send(movePacket);
     }

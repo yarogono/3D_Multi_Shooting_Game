@@ -7,8 +7,8 @@ public class CreatureController : MonoBehaviour
 
     public string Name { get; set; }
 
-    PositionInfo _positionInfo = new PositionInfo();
-    public PositionInfo PosInfo
+    Vec3 _positionInfo = new Vec3();
+    public Vec3 PosInfo
     {
         get { return _positionInfo; } 
         set
@@ -16,8 +16,7 @@ public class CreatureController : MonoBehaviour
             if (_positionInfo.Equals(value))
                 return;
 
-            CellPos = new Vector3(value.PosX, value.PosY, value.PosZ);
-            State = value.State;
+            CellPos = new Vector3(value.X, value.Y, value.Z);
         }
     }
 
@@ -25,29 +24,36 @@ public class CreatureController : MonoBehaviour
     {
         get
         {
-            return new Vector3(PosInfo.PosX, PosInfo.PosY, PosInfo.PosZ);
+            return new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
         }
 
         set
         {
-            if (PosInfo.PosX == value.x && PosInfo.PosY == value.y)
+            if (PosInfo.X == value.x && PosInfo.Y == value.y)
                 return;
 
-            PosInfo.PosX = value.x;
-            PosInfo.PosY = value.y;
-            PosInfo.PosZ = value.z;
+            PosInfo.X = value.x;
+            PosInfo.Y = value.y;
+            PosInfo.Z = value.z;
         }
     }
 
+    private CreatureState _state = new CreatureState();
+
     public virtual CreatureState State
     {
-        get { return PosInfo.State; }
+        get { return _state; }
         set
         {
-            if (PosInfo.State == value)
+            if (_state == value)
                 return;
 
-            PosInfo.State = value;
+            _state = value;
         }
+    }
+
+    private void Awake()
+    {
+        _state = CreatureState.Idle;
     }
 }

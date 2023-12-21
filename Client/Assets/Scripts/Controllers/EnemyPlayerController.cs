@@ -34,7 +34,7 @@ public class EnemyPlayerController : CreatureController
 
     protected virtual void UpdateController()
     {
-        if (transform.position != new Vector3(PosInfo.PosX, PosInfo.PosY, PosInfo.PosZ))
+        if (transform.position != new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z))
             State = CreatureState.Moving;
         else
             State = CreatureState.Idle;
@@ -57,7 +57,7 @@ public class EnemyPlayerController : CreatureController
 
     protected virtual void UpdateMoving()
     {
-        Vector3 destPos = new Vector3(PosInfo.PosX, PosInfo.PosY, PosInfo.PosZ);
+        Vector3 destPos = new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
 
         // 부드러운 데드 레커닝을 위해 SmoothDamp 사용
         Vector3 nextPosition = Vector3.SmoothDamp(transform.position, destPos, ref velocity, smoothTime, _speed);

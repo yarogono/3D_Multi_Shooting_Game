@@ -10,8 +10,9 @@ public class GameScene : BaseScene
         base.Init();
         SceneType = Define.Scene.Game;
 
-        PositionInfo posInfo = new PositionInfo() { PosX = 0, PosY = 1, PosZ = 0, State = CreatureState.Idle };
-        ObjectInfo myPlayer = new ObjectInfo() { Name = "MyPlayer", PosInfo = posInfo };
+        Vec3 posInfo = new Vec3() { X = 0, Y = 1, Z = 0 };
+        CreatureState state = CreatureState.Idle;
+        ObjectInfo myPlayer = new ObjectInfo() { Name = "MyPlayer", PosInfo = posInfo, State = state };
         C_EnterGame enterGamePacket = new C_EnterGame() { Player = myPlayer };
         NetworkManager.Instance.Send(enterGamePacket);
     }

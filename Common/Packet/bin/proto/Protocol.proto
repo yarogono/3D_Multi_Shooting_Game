@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-package protocol;
+package Protocol;
+
 import "google/protobuf/timestamp.proto";
 option csharp_namespace = "Google.Protobuf.Protocol";
 
@@ -48,12 +49,12 @@ message S_Despawn {
 }
 
 message C_Move {
-	PositionInfo posInfo = 1;
+	Vec3 posInfo = 1;
 }
 
 message S_Move {
 	int32 objectId = 1;
-	PositionInfo posInfo = 2;
+	Vec3 posInfo = 2;
 }
 
 message S_Ping {
@@ -65,7 +66,8 @@ message C_Pong {
 message ObjectInfo {
 	int32 objectId = 1;
 	string name = 2;
-	PositionInfo posInfo = 3;
+	Vec3 posInfo = 3;
+	CreatureState state = 4;
 }
 
 message StatInfo {
@@ -74,19 +76,6 @@ message StatInfo {
 	int32 maxHp =3;
 	int32 attack = 4;
 	float speed = 5;
-}
-
-message PositionInfo {
-	float posX = 1;
-	float posY = 2;
-	float posZ = 3;
-	CreatureState state = 4;
-}
-
-message DirectionInfo {
-	float dirX = 1;
-	float dirY = 2;
-	float dirZ = 3;
 }
 
 enum CreatureState {

@@ -28,11 +28,11 @@ namespace Server.Game.Room
                 item.damage = weaponItem.damage;
                 item.Id = weaponItem.id;
                 item.Room = this;
-                PositionInfo posInfo = new PositionInfo()
+                Vec3 posInfo = new Vec3()
                 {
-                    PosX = weaponItem.posX,
-                    PosY = weaponItem.posY,
-                    PosZ = weaponItem.posZ
+                    X = weaponItem.posX,
+                    Y = weaponItem.posY,
+                    Z = weaponItem.posZ
                 };
 
                 item.Info = new ObjectInfo()
@@ -129,13 +129,13 @@ namespace Server.Game.Room
 
             ObjectInfo info = player.Info;
 
-            PositionInfo posInfo = movePacket.PosInfo;
+            Vec3 posInfo = movePacket.PosInfo;
             info.PosInfo = posInfo;
 
             // 다른 플레이어한테도 알려준다
             S_Move resMovePacket = new S_Move();
             resMovePacket.ObjectId = player.Id;
-            resMovePacket.PosInfo = new PositionInfo(posInfo);
+            resMovePacket.PosInfo = new Vec3(posInfo);
 
             Broadcast(resMovePacket, player.Id);
         }
