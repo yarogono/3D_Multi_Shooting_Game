@@ -1,6 +1,4 @@
 using Assets.Scripts.Controllers.Player;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +25,10 @@ public class PlayerController : MonoBehaviour
             return this.pcCache;
         }
     }
+
+    public int Id { get; set; }
+
+    public string Name { get; set; }
 
     private void Awake()
     {
