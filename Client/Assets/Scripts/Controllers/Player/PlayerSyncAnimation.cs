@@ -15,9 +15,9 @@ namespace Assets.Scripts.Controllers.Player
         }
 
 
-        public void OnSync(IMessage message)
+        public void OnSync(IMessage packet)
         {
-            Debug.Log(message);
+            Debug.Log(packet);
         }
     }
 }

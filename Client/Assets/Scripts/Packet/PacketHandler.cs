@@ -56,7 +56,7 @@ class PacketHandler
         if (!gameObject.TryGetComponent<PlayerSyncTransform>(out var enemyPlayer))
             return;
 
-        enemyPlayer.PosInfo = movePacket.PosInfo;
+        enemyPlayer.OnSync(movePacket);
     }
 
     public static void S_SpawnItemHandler(PacketSession session, IMessage packet)

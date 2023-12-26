@@ -15,10 +15,10 @@ public class BasePlayerSyncController : MonoBehaviour
                 this._playerControllerCache = PlayerController.Get(this);
             }
 #else
-                if (this.pvCache == null)
-                {
-                    this.pvCache = PhotonView.Get(this);
-                }
+            if (this._playerControllerCache == null)
+            {
+                this._playerControllerCache = PlayerController.Get(this);
+            }
 #endif
             return this._playerControllerCache;
         }

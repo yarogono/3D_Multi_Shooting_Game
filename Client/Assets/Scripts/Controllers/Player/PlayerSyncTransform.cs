@@ -68,9 +68,11 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         }
     }
 
-    public void OnSync(IMessage message)
+    public void OnSync(IMessage packet)
     {
-        Debug.Log(message);
+        S_Move movePacket = (S_Move)packet;
+        Debug.Log(movePacket);
+        this.PosInfo = movePacket.PosInfo;
     }
 
     private void Awake()
@@ -82,7 +84,8 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
     void Start()
     {
-        _controller.OnMoveEvent += Move;
+        if (playerController.IsMine)
+            _controller.OnMoveEvent += Move;
     }
 
     void Update()
@@ -203,6 +206,11 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private void UpdateEnemyPlayerMoving()
     {
         Vector3 destPos = new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
+
+
+        // TODO : 동기화 관련 코드 수정
+        //float distance = Vector3.Distance(transform.position, destPos);
+        //Vector3 nextPosition = Vector3.MoveTowards(transform.position, destPos, distance * Time.deltaTime * 10);
 
         // 부드러운 데드 레커닝을 위해 SmoothDamp 사용
         Vector3 nextPosition = Vector3.SmoothDamp(transform.position, destPos, ref velocity, smoothTime, _runSpeed);

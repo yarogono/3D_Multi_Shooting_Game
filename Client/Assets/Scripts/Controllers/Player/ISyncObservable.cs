@@ -5,7 +5,7 @@ namespace Assets.Scripts.Controllers.Player
     interface ISyncObservable
     {
 
-        void OnSync(IMessage message);
+        void OnSync(IMessage packet);
     }
 }
     
