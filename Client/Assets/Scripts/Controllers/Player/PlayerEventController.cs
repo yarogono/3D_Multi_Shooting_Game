@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-public class CharacterEventController : MonoBehaviour
+[AddComponentMenu("Player/PlayerEventController")]
+public class PlayerEventController : MonoBehaviour
 {
     public event Action<Vector3> OnMoveEvent;
     public event Action<Vector3> OnLookEvent;

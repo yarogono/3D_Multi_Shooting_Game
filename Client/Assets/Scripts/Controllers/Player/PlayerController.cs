@@ -2,6 +2,7 @@ using Assets.Scripts.Controllers.Player;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Player/PlayerController")]
 public class PlayerController : MonoBehaviour
 {
     private PlayerController pcCache;

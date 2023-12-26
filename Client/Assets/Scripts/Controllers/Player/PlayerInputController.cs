@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputController : CharacterEventController
+[AddComponentMenu("Player/PlayerInputController")]
+public class PlayerInputController : PlayerEventController
 {
     private Camera _camera;
 

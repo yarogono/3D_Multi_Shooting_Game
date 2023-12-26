@@ -3,6 +3,7 @@ using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using UnityEngine;
 
+[AddComponentMenu("Player/PlayerSyncTransform")]
 public class PlayerSyncTransform : MonoBehaviour, ISyncObservable
 {
     [SerializeField]

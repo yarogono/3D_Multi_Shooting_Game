@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectManager : CustomSingleton<ObjectManager>
 {
-    public MyPlayerController MyPlayer { get; set; }
+    public PlayerController MyPlayer { get; set; }
     readonly Dictionary<int, GameObject> _objects = new();
 
     public static GameObjectType GetObjectTypeById(int id)
@@ -31,10 +31,11 @@ public class ObjectManager : CustomSingleton<ObjectManager>
                 myPlayerGameObject.name = info.Name;
                 _objects.Add(info.ObjectId, myPlayerGameObject);
 
-                MyPlayerController myPlayer = myPlayerGameObject.GetComponent<MyPlayerController>();
+                PlayerController myPlayer = myPlayerGameObject.GetComponent<PlayerController>();
+                PlayerSyncTransform playerSyncTransform = myPlayerGameObject.GetComponent<PlayerSyncTransform>();
                 myPlayer.Id = info.ObjectId;
                 myPlayer.Name = info.Name;
-                myPlayer.PosInfo = info.PosInfo;
+                playerSyncTransform.PosInfo = info.PosInfo;
                 MyPlayer = myPlayer;
             }
             else

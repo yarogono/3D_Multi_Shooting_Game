@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Player
 {
+
+    [AddComponentMenu("Player/PlayerSyncAnimation")]
     public class PlayerSyncAnimation : MonoBehaviour, ISyncObservable
     {
         private Animator _anim;
