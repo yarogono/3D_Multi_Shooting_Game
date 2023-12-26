@@ -4,7 +4,7 @@ using Google.Protobuf.Protocol;
 using UnityEngine;
 
 [AddComponentMenu("Player/PlayerSyncTransform")]
-public class PlayerSyncTransform : MonoBehaviour, ISyncObservable
+public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 {
     [SerializeField]
     private float _runSpeed = 15.0f;
@@ -87,32 +87,41 @@ public class PlayerSyncTransform : MonoBehaviour, ISyncObservable
 
     void Update()
     {
-        if (_movementDirection == Vector3.zero)
+        if (this.playerController.IsMine == true)
         {
-            _anim.SetBool("isRun", false);
-            State = CreatureState.Idle;
-        }
-        else
-        {
-            State = CreatureState.Moving;
-        }
+            if (_movementDirection == Vector3.zero)
+            {
+                _anim.SetBool("isRun", false);
+                State = CreatureState.Idle;
+            }
+            else
+            {
+                State = CreatureState.Moving;
+            }
 
-        switch (State)
+            switch (State)
+            {
+                case CreatureState.Idle:
+                    break;
+                case CreatureState.Moving:
+                    UpdateMyPlayerMoving(_movementDirection);
+                    break;
+            }
+        }
+        else if (this.playerController.IsMine == false)
         {
-            case CreatureState.Idle:
-                break;
-            case CreatureState.Moving:
-                UpdateMoving(_movementDirection);
-                break;
+            UpdateEnemyPlayerController();
         }
     }
 
+
+    #region MyPlayer
     private void Move(Vector3 direction)
     {
         _movementDirection = direction;
     }
 
-    private void UpdateMoving(Vector3 direction)
+    private void UpdateMyPlayerMoving(Vector3 direction)
     {
         direction = MultiplyMyPlayerMoveSpeed(direction);
 
@@ -162,4 +171,51 @@ public class PlayerSyncTransform : MonoBehaviour, ISyncObservable
         };
         NetworkManager.Instance.Send(movePacket);
     }
+    #endregion
+
+    #region Enemy Player
+    private Vector3 velocity = Vector3.zero; // 데드 레커닝에 사용될 속도 벡터
+    private float smoothTime = 0.1f; // 부드러운 데드 레커닝을 위한 시간 매개 변수
+
+    private void UpdateEnemyPlayerController()
+    {
+        if (transform.position != new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z))
+            State = CreatureState.Moving;
+        else
+            State = CreatureState.Idle;
+
+        switch (State)
+        {
+            case CreatureState.Idle:
+                UpdateIdle();
+                break;
+            case CreatureState.Moving:
+                UpdateEnemyPlayerMoving();
+                break;
+        }
+    }
+
+    private void UpdateIdle()
+    {
+        _anim.SetBool("isRun", false);
+    }
+
+    private void UpdateEnemyPlayerMoving()
+    {
+        Vector3 destPos = new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
+
+        // 부드러운 데드 레커닝을 위해 SmoothDamp 사용
+        Vector3 nextPosition = Vector3.SmoothDamp(transform.position, destPos, ref velocity, smoothTime, _runSpeed);
+
+        _anim.SetBool("isRun", transform.position != nextPosition);
+
+        Vector3 moveDir = nextPosition - transform.position;
+        transform.LookAt(transform.position + moveDir.normalized);
+
+        // 다음 위치로 이동
+        transform.position = nextPosition;
+
+        State = CreatureState.Moving;
+    }
+    #endregion
 }

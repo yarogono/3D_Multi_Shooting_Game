@@ -508,9 +508,8 @@ GameObject:
   - component: {fileID: 8168298888470079768}
   - component: {fileID: 2422066480184832058}
   - component: {fileID: 8190546280948236967}
-  - component: {fileID: -8564469282546497066}
-  - component: {fileID: -8162548859666162617}
   - component: {fileID: -6773896491000546529}
+  - component: {fileID: -8162548859666162617}
   m_Layer: 0
   m_Name: MyPlayer
   m_TagString: MyPlayer
@@ -651,31 +650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObservedComponents: []
-  observableSearch: 0
---- !u!114 &-8564469282546497066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5684022663209458036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 200b6ef28dc7bd64da4ab82ae14a00fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-8162548859666162617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5684022663209458036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b7d0b3a1ad23fb43aee78d12dfe7ac6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  observableSearch: 2
 --- !u!114 &-6773896491000546529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,9 +663,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afcaf3e5539ae5649ab8440f84798985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObservedComponents: []
+  observableSearch: 0
   _runSpeed: 15
   _rotationSpeed: 15
   _walkSpeed: 5
+--- !u!114 &-8162548859666162617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684022663209458036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7d0b3a1ad23fb43aee78d12dfe7ac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponents: []
+  observableSearch: 0
 --- !u!1 &6092943947472575045
 GameObject:
   m_ObjectHideFlags: 0

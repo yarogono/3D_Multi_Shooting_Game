@@ -5,7 +5,7 @@ namespace Assets.Scripts.Controllers.Player
 {
 
     [AddComponentMenu("Player/PlayerSyncAnimation")]
-    public class PlayerSyncAnimation : MonoBehaviour, ISyncObservable
+    public class PlayerSyncAnimation : BasePlayerSyncController, ISyncObservable
     {
         private Animator _anim;
 

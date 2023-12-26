@@ -53,7 +53,7 @@ class PacketHandler
             return;
 
         
-        if (!gameObject.TryGetComponent<EnemyPlayerController>(out var enemyPlayer))
+        if (!gameObject.TryGetComponent<PlayerSyncTransform>(out var enemyPlayer))
             return;
 
         enemyPlayer.PosInfo = movePacket.PosInfo;
@@ -72,7 +72,7 @@ class PacketHandler
             return;
 
 
-        if (!gameObject.TryGetComponent<EnemyPlayerController>(out var enemyPlayer))
+        if (!gameObject.TryGetComponent<PlayerSyncTransform>(out var enemyPlayer))
             return;
 
         enemyPlayer.PosInfo = movePacket.PosInfo;

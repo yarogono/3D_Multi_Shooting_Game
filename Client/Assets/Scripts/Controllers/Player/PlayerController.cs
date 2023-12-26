@@ -5,28 +5,6 @@ using UnityEngine;
 [AddComponentMenu("Player/PlayerController")]
 public class PlayerController : MonoBehaviour
 {
-    private PlayerController pcCache;
-
-    public PlayerController playerController
-    {
-        get
-        {
-#if UNITY_EDITOR
-            // In the editor we want to avoid caching this at design time, so changes in PV structure appear immediately.
-            if (!Application.isPlaying || this.pcCache == null)
-            {
-                this.pcCache = Get(this);
-            }
-#else
-                if (this.pvCache == null)
-                {
-                    this.pvCache = PhotonView.Get(this);
-                }
-#endif
-            return this.pcCache;
-        }
-    }
-
     public int Id { get; set; }
 
     public string Name { get; set; }
@@ -38,6 +16,11 @@ public class PlayerController : MonoBehaviour
 
 
     public bool IsMine { get; private set; }
+
+    public void SetIsMine(bool isMine)
+    {
+        this.IsMine = isMine;
+    }
 
     public List<Component> ObservedComponents;
 
@@ -65,8 +48,6 @@ public class PlayerController : MonoBehaviour
 
         this.transform.GetNestedComponentsInChildren<Component, ISyncObservable, PlayerController>(force || this.observableSearch == ObservableSearch.AutoFindAll, this.ObservedComponents);
     }
-
-
 
     public static PlayerController Get(Component component)
     {

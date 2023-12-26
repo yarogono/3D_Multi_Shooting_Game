@@ -32,9 +32,10 @@ public class ObjectManager : CustomSingleton<ObjectManager>
                 _objects.Add(info.ObjectId, myPlayerGameObject);
 
                 PlayerController myPlayer = myPlayerGameObject.GetComponent<PlayerController>();
-                PlayerSyncTransform playerSyncTransform = myPlayerGameObject.GetComponent<PlayerSyncTransform>();
                 myPlayer.Id = info.ObjectId;
                 myPlayer.Name = info.Name;
+                myPlayer.SetIsMine(true);
+                PlayerSyncTransform playerSyncTransform = myPlayerGameObject.GetComponent<PlayerSyncTransform>();
                 playerSyncTransform.PosInfo = info.PosInfo;
                 MyPlayer = myPlayer;
             }
@@ -44,10 +45,12 @@ public class ObjectManager : CustomSingleton<ObjectManager>
 
                 _objects.Add(info.ObjectId, gameObject);
 
-                EnemyPlayerController enemyPlayer = gameObject.GetComponent<EnemyPlayerController>();
+                PlayerController enemyPlayer = gameObject.GetComponent<PlayerController>();
                 enemyPlayer.Id = info.ObjectId;
                 enemyPlayer.Name = info.Name;
-                enemyPlayer.PosInfo = info.PosInfo;
+                enemyPlayer.SetIsMine(false);
+                PlayerSyncTransform enemyPlayerSyncTransform = enemyPlayer.GetComponent<PlayerSyncTransform>();
+                enemyPlayerSyncTransform.PosInfo = info.PosInfo;
             }
         }
     }
