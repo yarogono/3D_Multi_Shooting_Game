@@ -77,4 +77,10 @@ class PacketHandler
 
         enemyPlayer.PosInfo = movePacket.PosInfo;
     }
+
+    public static void S_PingHandler(PacketSession session, IMessage packet)
+    {
+        C_Pong pongPacket = new C_Pong();
+        NetworkManager.Instance.Send(pongPacket);
+    }
 }
