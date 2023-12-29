@@ -1,4 +1,4 @@
-﻿using Server.Data;
+using Server.Data;
 using Server.Game.Room;
 using Server.Session;
 using ServerCore;

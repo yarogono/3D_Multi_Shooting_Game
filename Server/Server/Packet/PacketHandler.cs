@@ -1,4 +1,4 @@
-﻿using Google.Protobuf;
+using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Server.Game.Object;
 using Server.Game.Room;
@@ -69,5 +69,11 @@ class PacketHandler
             return;
 
         room.Push(room.HandleMove, player, movePacket);
+    }
+
+    public static void C_PongHandler(PacketSession session, IMessage packet)
+    {
+        ClientSession clientSession = (ClientSession)session;
+        clientSession.HandlePong();
     }
 }

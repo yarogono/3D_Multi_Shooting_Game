@@ -15,6 +15,8 @@ enum MsgId {
 	C_MOVE = 6;
 	S_MOVE = 7;
 	S_SPAWN_ITEM = 8;
+	S_PING = 9;
+	C_PONG = 10;
 }
 
 enum GameObjectType {
@@ -58,9 +60,11 @@ message S_Move {
 }
 
 message S_Ping {
+	google.protobuf.Timestamp serverTimestamp = 1;
 }
 
 message C_Pong {
+	google.protobuf.Timestamp clientTimestamp = 1;
 }
 
 message ObjectInfo {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System;
 using System.Net;
 using Google.Protobuf;
+using Google.Protobuf.Protocol;
+using UnityEngine;
 
 public class NetworkManager : CustomSingleton<NetworkManager>
 {
@@ -44,5 +46,12 @@ public class NetworkManager : CustomSingleton<NetworkManager>
     public void Send(IMessage packet)
     {
         _session.Send(packet);
+    }
+
+    internal void PingCheck(S_Ping pingPacket)
+    {
+        var clientTimestamp = DateTimeOffset.UtcNow;
+        var latency = clientTimestamp - pingPacket.ServerTimestamp.ToDateTimeOffset();
+        Debug.Log($"Round-Trip Latency : {latency}");
     }
 }

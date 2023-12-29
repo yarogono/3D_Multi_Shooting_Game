@@ -1,4 +1,4 @@
-﻿using ServerCore;
+using ServerCore;
 using System.Net;
 using Server.Game.Room;
 using Server.Game.Object;
@@ -14,6 +14,35 @@ namespace Server.Session
 
         object _lock = new object();
         List<ArraySegment<byte>> _reserveQueue = new List<ArraySegment<byte>>();
+
+        #region Ping Pong Check
+        long _pingpongTick = 0;
+        public void Ping()
+        {
+            if (_pingpongTick > 0)
+            {
+                long delta = (System.Environment.TickCount64 - _pingpongTick);
+                if (delta > 30 * 1000)
+                {
+                    Console.WriteLine("Disconnected by PingCheck");
+                    Disconnect();
+                    return;
+                }
+            }
+
+            S_Ping pingPacket = new S_Ping();
+            DateTimeOffset pingTime = DateTimeOffset.UtcNow;
+            pingPacket.ServerTimestamp = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTimeOffset(pingTime);
+            Send(pingPacket);
+
+            GameLogic.Instance.PushAfter(5000, Ping);
+        }
+
+        public void HandlePong()
+        {
+            _pingpongTick = System.Environment.TickCount64;
+        }
+        #endregion
 
         // 패킷 모아 보내기
         int _reservedSendBytes = 0;
@@ -66,6 +95,8 @@ namespace Server.Session
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"OnConnected : {endPoint}");
+
+            GameLogic.Instance.PushAfter(5000, Ping);
         }
 
         public override void OnDisconnected(EndPoint endPoint)
