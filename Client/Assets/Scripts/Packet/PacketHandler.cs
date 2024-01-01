@@ -7,14 +7,14 @@ class PacketHandler
 {
     public static void S_EnterGameHandler(PacketSession session, IMessage packet)
     {
-        S_EnterGame enterGamePacket = packet as S_EnterGame;
+        S_EnterGame enterGamePacket = (S_EnterGame)packet;
 
         ObjectManager.Instance.Add(enterGamePacket.Player, isMyPlayer: true);
     }
 
     public static void S_LeaveGameHandler(PacketSession session, IMessage packet)
     {
-        S_LeaveGame leaveGamePacket = packet as S_LeaveGame;
+        S_LeaveGame leaveGamePacket = (S_LeaveGame)packet;
 
         int myPlayerId = ObjectManager.Instance.MyPlayer.Id;
         if (myPlayerId != leaveGamePacket.PlayerId)
@@ -26,7 +26,7 @@ class PacketHandler
 
     public static void S_SpawnHandler(PacketSession session, IMessage packet)
     {
-        S_Spawn spawnPacket = packet as S_Spawn;
+        S_Spawn spawnPacket = (S_Spawn)packet;
 
         foreach (ObjectInfo obj in spawnPacket.Objects)
             ObjectManager.Instance.Add(obj, isMyPlayer: false);
@@ -34,7 +34,7 @@ class PacketHandler
 
     public static void S_DespawnHandler(PacketSession session, IMessage packet)
     {
-        S_Despawn despawnPacket = packet as S_Despawn;
+        S_Despawn despawnPacket = (S_Despawn)packet;
 
         foreach (int playerId in despawnPacket.ObjectIds)
             ObjectManager.Instance.Remove(playerId);

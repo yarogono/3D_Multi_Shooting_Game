@@ -21,6 +21,10 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private bool _isWalk;
     private Vector3 _movementDirection = Vector3.zero;
 
+    private Vector3 _Direction;
+    private Vector3 _StoredPosition;
+
+
     private Vec3 _positionInfo = new Vec3();
     public Vec3 PosInfo
     {
@@ -71,9 +75,47 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     public void OnSync(IMessage packet)
     {
         S_Move movePacket = (S_Move)packet;
-        Debug.Log(movePacket);
+
+        double sentServerTime = CalSentServerTime(movePacket.ServerTimestamp);
+        float lag = Mathf.Abs((float)(ClientNetworkTime(sentServerTime) - sentServerTime));
         this.PosInfo = movePacket.PosInfo;
+
+        Vector3 networkPos = new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
+        networkPos += this._Direction * lag;
+
+        this.PosInfo = new Vec3() { X = networkPos.x, Y = networkPos.y, Z = networkPos.z };
     }
+
+    public double CalSentServerTime(Google.Protobuf.WellKnownTypes.Timestamp serverTimestamp)
+    {
+        long seconds = serverTimestamp.Seconds;
+        int nanos = serverTimestamp.Nanos;
+
+        // Convert to milliseconds (1 second = 1000 milliseconds)
+        double milliseconds = seconds * 1000.0d;
+
+        // Add nanoseconds converted to milliseconds
+        milliseconds += nanos / 1_000_000.0d;
+        return milliseconds;
+    }
+
+    private int frame;
+    private double frametime;
+
+    public double ClientNetworkTime(double sentServerTime)
+    {
+        if (UnityEngine.Time.frameCount == frame)
+        {
+            return frametime;
+        }
+
+        uint u = (uint)sentServerTime;
+        double t = u;
+        frametime = t / 1000.0d;
+        frame = UnityEngine.Time.frameCount;
+        return frametime;
+    }
+
 
     private void Awake()
     {
@@ -134,6 +176,9 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
             return;
 
         transform.position += direction * Time.deltaTime;
+
+        this._Direction = transform.localPosition - _StoredPosition;
+        this._StoredPosition = transform.localPosition;
 
         SendMovePacket();
     }

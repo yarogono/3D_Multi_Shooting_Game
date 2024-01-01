@@ -136,6 +136,8 @@ namespace Server.Game.Room
             S_Move resMovePacket = new S_Move();
             resMovePacket.ObjectId = player.Id;
             resMovePacket.PosInfo = new Vec3(posInfo);
+            DateTimeOffset pingTime = DateTimeOffset.UtcNow;
+            resMovePacket.ServerTimestamp = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTimeOffset(pingTime);
 
             Broadcast(resMovePacket, player.Id);
         }
