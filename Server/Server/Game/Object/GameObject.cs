@@ -1,4 +1,4 @@
-﻿using Google.Protobuf.Protocol;
+using Google.Protobuf.Protocol;
 using Server.Game.Room;
 
 namespace Server.Game.Object
@@ -15,5 +15,13 @@ namespace Server.Game.Object
         public GameRoom Room { get; set; }
 
         public ObjectInfo Info { get; set; } = new ObjectInfo();
+
+        public Vec3 PosInfo { get; private set; } = new Vec3();
+
+
+        public GameObject()
+        {
+            Info.PosInfo = PosInfo;
+        }
     }
 }
