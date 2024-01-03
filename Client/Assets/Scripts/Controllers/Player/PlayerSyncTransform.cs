@@ -16,7 +16,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private float _walkSpeed = 5.0f;
 
     private PlayerInputController _controller;
-    private Animator _anim;
+    //private Animator _anim;
 
     private bool _isWalk;
     private Vector3 _movementDirection = Vector3.zero;
@@ -72,6 +72,49 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         }
     }
 
+    private void Awake()
+    {
+        _state = CreatureState.Idle;
+        _controller = GetComponent<PlayerInputController>();
+        //_anim = GetComponentInChildren<Animator>();
+    }
+
+    private void Start()
+    {
+        if (playerController.IsMine)
+            _controller.OnMoveEvent += Move;
+    }
+
+    private void Update()
+    {
+        if (this.playerController.IsMine == true)
+        {
+            if (_movementDirection == Vector3.zero)
+            {
+                //_anim.SetBool("isRun", false);
+                State = CreatureState.Idle;
+            }
+            else
+            {
+                State = CreatureState.Moving;
+            }
+
+            switch (State)
+            {
+                case CreatureState.Idle:
+                    break;
+                case CreatureState.Moving:
+                    UpdateMyPlayerMoving(_movementDirection);
+                    break;
+            }
+        }
+        else if (this.playerController.IsMine == false)
+        {
+            UpdateEnemyPlayerController();
+        }
+    }
+
+    #region Sync
     public void OnSync(IMessage packet)
     {
         S_Move movePacket = (S_Move)packet;
@@ -84,6 +127,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         networkPos += this._Direction * lag;
 
         this.PosInfo = new Vec3() { X = networkPos.x, Y = networkPos.y, Z = networkPos.z };
+        this.State = CreatureState.Moving;
     }
 
     public double CalSentServerTime(Google.Protobuf.WellKnownTypes.Timestamp serverTimestamp)
@@ -115,50 +159,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         frame = UnityEngine.Time.frameCount;
         return frametime;
     }
-
-
-    private void Awake()
-    {
-        _state = CreatureState.Idle;
-        _controller = GetComponent<PlayerInputController>();
-        _anim = GetComponentInChildren<Animator>();
-    }
-
-    void Start()
-    {
-        if (playerController.IsMine)
-            _controller.OnMoveEvent += Move;
-    }
-
-    void Update()
-    {
-        if (this.playerController.IsMine == true)
-        {
-            if (_movementDirection == Vector3.zero)
-            {
-                _anim.SetBool("isRun", false);
-                State = CreatureState.Idle;
-            }
-            else
-            {
-                State = CreatureState.Moving;
-            }
-
-            switch (State)
-            {
-                case CreatureState.Idle:
-                    break;
-                case CreatureState.Moving:
-                    UpdateMyPlayerMoving(_movementDirection);
-                    break;
-            }
-        }
-        else if (this.playerController.IsMine == false)
-        {
-            UpdateEnemyPlayerController();
-        }
-    }
-
+    #endregion
 
     #region MyPlayer
     private void Move(Vector3 direction)
@@ -186,15 +187,15 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
     private Vector3 MultiplyMyPlayerMoveSpeed(Vector3 direction)
     {
-        _isWalk = Input.GetButton("Walk");
-        _anim.SetBool("isWalk", _isWalk);
+        //_isWalk = Input.GetButton("Walk");
+        //_anim.SetBool("isWalk", _isWalk);
         if (_isWalk)
         {
             direction = direction * _walkSpeed;
         }
         else
         {
-            _anim.SetBool("isRun", true);
+            //_anim.SetBool("isRun", true);
             direction = direction * _runSpeed;
         }
         return direction;
@@ -245,7 +246,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
     private void UpdateIdle()
     {
-        _anim.SetBool("isRun", false);
+        //_anim.SetBool("isRun", false);
     }
 
     private void UpdateEnemyPlayerMoving()
@@ -260,7 +261,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         // 부드러운 데드 레커닝을 위해 SmoothDamp 사용
         Vector3 nextPosition = Vector3.SmoothDamp(transform.position, destPos, ref velocity, smoothTime, _runSpeed);
 
-        _anim.SetBool("isRun", transform.position != nextPosition);
+        //_anim.SetBool("isRun", transform.position != nextPosition);
 
         Vector3 moveDir = nextPosition - transform.position;
         transform.LookAt(transform.position + moveDir.normalized);

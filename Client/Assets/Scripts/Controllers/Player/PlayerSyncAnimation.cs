@@ -9,6 +9,8 @@ namespace Assets.Scripts.Controllers.Player
     {
         private Animator _anim;
 
+        private bool _isWalk;
+
         private void Awake()
         {
             _anim = GetComponentInChildren<Animator>();
@@ -18,6 +20,10 @@ namespace Assets.Scripts.Controllers.Player
         public void OnSync(IMessage packet)
         {
             Debug.Log(packet);
+        }
+
+        private void Update()
+        {
         }
     }
 }
