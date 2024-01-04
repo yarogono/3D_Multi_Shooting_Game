@@ -1,6 +1,7 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using System.Diagnostics;
 using UnityEngine;
 
 [AddComponentMenu("Player/PlayerSyncTransform")]
@@ -15,15 +16,15 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     [SerializeField]
     private float _walkSpeed = 5.0f;
 
-    private PlayerInputController _controller;
-    //private Animator _anim;
+    private PlayerInputController _inputController;
+    private PlayerSyncAnimation _syncAnimation;
 
-    private bool _isWalk;
+
     private Vector3 _movementDirection = Vector3.zero;
-
     private Vector3 _Direction;
     private Vector3 _StoredPosition;
 
+    public bool IsPlayerWalk { get; private set; }
 
     private Vec3 _positionInfo = new Vec3();
     public Vec3 PosInfo
@@ -75,46 +76,29 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private void Awake()
     {
         _state = CreatureState.Idle;
-        _controller = GetComponent<PlayerInputController>();
-        //_anim = GetComponentInChildren<Animator>();
+        _inputController = GetComponent<PlayerInputController>();
+        _syncAnimation = GetComponent<PlayerSyncAnimation>();
     }
 
     private void Start()
     {
         if (playerController.IsMine)
-            _controller.OnMoveEvent += Move;
+            _inputController.OnMoveEvent += Move;
     }
 
     private void Update()
     {
         if (this.playerController.IsMine == true)
         {
-            if (_movementDirection == Vector3.zero)
-            {
-                //_anim.SetBool("isRun", false);
-                State = CreatureState.Idle;
-            }
-            else
-            {
-                State = CreatureState.Moving;
-            }
-
-            switch (State)
-            {
-                case CreatureState.Idle:
-                    break;
-                case CreatureState.Moving:
-                    UpdateMyPlayerMoving(_movementDirection);
-                    break;
-            }
+            UpdateMyPlayer();
         }
         else if (this.playerController.IsMine == false)
         {
-            UpdateEnemyPlayerController();
+            UpdateEnemyPlayer();
         }
     }
 
-    #region Sync
+    #region SyncPacket
     public void OnSync(IMessage packet)
     {
         S_Move movePacket = (S_Move)packet;
@@ -162,6 +146,28 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     #endregion
 
     #region MyPlayer
+
+    private void UpdateMyPlayer()
+    {
+        if (_movementDirection == Vector3.zero)
+        {
+            State = CreatureState.Idle;
+        }
+        else
+        {
+            State = CreatureState.Moving;
+        }
+
+        switch (State)
+        {
+            case CreatureState.Idle:
+                break;
+            case CreatureState.Moving:
+                UpdateMyPlayerMoving(_movementDirection);
+                break;
+        }
+    }
+
     private void Move(Vector3 direction)
     {
         _movementDirection = direction;
@@ -187,16 +193,14 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
     private Vector3 MultiplyMyPlayerMoveSpeed(Vector3 direction)
     {
-        //_isWalk = Input.GetButton("Walk");
-        //_anim.SetBool("isWalk", _isWalk);
-        if (_isWalk)
+        IsPlayerWalk = Input.GetButton("Walk");
+        if (IsPlayerWalk)
         {
-            direction = direction * _walkSpeed;
+            direction *= _walkSpeed;
         }
         else
         {
-            //_anim.SetBool("isRun", true);
-            direction = direction * _runSpeed;
+            direction *= _runSpeed;
         }
         return direction;
     }
@@ -226,7 +230,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private Vector3 velocity = Vector3.zero; // 데드 레커닝에 사용될 속도 벡터
     private float smoothTime = 0.1f; // 부드러운 데드 레커닝을 위한 시간 매개 변수
 
-    private void UpdateEnemyPlayerController()
+    private void UpdateEnemyPlayer()
     {
         if (transform.position != new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z))
             State = CreatureState.Moving;
@@ -253,13 +257,8 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     {
         Vector3 destPos = new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
 
-
-        // TODO : 동기화 관련 코드 수정
-        //float distance = Vector3.Distance(transform.position, destPos);
-        //Vector3 nextPosition = Vector3.MoveTowards(transform.position, destPos, distance * Time.deltaTime * 10);
-
-        // 부드러운 데드 레커닝을 위해 SmoothDamp 사용
-        Vector3 nextPosition = Vector3.SmoothDamp(transform.position, destPos, ref velocity, smoothTime, _runSpeed);
+        float distance = Vector3.Distance(transform.position, destPos);
+        Vector3 nextPosition = Vector3.Lerp(transform.position, destPos, distance * Time.deltaTime * 10);
 
         //_anim.SetBool("isRun", transform.position != nextPosition);
 
