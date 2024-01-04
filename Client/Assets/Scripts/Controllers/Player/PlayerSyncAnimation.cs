@@ -1,6 +1,5 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
-using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Player
@@ -12,8 +11,6 @@ namespace Assets.Scripts.Controllers.Player
         private Animator _anim;
 
         private PlayerSyncTransform _syncTransform;
-
-        private bool _isWalk;
 
         private void Awake()
         {
@@ -57,20 +54,19 @@ namespace Assets.Scripts.Controllers.Player
         private void UpdateMyPlayerIdle()
         {
             _anim.SetBool("isRun", false);
-            _anim.SetBool("isWalk", false);
         }
 
         private void UpdateMyPlayerMoving()
         {
+            Debug.Log(_syncTransform.IsPlayerWalk);
             if (_syncTransform.IsPlayerWalk == true)
             {
                 _anim.SetBool("isWalk", true);
-                _anim.SetBool("isRun", false);
             }
             else
             {
-                _anim.SetBool("isRun", true);
                 _anim.SetBool("isWalk", false);
+                _anim.SetBool("isRun", true);
             }
         }
         #endregion
