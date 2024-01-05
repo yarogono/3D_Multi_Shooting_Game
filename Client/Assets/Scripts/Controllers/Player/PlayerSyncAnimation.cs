@@ -53,21 +53,12 @@ namespace Assets.Scripts.Controllers.Player
 
         private void UpdateMyPlayerIdle()
         {
-            _anim.SetBool("isRun", false);
+            _anim.SetFloat("MoveSpeed", _syncTransform.MoveSpeed);
         }
 
         private void UpdateMyPlayerMoving()
         {
-            Debug.Log(_syncTransform.IsPlayerWalk);
-            if (_syncTransform.IsPlayerWalk == true)
-            {
-                _anim.SetBool("isWalk", true);
-            }
-            else
-            {
-                _anim.SetBool("isWalk", false);
-                _anim.SetBool("isRun", true);
-            }
+            _anim.SetFloat("MoveSpeed", _syncTransform.MoveSpeed);
         }
         #endregion
 

@@ -1,30 +1,27 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
-using System.Diagnostics;
 using UnityEngine;
 
 [AddComponentMenu("Player/PlayerSyncTransform")]
 public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 {
-    [SerializeField]
-    private float _runSpeed = 15.0f;
 
-    [SerializeField]
-    private float _rotationSpeed = 15.0f;
-
-    [SerializeField]
-    private float _walkSpeed = 5.0f;
+    [SerializeField]private float _rotationSpeed = 15.0f;
+    [SerializeField] private float _runSpeed = 15.0f;
+    [SerializeField] private float _walkSpeed = 12.0f;
 
     private PlayerInputController _inputController;
-    private PlayerSyncAnimation _syncAnimation;
-
 
     private Vector3 _movementDirection = Vector3.zero;
     private Vector3 _Direction;
     private Vector3 _StoredPosition;
 
-    public bool IsPlayerWalk { get; private set; }
+    private float _moveSpeed = 0f;
+    public float MoveSpeed 
+    { 
+        get { return _moveSpeed; }
+    }
 
     private Vec3 _positionInfo = new Vec3();
     public Vec3 PosInfo
@@ -77,7 +74,6 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     {
         _state = CreatureState.Idle;
         _inputController = GetComponent<PlayerInputController>();
-        _syncAnimation = GetComponent<PlayerSyncAnimation>();
     }
 
     private void Start()
@@ -161,6 +157,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         switch (State)
         {
             case CreatureState.Idle:
+                UpdateMyPlayerIdle();
                 break;
             case CreatureState.Moving:
                 UpdateMyPlayerMoving(_movementDirection);
@@ -171,6 +168,11 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private void Move(Vector3 direction)
     {
         _movementDirection = direction;
+    }
+
+    private void UpdateMyPlayerIdle()
+    {
+        _moveSpeed = 0f;
     }
 
     private void UpdateMyPlayerMoving(Vector3 direction)
@@ -193,14 +195,16 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
     private Vector3 MultiplyMyPlayerMoveSpeed(Vector3 direction)
     {
-        IsPlayerWalk = Input.GetButton("Walk");
-        if (IsPlayerWalk)
+        bool isPlayerWalk = Input.GetButton("Walk");
+        if (isPlayerWalk)
         {
-            direction *= _walkSpeed;
+            _moveSpeed = _walkSpeed;
+            direction *= _moveSpeed;
         }
         else
         {
-            direction *= _runSpeed;
+            _moveSpeed = _runSpeed;
+            direction *= _moveSpeed;
         }
         return direction;
     }
