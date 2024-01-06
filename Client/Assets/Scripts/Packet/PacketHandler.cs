@@ -1,3 +1,4 @@
+using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using ServerCore;
@@ -52,11 +53,11 @@ class PacketHandler
         if (ObjectManager.Instance.MyPlayer.Id == movePacket.ObjectId)
             return;
 
-        
-        if (!gameObject.TryGetComponent<PlayerSyncTransform>(out var enemyPlayer))
+        PlayerSyncTransform enemyPlayerSyncTransform = gameObject.GetComponent<PlayerSyncTransform>();
+        if (enemyPlayerSyncTransform == null)
             return;
 
-        enemyPlayer.OnSync(movePacket);
+        enemyPlayerSyncTransform.OnSync(movePacket);
     }
 
     public static void S_SpawnItemHandler(PacketSession session, IMessage packet)

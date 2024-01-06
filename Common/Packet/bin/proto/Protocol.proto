@@ -52,12 +52,14 @@ message S_Despawn {
 
 message C_Move {
 	Vec3 posInfo = 1;
+	float moveSpeed = 2;
 }
 
 message S_Move {
 	int32 objectId = 1;
 	Vec3 posInfo = 2;
 	google.protobuf.Timestamp serverTimestamp = 3;
+	float moveSpeed = 4;
 }
 
 message S_Ping {

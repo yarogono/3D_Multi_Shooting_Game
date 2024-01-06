@@ -21,7 +21,7 @@ namespace Assets.Scripts.Controllers.Player
 
         public void OnSync(IMessage packet)
         {
-            Debug.Log(packet);
+
         }
 
         private void Update()
@@ -42,11 +42,11 @@ namespace Assets.Scripts.Controllers.Player
         {
             switch (_syncTransform.State)
             {
-                case CreatureState.Moving:
-                    UpdateMyPlayerMoving();
-                    break;
                 case CreatureState.Idle:
                     UpdateMyPlayerIdle();
+                    break;
+                case CreatureState.Moving:
+                    UpdateMyPlayerMoving();
                     break;
             }
         }
@@ -66,7 +66,25 @@ namespace Assets.Scripts.Controllers.Player
         #region Enemy Player
         private void UpdateEnemyPlayerAnimation()
         {
-            
+            switch (_syncTransform.State)
+            {
+                case CreatureState.Idle:
+                    UpdateEnemyPlayerIdle();
+                    break;
+                case CreatureState.Moving:
+                    UpdateEnemyPlayerMoving();
+                    break;
+            }
+        }
+
+        private void UpdateEnemyPlayerIdle()
+        {
+            _anim.SetFloat("MoveSpeed", _syncTransform.MoveSpeed);
+        }
+
+        private void UpdateEnemyPlayerMoving()
+        {
+            _anim.SetFloat("MoveSpeed", _syncTransform.MoveSpeed);
         }
         #endregion
     }

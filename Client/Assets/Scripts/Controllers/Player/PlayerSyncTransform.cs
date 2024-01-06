@@ -7,9 +7,10 @@ using UnityEngine;
 public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 {
 
-    [SerializeField]private float _rotationSpeed = 15.0f;
-    [SerializeField] private float _runSpeed = 15.0f;
-    [SerializeField] private float _walkSpeed = 12.0f;
+    [SerializeField] [Tooltip("회전 속도")] private float _rotationSpeed = 15.0f;
+    [SerializeField] [Tooltip("달리기 속도")] private float _runSpeed = 15.0f;
+    [SerializeField] [Tooltip("걷기 속도")]  private float _walkSpeed = 12.0f;
+    [SerializeField] [Tooltip("동기화 오차범위")] private float _syncMargin = 0.1f;
 
     private PlayerInputController _inputController;
 
@@ -88,7 +89,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         {
             UpdateMyPlayer();
         }
-        else if (this.playerController.IsMine == false)
+        else
         {
             UpdateEnemyPlayer();
         }
@@ -107,7 +108,8 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         networkPos += this._Direction * lag;
 
         this.PosInfo = new Vec3() { X = networkPos.x, Y = networkPos.y, Z = networkPos.z };
-        this.State = CreatureState.Moving;
+        this._moveSpeed = movePacket.MoveSpeed;
+        State = CreatureState.Moving;
     }
 
     public double CalSentServerTime(Google.Protobuf.WellKnownTypes.Timestamp serverTimestamp)
@@ -225,26 +227,20 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
                 Y = transform.position.y,
                 Z = transform.position.z,
             },
+
+            MoveSpeed = _moveSpeed
         };
         NetworkManager.Instance.Send(movePacket);
     }
     #endregion
 
     #region Enemy Player
-    private Vector3 velocity = Vector3.zero; // 데드 레커닝에 사용될 속도 벡터
-    private float smoothTime = 0.1f; // 부드러운 데드 레커닝을 위한 시간 매개 변수
-
     private void UpdateEnemyPlayer()
     {
-        if (transform.position != new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z))
-            State = CreatureState.Moving;
-        else
-            State = CreatureState.Idle;
-
         switch (State)
         {
             case CreatureState.Idle:
-                UpdateIdle();
+                UpdateEnemyIdle();
                 break;
             case CreatureState.Moving:
                 UpdateEnemyPlayerMoving();
@@ -252,27 +248,29 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         }
     }
 
-    private void UpdateIdle()
+    private void UpdateEnemyIdle()
     {
-        //_anim.SetBool("isRun", false);
+        _moveSpeed = 0f;
     }
 
     private void UpdateEnemyPlayerMoving()
     {
         Vector3 destPos = new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
-
         float distance = Vector3.Distance(transform.position, destPos);
-        Vector3 nextPosition = Vector3.Lerp(transform.position, destPos, distance * Time.deltaTime * 10);
 
-        //_anim.SetBool("isRun", transform.position != nextPosition);
+        if (distance <= _syncMargin)
+        {
+            State = CreatureState.Idle;
+            return;
+        }
+
+        Vector3 nextPosition = Vector3.MoveTowards(transform.position, destPos, distance * Time.deltaTime * 10);
 
         Vector3 moveDir = nextPosition - transform.position;
         transform.LookAt(transform.position + moveDir.normalized);
 
         // 다음 위치로 이동
         transform.position = nextPosition;
-
-        State = CreatureState.Moving;
     }
     #endregion
 }
