@@ -14,9 +14,11 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
     private PlayerInputController _inputController;
 
-    private Vector3 _movementDirection = Vector3.zero;
-    private Vector3 _Direction;
-    private Vector3 _StoredPosition;
+    private Vector3 _movementDirection;
+    private Vector3 _direction;
+    private Vector3 _storedPosition;
+
+    private Quaternion _rotation;
 
     private float _moveSpeed = 0f;
     public float MoveSpeed 
@@ -74,6 +76,8 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private void Awake()
     {
         _state = CreatureState.Idle;
+        _rotation = Quaternion.identity;
+
         _inputController = GetComponent<PlayerInputController>();
     }
 
@@ -105,7 +109,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         this.PosInfo = movePacket.PosInfo;
 
         Vector3 networkPos = new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
-        networkPos += this._Direction * lag;
+        networkPos += this._direction * lag;
 
         this.PosInfo = new Vec3() { X = networkPos.x, Y = networkPos.y, Z = networkPos.z };
         this._moveSpeed = movePacket.MoveSpeed;
@@ -188,8 +192,8 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
         transform.position += direction * Time.deltaTime;
 
-        this._Direction = transform.localPosition - _StoredPosition;
-        this._StoredPosition = transform.localPosition;
+        this._direction = transform.localPosition - _storedPosition;
+        this._storedPosition = transform.localPosition;
 
         SendMovePacket();
     }
@@ -267,7 +271,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         Vector3 nextPosition = Vector3.MoveTowards(transform.position, destPos, distance * Time.deltaTime * 10);
 
         Vector3 moveDir = nextPosition - transform.position;
-        transform.LookAt(transform.position + moveDir.normalized);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveDir), Time.deltaTime * _rotationSpeed);
 
         // 다음 위치로 이동
         transform.position = nextPosition;
