@@ -1,4 +1,3 @@
-using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using ServerCore;

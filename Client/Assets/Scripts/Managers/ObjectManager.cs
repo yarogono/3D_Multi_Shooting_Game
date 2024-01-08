@@ -21,7 +21,7 @@ public class ObjectManager : CustomSingleton<ObjectManager>
         {
             if (isMyPlayer)
             {
-                GameObject cameraGameObject = ResourceManager.Instance.Instantiate("Main Camera");
+                GameObject cameraGameObject = ResourceManager.Instance.Instantiate("MainCamera");
                 GameObject myPlayerGameObject = ResourceManager.Instance.Instantiate("MyPlayer");
 
                 PlayerCameraController _controller = cameraGameObject.GetComponent<PlayerCameraController>();
