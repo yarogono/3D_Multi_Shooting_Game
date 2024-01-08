@@ -21,38 +21,56 @@ public class ObjectManager : CustomSingleton<ObjectManager>
         {
             if (isMyPlayer)
             {
-                GameObject cameraGameObject = ResourceManager.Instance.Instantiate("MainCamera");
-                GameObject myPlayerGameObject = ResourceManager.Instance.Instantiate("MyPlayer");
-
-                PlayerCameraController _controller = cameraGameObject.GetComponent<PlayerCameraController>();
-                Transform target = myPlayerGameObject.GetComponent<Transform>();
-                _controller.TargetSetting(target);
-
-                myPlayerGameObject.name = info.Name;
-                _objects.Add(info.ObjectId, myPlayerGameObject);
-
-                PlayerController myPlayer = myPlayerGameObject.GetComponent<PlayerController>();
-                myPlayer.Id = info.ObjectId;
-                myPlayer.Name = info.Name;
-                myPlayer.SetIsMine(true);
-                PlayerSyncTransform playerSyncTransform = myPlayerGameObject.GetComponent<PlayerSyncTransform>();
-                playerSyncTransform.PosInfo = info.PosInfo;
-                MyPlayer = myPlayer;
+                AddMyPlayer(info);
             }
             else
             {
-                GameObject gameObject = ResourceManager.Instance.Instantiate("EnemyPlayer");
-
-                _objects.Add(info.ObjectId, gameObject);
-
-                PlayerController enemyPlayer = gameObject.GetComponent<PlayerController>();
-                enemyPlayer.Id = info.ObjectId;
-                enemyPlayer.Name = info.Name;
-                enemyPlayer.SetIsMine(false);
-                PlayerSyncTransform enemyPlayerSyncTransform = enemyPlayer.GetComponent<PlayerSyncTransform>();
-                enemyPlayerSyncTransform.PosInfo = info.PosInfo;
+                AddEnemyPlayer(info);
             }
         }
+        else if (objectType == GameObjectType.Item)
+        {
+            GameObject itemGameObject = ResourceManager.Instance.Instantiate($"Item/Weapon/{info.Name}");
+            Transform itemTransform = itemGameObject.GetComponent<Transform>();
+
+            Vec3 posInfo = info.PosInfo;
+            itemTransform.position = new Vector3(posInfo.X, posInfo.Y, posInfo.Z);
+        }
+    }
+
+    private void AddMyPlayer(ObjectInfo info)
+    {
+        GameObject cameraGameObject = ResourceManager.Instance.Instantiate("MainCamera");
+        GameObject myPlayerGameObject = ResourceManager.Instance.Instantiate("MyPlayer");
+
+        PlayerCameraController _controller = cameraGameObject.GetComponent<PlayerCameraController>();
+        Transform target = myPlayerGameObject.GetComponent<Transform>();
+        _controller.TargetSetting(target);
+
+        myPlayerGameObject.name = info.Name;
+        _objects.Add(info.ObjectId, myPlayerGameObject);
+
+        PlayerController myPlayer = myPlayerGameObject.GetComponent<PlayerController>();
+        myPlayer.Id = info.ObjectId;
+        myPlayer.Name = info.Name;
+        myPlayer.SetIsMine(true);
+        PlayerSyncTransform playerSyncTransform = myPlayerGameObject.GetComponent<PlayerSyncTransform>();
+        playerSyncTransform.PosInfo = info.PosInfo;
+        MyPlayer = myPlayer;
+    }
+
+    private void AddEnemyPlayer(ObjectInfo info)
+    {
+        GameObject gameObject = ResourceManager.Instance.Instantiate("EnemyPlayer");
+
+        _objects.Add(info.ObjectId, gameObject);
+
+        PlayerController enemyPlayer = gameObject.GetComponent<PlayerController>();
+        enemyPlayer.Id = info.ObjectId;
+        enemyPlayer.Name = info.Name;
+        enemyPlayer.SetIsMine(false);
+        PlayerSyncTransform enemyPlayerSyncTransform = enemyPlayer.GetComponent<PlayerSyncTransform>();
+        enemyPlayerSyncTransform.PosInfo = info.PosInfo;
     }
 
     public void Remove(int id)

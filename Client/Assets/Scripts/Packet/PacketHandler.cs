@@ -61,21 +61,13 @@ class PacketHandler
 
     public static void S_SpawnItemHandler(PacketSession session, IMessage packet)
     {
-        S_Move movePacket = (S_Move)packet;
-
-        GameObject gameObject = ObjectManager.Instance.FindById(movePacket.ObjectId);
-
-        if (gameObject == null)
+        S_SpawnItem itemsSpawnPacket = (S_SpawnItem)packet;
+        
+        if (itemsSpawnPacket == null)
             return;
 
-        if (ObjectManager.Instance.MyPlayer.Id == movePacket.ObjectId)
-            return;
-
-
-        if (!gameObject.TryGetComponent<PlayerSyncTransform>(out var enemyPlayer))
-            return;
-
-        enemyPlayer.PosInfo = movePacket.PosInfo;
+        foreach (ObjectInfo obj in itemsSpawnPacket.Objects)
+            ObjectManager.Instance.Add(obj);
     }
 
     public static void S_PingHandler(PacketSession session, IMessage packet)

@@ -37,7 +37,7 @@ namespace Server.Game.Room
 
                 item.Info = new ObjectInfo()
                 {
-                    ObjectId = item.Id,
+                    ObjectId = ObjectManager.Instance.GenerateId(item.ObjectType),
                     Name = weaponItem.name,
                     PosInfo = posInfo
                 };
@@ -61,7 +61,7 @@ namespace Server.Game.Room
 
             if (type == GameObjectType.Player)
             {
-                Player player = gameObject as Player;
+                Player player = (Player)gameObject;
                 _players.Add(gameObject.Id, player);
 
                 player.Room = this;
@@ -72,17 +72,20 @@ namespace Server.Game.Room
                     enterPacket.Player = player.Info;
                     player.Session.Send(enterPacket);
 
-                    S_Spawn spawnPacket = new S_Spawn();
+                    S_Spawn enemyPlayersSpawnPacket = new S_Spawn();
                     foreach (Player p in _players.Values)
                     {
                         if (player != p)
-                            spawnPacket.Objects.Add(p.Info);
+                            enemyPlayersSpawnPacket.Objects.Add(p.Info);
                     }
 
-                    foreach (Item item in _items.Values)
-                        spawnPacket.Objects.Add(item.Info);
+                    player.Session.Send(enemyPlayersSpawnPacket);
 
-                    player.Session.Send(spawnPacket);
+                    S_SpawnItem itemsSpawnPacket = new S_SpawnItem();
+                    foreach (Item item in _items.Values)
+                        itemsSpawnPacket.Objects.Add(item.Info);
+
+                    player.Session.Send(itemsSpawnPacket);
                 }
             }
 

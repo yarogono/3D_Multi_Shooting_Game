@@ -1,28 +1,27 @@
 {
-  "Items": [
+  "WeaponItems": [
     {
       "id": "1",
-      "name": "망치",
+      "name": "Hammer",
       "damage": "10",
       "posX": 5,
-      "posY": 5,
+      "posY": 2,
       "posZ": 5
     },
     {
       "id": "2",
-      "name": "권총",
+      "name": "HandGun",
       "damage": "5",
       "posX": 7,
-      "posY": 7,
+      "posY": 2,
       "posZ": 7
     },
-
     {
-      "id": "2",
-      "name": "서브머신건",
+      "id": "3",
+      "name": "SubMachineGun_Variant",
       "damage": "7",
       "posX": 10,
-      "posY": 10,
+      "posY": 2,
       "posZ": 10
     }
   ]
