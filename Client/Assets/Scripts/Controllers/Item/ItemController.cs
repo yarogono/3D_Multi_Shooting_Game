@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {
-    public enum Type { Ammo, Coin, Grenade, Heart, Weapon };
-    public Type type;
-    public int value;
+    [SerializeField] private enum Type { Ammo, Coin, Grenade, Heart, Weapon };
+    [SerializeField] private Type _type;
+    [SerializeField] private int _value;
 
     private void Update()
     {
