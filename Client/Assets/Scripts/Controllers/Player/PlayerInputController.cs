@@ -33,4 +33,9 @@ public class PlayerInputController : PlayerEventController
     {
 
     }
+
+    public void OnSwap(InputValue value)
+    {
+        CallWeaponSwapEvent();
+    }
 }
