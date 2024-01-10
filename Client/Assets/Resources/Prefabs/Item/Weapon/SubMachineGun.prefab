@@ -4935,6 +4935,10 @@ PrefabInstance:
       value: SubMachineGun_Variant
       objectReference: {fileID: 0}
     - target: {fileID: 547435428816858648, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 547435428816858648, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
       propertyPath: m_TagString
       value: Weapon
       objectReference: {fileID: 0}

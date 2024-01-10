@@ -38,13 +38,19 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
     {
         if (_isLootPopUpOpen == false)
         {
-            UIManager.Instance.ShowPopupUI<UI_Popup>("LootUI");
+            UI_Loot lootUI = UIManager.Instance.ShowPopupUI<UI_Loot>("LootUI");
             _isLootPopUpOpen = true;
+
+            lootUI.ShowLootText(other.gameObject.name);
         }
 
         if (other.tag == "Weapon")
             _weapon = other.GetComponent<ItemController>();
 
+
+        // ToDo : 키보드 E 입력 시 아이템 먹기 => 캐릭터 UI에 반영
+        if (Input.GetKeyDown(KeyCode.E))
+            Debug.Log("EEEE");
     }
 
     private void OnTriggerExit(Collider other)

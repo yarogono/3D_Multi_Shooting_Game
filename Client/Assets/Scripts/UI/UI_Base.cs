@@ -9,7 +9,7 @@ public abstract class UI_Base : MonoBehaviour
 {
     private Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>();
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }
@@ -44,6 +44,7 @@ public abstract class UI_Base : MonoBehaviour
     }
 
     protected Text GetText(int idx) { return Get<Text>(idx); }
+    protected TextMeshProUGUI GetTextMeshProUGUI(int idx) { return Get<TextMeshProUGUI>(idx); }
     protected Button GetButton(int idx) { return Get<Button>(idx); }
     protected Image GetImage(int idx) { return Get<Image>(idx); }
     protected GameObject GetGameObject(int idx) { return Get<GameObject>(idx); }
