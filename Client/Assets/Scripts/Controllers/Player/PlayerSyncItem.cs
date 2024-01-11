@@ -1,13 +1,19 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.UI;
 
 [AddComponentMenu("Player/PlayerSyncItem")]
 public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 {
-    private ItemController _weapon;
-    private PlayerInputController _inputController;
+    [SerializeField] private GameObject[] _weapons;
+    [SerializeField] private bool[] _hasWeapon;
 
+    private GameObject _nearItemObject;
+
+    private PlayerInputController _inputController;
     private bool _isLootPopUpOpen = false;
 
     private void Awake()
@@ -20,18 +26,32 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
         if (playerController.IsMine)
         {
             _inputController.OnWeaponSwapEvent += WeaponSwap;
+            _inputController.OnLootItemEvent += LootItem;
         }
     }
 
 
-    private void WeaponSwap()
+    private void WeaponSwap(InputValue value)
     {
-        Debug.Log("WeaponSwap");
+        // ToDo : 입력 바인딩 시스템 구축해서 아이템 번호에 맞춰서 Swap
+        Debug.Log($"WeaponSwap {value}");
     }
 
     public void OnSync(IMessage packet)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void LootItem()
+    {
+        if (_nearItemObject != null)
+        {
+            ItemController item = _nearItemObject.GetComponent<ItemController>();
+            int weaponIndex = item.Value;
+            _hasWeapon[weaponIndex] = true;
+
+            Destroy(_nearItemObject);
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -44,18 +64,16 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
             lootUI.ShowLootText(other.gameObject.name);
         }
 
-        if (other.tag == "Weapon")
-            _weapon = other.GetComponent<ItemController>();
-
-
-        // ToDo : 키보드 E 입력 시 아이템 먹기 => 캐릭터 UI에 반영
-        if (Input.GetKeyDown(KeyCode.E))
-            Debug.Log("EEEE");
+        if (_nearItemObject == null)
+        {
+            _nearItemObject = other.gameObject;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         UIManager.Instance.ClosePopupUI();
         _isLootPopUpOpen = false;
+        _nearItemObject = null;
     }
 }

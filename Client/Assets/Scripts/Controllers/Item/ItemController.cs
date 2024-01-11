@@ -4,7 +4,10 @@ public class ItemController : MonoBehaviour
 {
     [SerializeField] private enum Type { Ammo, Coin, Grenade, Heart, Weapon };
     [SerializeField] private Type _type;
+
     [SerializeField] private int _value;
+
+    public int Value { get { return _value; } }
 
     private void Update()
     {

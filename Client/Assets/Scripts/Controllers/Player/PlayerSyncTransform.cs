@@ -18,8 +18,6 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private Vector3 _direction;
     private Vector3 _storedPosition;
 
-    private Quaternion _rotation;
-
     private float _moveSpeed = 0f;
     public float MoveSpeed 
     { 
@@ -76,7 +74,6 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private void Awake()
     {
         _state = CreatureState.Idle;
-        _rotation = Quaternion.identity;
 
         _inputController = GetComponent<PlayerInputController>();
     }

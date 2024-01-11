@@ -4932,7 +4932,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 547435428816858648, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
       propertyPath: m_Name
-      value: SubMachineGun_Variant
+      value: SubMachineGun
       objectReference: {fileID: 0}
     - target: {fileID: 547435428816858648, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
       propertyPath: m_IsActive
@@ -5043,8 +5043,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5486a1216d1fc94292a9637ee97365b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
-  _value: 0
+  _type: 4
+  _value: 2
 --- !u!4 &667550029177651983 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 924136447322616994, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
