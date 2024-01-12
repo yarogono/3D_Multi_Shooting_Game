@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Define;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 [AddComponentMenu("Player/PlayerInputController")]
 public class PlayerInputController : PlayerEventController
@@ -10,6 +12,26 @@ public class PlayerInputController : PlayerEventController
     {
         _camera = Camera.main;
     }
+
+    private void Update()
+    {
+        Keyboard keyboard = InputSystem.GetDevice<Keyboard>();
+        if (keyboard.digit1Key.wasPressedThisFrame == true)
+        {
+            OnWeaponSwap(ItemNumber.One);
+        }
+
+        if (keyboard.digit2Key.wasPressedThisFrame == true)
+        {
+            OnWeaponSwap(ItemNumber.Two);
+        }
+
+        if (keyboard.digit3Key.wasPressedThisFrame == true)
+        {
+            OnWeaponSwap(ItemNumber.Three);
+        }
+    }
+
 
     public void OnMove(InputValue value)
     {
@@ -29,18 +51,18 @@ public class PlayerInputController : PlayerEventController
         }
     }
 
-    public void OnFire(InputValue value)
+    public void OnWeaponSwap(ItemNumber itemNumber)
     {
-
-    }
-
-    public void OnSwap(InputValue value)
-    {
-        CallWeaponSwapEvent(value);
+        CallWeaponSwapEvent(itemNumber);
     }
 
     public void OnLootItem()
     {
         CallLootItemEvent();
+    }
+
+    public void OnFire(InputValue value)
+    {
+
     }
 }

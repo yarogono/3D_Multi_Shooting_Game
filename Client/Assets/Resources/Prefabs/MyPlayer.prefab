@@ -783,10 +783,7 @@ MonoBehaviour:
   - {fileID: 8376399447542331345}
   - {fileID: 8654316927776906884}
   - {fileID: 5659606936346752320}
-  _hasWeapon:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _hasWeapon: 000000
 --- !u!1 &6092943947472575045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,11 +1548,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2285952976136801637, guid: a2e051660762cbe4494c17a095a95e10, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2285952976136801637, guid: a2e051660762cbe4494c17a095a95e10, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2285952976136801637, guid: a2e051660762cbe4494c17a095a95e10, type: 3}
       propertyPath: m_LocalRotation.w

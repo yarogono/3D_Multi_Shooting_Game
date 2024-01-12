@@ -1,13 +1,13 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using static Define;
 
 [AddComponentMenu("Player/PlayerEventController")]
 public class PlayerEventController : MonoBehaviour
 {
     public event Action<Vector3> OnMoveEvent;
     public event Action<Vector3> OnLookEvent;
-    public event Action<InputValue> OnWeaponSwapEvent;
+    public event Action<ItemNumber> OnWeaponSwapEvent;
     public event Action OnLootItemEvent;
 
     public void CallMoveEvent(Vector3 direction)
@@ -20,9 +20,9 @@ public class PlayerEventController : MonoBehaviour
         OnLookEvent?.Invoke(direction);
     }
 
-    public void CallWeaponSwapEvent(InputValue value)
+    public void CallWeaponSwapEvent(ItemNumber itemNumber)
     {
-        OnWeaponSwapEvent?.Invoke(value);
+        OnWeaponSwapEvent?.Invoke(itemNumber);
     }
 
     public void CallLootItemEvent()

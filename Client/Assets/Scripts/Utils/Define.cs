@@ -24,4 +24,11 @@ public class Define
         Game,
         Start,
     }
+
+    public enum ItemNumber
+    {
+        One,
+        Two, 
+        Three,
+    }
 }

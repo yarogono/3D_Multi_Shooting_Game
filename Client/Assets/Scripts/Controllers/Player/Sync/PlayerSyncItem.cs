@@ -1,15 +1,15 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.UI;
+using static Define;
 
 [AddComponentMenu("Player/PlayerSyncItem")]
 public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 {
     [SerializeField] private GameObject[] _weapons;
     [SerializeField] private bool[] _hasWeapon;
+
+    private ItemNumber _handheldWeapon;
 
     private GameObject _nearItemObject;
 
@@ -31,10 +31,19 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
     }
 
 
-    private void WeaponSwap(InputValue value)
+    private void WeaponSwap(ItemNumber itemNumber)
     {
-        // ToDo : 입력 바인딩 시스템 구축해서 아이템 번호에 맞춰서 Swap
-        Debug.Log($"WeaponSwap {value}");
+        if (_hasWeapon[(int)itemNumber] == false)
+            return;
+
+        if ((int)itemNumber > _weapons.Length)
+            return;
+
+        if (_handheldWeapon != null)
+            _weapons[(int)_handheldWeapon].active = false;
+
+        _weapons[(int)itemNumber].active = true;
+        _handheldWeapon = itemNumber;
     }
 
     public void OnSync(IMessage packet)
