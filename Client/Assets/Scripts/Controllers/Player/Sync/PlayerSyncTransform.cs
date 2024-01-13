@@ -1,6 +1,8 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using Google.Protobuf.WellKnownTypes;
+using System;
 using UnityEngine;
 
 [AddComponentMenu("Player/PlayerSyncTransform")]
@@ -99,8 +101,16 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     #region SyncPacket
     public void OnSync(IMessage packet)
     {
-        S_Move movePacket = (S_Move)packet;
+        switch (packet)
+        {
+            case S_Move movePacket:
+                OnSyncMovePacket(movePacket);
+                break;
+        }
+    }
 
+    private void OnSyncMovePacket(S_Move movePacket)
+    {
         double sentServerTime = CalSentServerTime(movePacket.ServerTimestamp);
         float lag = Mathf.Abs((float)(ClientNetworkTime(sentServerTime) - sentServerTime));
         this.PosInfo = movePacket.PosInfo;
