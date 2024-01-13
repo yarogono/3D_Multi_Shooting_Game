@@ -101,6 +101,9 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     #region SyncPacket
     public void OnSync(IMessage packet)
     {
+        if (packet == null)
+            return;
+
         switch (packet)
         {
             case S_Move movePacket:
