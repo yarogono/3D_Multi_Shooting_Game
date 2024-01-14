@@ -5,22 +5,47 @@ namespace Server.Game.Object
 {
     public class GameObject
     {
-        public GameObjectType ObjectType { get; protected set; } = GameObjectType.None;
-        public int Id
-        {
-            get { return Info.ObjectId; }
-            set { Info.ObjectId = value; }
+        private GameRoom _room;
+        private ObjectInfo _objectInfo;
+        private GameObjectType _objectType;
+        private Vec3 _posInfo;
+
+        public GameObjectType ObjectType 
+        { 
+            get => _objectType; 
+            protected set => _objectType = value; 
         }
 
-        public GameRoom Room { get; set; }
+        public int Id
+        {
+            get => Info.ObjectId;
+            set => Info.ObjectId = value;
+        }
 
-        public ObjectInfo Info { get; set; } = new ObjectInfo();
+        public GameRoom Room 
+        { 
+            get => _room;
+            set => _room = value; 
+        }
 
-        public Vec3 PosInfo { get; private set; } = new Vec3();
+        public ObjectInfo Info 
+        { 
+            get => _objectInfo; 
+            set => _objectInfo = value; 
+        }
+
+        public Vec3 PosInfo 
+        { 
+            get => _posInfo; 
+            private set => _posInfo = value; 
+        }
 
 
         public GameObject()
         {
+            _objectType = GameObjectType.None;
+            _objectInfo = new ObjectInfo();
+            _posInfo = new Vec3();
             Info.PosInfo = PosInfo;
         }
     }

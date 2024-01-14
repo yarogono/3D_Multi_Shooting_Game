@@ -25,7 +25,7 @@ namespace Server.Game.Room
             foreach (WeaponItem weaponItem in itemDict.Values)
             {
                 Item item = new Item();
-                item.damage = weaponItem.damage;
+                item.Damage = weaponItem.damage;
                 item.Id = weaponItem.id;
                 item.Room = this;
                 Vec3 posInfo = new Vec3()

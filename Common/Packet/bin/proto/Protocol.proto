@@ -77,14 +77,6 @@ message ObjectInfo {
 	CreatureState state = 4;
 }
 
-message StatInfo {
-	int32 level = 1;
-	int32 hp = 2;
-	int32 maxHp =3;
-	int32 attack = 4;
-	float speed = 5;
-}
-
 enum CreatureState {
     IDLE = 0;
     MOVING = 1;
