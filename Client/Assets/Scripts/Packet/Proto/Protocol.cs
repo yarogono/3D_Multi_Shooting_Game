@@ -41,15 +41,16 @@ namespace Google.Protobuf.Protocol {
             "c3RhbXAidQoKT2JqZWN0SW5mbxIQCghvYmplY3RJZBgBIAEoBRIMCgRuYW1l",
             "GAIgASgJEh8KB3Bvc0luZm8YAyABKAsyDi5Qcm90b2NvbC5WZWMzEiYKBXN0",
             "YXRlGAQgASgOMhcuUHJvdG9jb2wuQ3JlYXR1cmVTdGF0ZSInCgRWZWMzEgkK",
-            "AXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCKq0BCgVNc2dJZBIQCgxD",
+            "AXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCKv8BCgVNc2dJZBIQCgxD",
             "X0VOVEVSX0dBTUUQABIQCgxTX0VOVEVSX0dBTUUQARIQCgxDX0xFQVZFX0dB",
             "TUUQAhIQCgxTX0xFQVZFX0dBTUUQAxILCgdTX1NQQVdOEAQSDQoJU19ERVNQ",
             "QVdOEAUSCgoGQ19NT1ZFEAYSCgoGU19NT1ZFEAcSEAoMU19TUEFXTl9JVEVN",
-            "EAgSCgoGU19QSU5HEAkSCgoGQ19QT05HEAoqPQoOR2FtZU9iamVjdFR5cGUS",
-            "CAoETk9ORRAAEgoKBlBMQVlFUhABEgsKB01PTlNURVIQAhIICgRJVEVNEAMq",
-            "OgoNQ3JlYXR1cmVTdGF0ZRIICgRJRExFEAASCgoGTU9WSU5HEAESCQoFU0tJ",
-            "TEwQAhIICgRERUFEEANCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIG",
-            "cHJvdG8z"));
+            "EAgSCgoGU19QSU5HEAkSCgoGQ19QT05HEAoSFgoSQ19TV0FQX1dFQVBPTl9J",
+            "VEVNEAsSFgoSU19TV0FQX1dFQVBPTl9JVEVNEAwSDwoLQ19MT09UX0lURU0Q",
+            "DRIPCgtTX0xPT1RfSVRFTRAOKj0KDkdhbWVPYmplY3RUeXBlEggKBE5PTkUQ",
+            "ABIKCgZQTEFZRVIQARILCgdNT05TVEVSEAISCAoESVRFTRADKjoKDUNyZWF0",
+            "dXJlU3RhdGUSCAoESURMRRAAEgoKBk1PVklORxABEgkKBVNLSUxMEAISCAoE",
+            "REVBRBADQhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -83,6 +84,10 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_SPAWN_ITEM")] SSpawnItem = 8,
     [pbr::OriginalName("S_PING")] SPing = 9,
     [pbr::OriginalName("C_PONG")] CPong = 10,
+    [pbr::OriginalName("C_SWAP_WEAPON_ITEM")] CSwapWeaponItem = 11,
+    [pbr::OriginalName("S_SWAP_WEAPON_ITEM")] SSwapWeaponItem = 12,
+    [pbr::OriginalName("C_LOOT_ITEM")] CLootItem = 13,
+    [pbr::OriginalName("S_LOOT_ITEM")] SLootItem = 14,
   }
 
   public enum GameObjectType {

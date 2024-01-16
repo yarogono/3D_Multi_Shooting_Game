@@ -17,6 +17,10 @@ enum MsgId {
 	S_SPAWN_ITEM = 8;
 	S_PING = 9;
 	C_PONG = 10;
+	C_SWAP_WEAPON_ITEM = 11;
+	S_SWAP_WEAPON_ITEM = 12;
+	C_LOOT_ITEM = 13;
+	S_LOOT_ITEM = 14;
 }
 
 enum GameObjectType {

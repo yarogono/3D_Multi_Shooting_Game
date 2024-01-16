@@ -5,7 +5,7 @@ using Server.Game.Room;
 using Server.Session;
 using ServerCore;
 
-class PacketHandler
+partial class PacketHandler
 {
     public static void C_EnterGameHandler(PacketSession session, IMessage packet)
     {
@@ -52,7 +52,7 @@ class PacketHandler
         if (room == null)
             return;
 
-        room.Push(room.LeaveGame, leaveGamePacket.PlayerId);
+        room.Push(player.LeaveGame, leaveGamePacket.PlayerId);
     }
 
     public static void C_MoveHandler(PacketSession session, IMessage packet)
@@ -68,12 +68,6 @@ class PacketHandler
         if (room == null)
             return;
 
-        room.Push(room.HandleMove, player, movePacket);
-    }
-
-    public static void C_PongHandler(PacketSession session, IMessage packet)
-    {
-        ClientSession clientSession = (ClientSession)session;
-        clientSession.HandlePong();
+        room.Push(player.HandleMove, movePacket);
     }
 }

@@ -3,6 +3,7 @@ using Google.Protobuf.Protocol;
 using Server.Data;
 using Server.Game.Job;
 using Server.Game.Object;
+using System;
 
 namespace Server.Game.Room
 {
@@ -97,53 +98,22 @@ namespace Server.Game.Room
             }
         }
 
-        public void LeaveGame(int objectId)
+        public Item RemoveItem(int objectId)
         {
-            GameObjectType type = ObjectManager.GetObjectTypeById(objectId);
+            Item item = null;
+            if (_items.Remove(objectId, out item) == false)
+                return item;
 
-            if (type == GameObjectType.Player)
-            {
-                Player player = null;
-                if (_players.Remove(objectId, out player) == false)
-                    return;
-
-                player.Room = null;
-
-                // 본인한테 정보 전송
-                {
-                    S_LeaveGame leavePacket = new S_LeaveGame();
-                    leavePacket.PlayerId = player.Id;
-                    player.Session.Send(leavePacket);
-                }
-            }
-
-            // 타인한테 정보 전송
-            {
-                S_Despawn despawnPacket = new S_Despawn();
-                despawnPacket.ObjectIds.Add(objectId);
-                Broadcast(despawnPacket, objectId);
-            }
+            return item;
         }
 
-        public void HandleMove(Player player, C_Move movePacket)
+        public Player RemovePlayer(int objectId)
         {
-            if (player == null)
-                return;
+            Player player = null;
+            if (_players.Remove(objectId, out player) == false)
+                return player;
 
-            ObjectInfo info = player.Info;
-
-            Vec3 posInfo = movePacket.PosInfo;
-            info.PosInfo = posInfo;
-
-            // 다른 플레이어한테도 알려준다
-            S_Move resMovePacket = new S_Move();
-            resMovePacket.ObjectId = player.Id;
-            resMovePacket.PosInfo = new Vec3(posInfo);
-            resMovePacket.MoveSpeed = movePacket.MoveSpeed;
-            DateTimeOffset pingTime = DateTimeOffset.UtcNow;
-            resMovePacket.ServerTimestamp = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTimeOffset(pingTime);
-
-            Broadcast(resMovePacket, player.Id);
+            return player;
         }
 
         public Player FindPlayer(Func<GameObject, bool> condition)

@@ -8,3 +8,25 @@ option csharp_namespace = "Google.Protobuf.Protocol";
 message S_SpawnItem {
 	repeated ObjectInfo objects = 1;
 }
+
+
+message C_SwapWeaponItem {
+	int32 weaponItemNumber = 1;
+	int32 itemId = 2;
+}
+
+message S_SwapWeaponItem {
+	int32 playerId = 1;
+	int32 weaponItemNumber = 2;
+}
+
+message C_LootItem {
+	int32 weaponItemNumber = 1;
+	int32 itemId = 2;
+}
+
+message S_LootItem {
+	int32 playerId = 1;
+	int32 weaponItemNumber = 2;
+	int32 itemId = 3;
+}

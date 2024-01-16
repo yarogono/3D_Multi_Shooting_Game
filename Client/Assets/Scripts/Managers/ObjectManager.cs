@@ -32,9 +32,12 @@ public class ObjectManager : CustomSingleton<ObjectManager>
         {
             GameObject itemGameObject = ResourceManager.Instance.Instantiate($"Item/Weapon/{info.Name}");
             Transform itemTransform = itemGameObject.GetComponent<Transform>();
+            ItemController itemController = itemGameObject.GetComponent<ItemController>();
 
             Vec3 posInfo = info.PosInfo;
             itemTransform.position = new Vector3(posInfo.X, posInfo.Y, posInfo.Z);
+            itemController.Id = info.ObjectId;
+            _objects.Add(info.ObjectId, itemGameObject);
         }
     }
 

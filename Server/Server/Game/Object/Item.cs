@@ -7,6 +7,7 @@ namespace Server.Game.Object
         private string _name;
         private int _damage;
         private int _ownerId;
+        private int _itemNumber;
 
 
         public Item()
@@ -30,6 +31,12 @@ namespace Server.Game.Object
         { 
             get => _ownerId; 
             set => _ownerId = value; 
+        }
+
+        public int ItemNumber
+        {
+            get => _itemNumber;
+            set => _itemNumber = value;
         }
     }
 }

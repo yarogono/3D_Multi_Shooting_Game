@@ -7,6 +7,8 @@ public class ItemController : MonoBehaviour
 
     [SerializeField] private int _value;
 
+    public int Id { get; set; }
+
     public int Value { get { return _value; } }
 
     private void Update()

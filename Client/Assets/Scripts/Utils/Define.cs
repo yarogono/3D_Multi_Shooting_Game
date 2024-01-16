@@ -30,5 +30,6 @@ public class Define
         One,
         Two, 
         Three,
+        None,
     }
 }

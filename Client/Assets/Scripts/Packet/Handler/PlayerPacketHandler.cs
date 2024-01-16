@@ -3,7 +3,7 @@ using Google.Protobuf.Protocol;
 using ServerCore;
 using UnityEngine;
 
-class PacketHandler
+partial class PacketHandler
 {
     public static void S_EnterGameHandler(PacketSession session, IMessage packet)
     {
@@ -24,22 +24,6 @@ class PacketHandler
     }
 
 
-    public static void S_SpawnHandler(PacketSession session, IMessage packet)
-    {
-        S_Spawn spawnPacket = (S_Spawn)packet;
-
-        foreach (ObjectInfo obj in spawnPacket.Objects)
-            ObjectManager.Instance.Add(obj, isMyPlayer: false);
-    }
-
-    public static void S_DespawnHandler(PacketSession session, IMessage packet)
-    {
-        S_Despawn despawnPacket = (S_Despawn)packet;
-
-        foreach (int playerId in despawnPacket.ObjectIds)
-            ObjectManager.Instance.Remove(playerId);
-    }
-
     public static void S_MoveHandler(PacketSession session, IMessage packet)
     {
         S_Move movePacket = (S_Move)packet;
@@ -57,25 +41,5 @@ class PacketHandler
             return;
 
         enemyPlayerSyncTransform.OnSync(movePacket);
-    }
-
-    public static void S_SpawnItemHandler(PacketSession session, IMessage packet)
-    {
-        S_SpawnItem itemsSpawnPacket = (S_SpawnItem)packet;
-        
-        if (itemsSpawnPacket == null)
-            return;
-
-        foreach (ObjectInfo obj in itemsSpawnPacket.Objects)
-            ObjectManager.Instance.Add(obj);
-    }
-
-    public static void S_PingHandler(PacketSession session, IMessage packet)
-    {
-        S_Ping pingPacket = (S_Ping)packet;
-        NetworkManager.Instance.PingCheck(pingPacket);
-
-        C_Pong pongPacket = new C_Pong();
-        NetworkManager.Instance.Send(pongPacket);
     }
 }

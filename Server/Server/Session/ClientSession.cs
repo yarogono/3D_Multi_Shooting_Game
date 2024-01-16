@@ -107,7 +107,7 @@ namespace Server.Session
             GameLogic.Instance.Push(() =>
             {
                 GameRoom room = GameLogic.Instance.Find(1);
-                room.Push(room.LeaveGame, MyPlayer.Info.ObjectId);
+                room.Push(MyPlayer.LeaveGame, MyPlayer.Info.ObjectId);
             });
 
             SessionManager.Instance.Remove(this);
