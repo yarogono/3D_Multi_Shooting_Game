@@ -2,6 +2,7 @@ using Google.Protobuf.Protocol;
 using Google.Protobuf;
 using ServerCore;
 using UnityEngine;
+using Assets.Scripts.Controllers.Player;
 
 partial class PacketHandler
 {
@@ -29,11 +30,13 @@ partial class PacketHandler
             return;
 
         PlayerSyncItem playerSyncItem = player.GetComponent<PlayerSyncItem>();
+        PlayerSyncAnimation playerSyncAnimation = player.GetComponent<PlayerSyncAnimation>();
 
         if (playerSyncItem == null)
             return;
 
         playerSyncItem.OnSync(swapWeaponItemPacket);
+        playerSyncAnimation.OnSync(swapWeaponItemPacket);
     }
 
     public static void S_LootItemHandler(PacketSession session, IMessage packet)

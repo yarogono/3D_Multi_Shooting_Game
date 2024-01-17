@@ -1,7 +1,6 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
-using System;
 using UnityEngine;
 using static Define;
 
@@ -17,6 +16,16 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 
     private PlayerInputController _inputController;
     private bool _isLootPopUpOpen = false;
+
+    public ItemNumber HandHeldWeapon 
+    { 
+        get => _handheldWeapon; 
+    }
+
+    public bool[] HasWeapon
+    {
+        get => _hasWeapon;
+    }
 
     private void Awake()
     {
