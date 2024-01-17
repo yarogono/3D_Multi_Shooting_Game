@@ -100,7 +100,7 @@ namespace Server.Game.Object
                 return;
 
             Item playerItem = null;
-            if (_items.TryGetValue(weaponItem.ItemId, out playerItem) == false)
+            if (_items.TryGetValue(weaponItem.WeaponItemNumber, out playerItem) == false)
                 return;
 
             S_SwapWeaponItem swapWeaponItemPacket = new S_SwapWeaponItem()
@@ -111,7 +111,7 @@ namespace Server.Game.Object
 
             EquipWeaponItem = playerItem;
 
-            Room.Broadcast(swapWeaponItemPacket, this.Id);
+            Room.Broadcast(swapWeaponItemPacket);
         }
 
         internal void LootItem(C_LootItem lootItem)
@@ -129,7 +129,6 @@ namespace Server.Game.Object
 
             Item playerItem = new Item()
             {
-                Id = lootItem.ItemId,
                 Damage = weaponItem.damage,
                 Name = weaponItem.name,
                 ItemNumber = weaponItem.id,
