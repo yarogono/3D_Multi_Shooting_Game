@@ -2,7 +2,7 @@
   "WeaponItems": [
     {
       "id": "0",
-      "name": "Hammer",
+      "name": "Drop_Hammer",
       "damage": "10",
       "posX": 5,
       "posY": 1,
@@ -10,7 +10,7 @@
     },
     {
       "id": "1",
-      "name": "HandGun",
+      "name": "Drop_HandGun",
       "damage": "5",
       "posX": 7,
       "posY": 2,
@@ -18,7 +18,7 @@
     },
     {
       "id": "2",
-      "name": "SubMachineGun",
+      "name": "Drop_SubMachineGun",
       "damage": "7",
       "posX": 10,
       "posY": 2,

@@ -30,9 +30,9 @@ public class ObjectManager : CustomSingleton<ObjectManager>
         }
         else if (objectType == GameObjectType.Item)
         {
-            GameObject itemGameObject = ResourceManager.Instance.Instantiate($"Item/Weapon/{info.Name}");
+            GameObject itemGameObject = ResourceManager.Instance.Instantiate($"Item/DropItem/Weapon/{info.Name}");
             Transform itemTransform = itemGameObject.GetComponent<Transform>();
-            ItemController itemController = itemGameObject.GetComponent<ItemController>();
+            DropItemController itemController = itemGameObject.GetComponent<DropItemController>();
 
             Vec3 posInfo = info.PosInfo;
             itemTransform.position = new Vector3(posInfo.X, posInfo.Y, posInfo.Z);
@@ -44,7 +44,7 @@ public class ObjectManager : CustomSingleton<ObjectManager>
     private void AddMyPlayer(ObjectInfo info)
     {
         GameObject cameraGameObject = ResourceManager.Instance.Instantiate("MainCamera");
-        GameObject myPlayerGameObject = ResourceManager.Instance.Instantiate("MyPlayer");
+        GameObject myPlayerGameObject = ResourceManager.Instance.Instantiate("Player/MyPlayer");
 
         PlayerCameraController _controller = cameraGameObject.GetComponent<PlayerCameraController>();
         Transform target = myPlayerGameObject.GetComponent<Transform>();
@@ -64,7 +64,7 @@ public class ObjectManager : CustomSingleton<ObjectManager>
 
     private void AddEnemyPlayer(ObjectInfo info)
     {
-        GameObject gameObject = ResourceManager.Instance.Instantiate("EnemyPlayer");
+        GameObject gameObject = ResourceManager.Instance.Instantiate("Player/EnemyPlayer");
 
         _objects.Add(info.ObjectId, gameObject);
 

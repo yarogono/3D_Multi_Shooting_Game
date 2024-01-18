@@ -131,7 +131,7 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
     {
         if (_nearItemObject != null)
         {
-            ItemController item = _nearItemObject.GetComponent<ItemController>();
+            DropItemController item = _nearItemObject.GetComponent<DropItemController>();
             int weaponIndex = item.Value;
             _hasWeapon[weaponIndex] = true;
 

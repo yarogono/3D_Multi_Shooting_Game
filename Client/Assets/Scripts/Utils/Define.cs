@@ -32,4 +32,19 @@ public class Define
         Three,
         None,
     }
+
+    public enum DropItemType
+    {
+        Ammo, 
+        Coin, 
+        Grenade, 
+        Heart, 
+        Weapon,
+    }
+
+    public enum WeaponItemType
+    {
+        Melee,
+        Range,
+    }
 }
