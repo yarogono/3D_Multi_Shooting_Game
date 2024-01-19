@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Weapon
   - MyPlayer
+  - Melee
   layers:
   - Default
   - TransparentFX
