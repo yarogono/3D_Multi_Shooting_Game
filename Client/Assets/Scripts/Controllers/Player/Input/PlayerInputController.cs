@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Define;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 [AddComponentMenu("Player/PlayerInputController")]
 public class PlayerInputController : PlayerEventController
@@ -61,8 +60,8 @@ public class PlayerInputController : PlayerEventController
         CallLootItemEvent();
     }
 
-    public void OnFire(InputValue value)
+    public void OnAttack()
     {
-
+        CallAttackEvent();
     }
 }

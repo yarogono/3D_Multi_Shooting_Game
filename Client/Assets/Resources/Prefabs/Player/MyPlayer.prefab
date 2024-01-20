@@ -598,6 +598,7 @@ GameObject:
   - component: {fileID: -6773896491000546529}
   - component: {fileID: -8162548859666162617}
   - component: {fileID: -4240753501037477091}
+  - component: {fileID: 3306970367865201969}
   m_Layer: 0
   m_Name: MyPlayer
   m_TagString: MyPlayer
@@ -784,6 +785,18 @@ MonoBehaviour:
   - {fileID: 8654316927776906884}
   - {fileID: 5659606936346752320}
   _hasWeapon: 000000
+--- !u!114 &3306970367865201969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684022663209458036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 689f0c94a5ba3ec4fbf85fb20bf31a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6092943947472575045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1515,6 +1528,14 @@ PrefabInstance:
       propertyPath: meleeArea
       value: 
       objectReference: {fileID: 3947215109667423622}
+    - target: {fileID: 9041501400920535451, guid: c2ec4bfd1a6491c49a0c34b8dc3a7639, type: 3}
+      propertyPath: _meleeArea
+      value: 
+      objectReference: {fileID: 3947215109667423622}
+    - target: {fileID: 9041501400920535451, guid: c2ec4bfd1a6491c49a0c34b8dc3a7639, type: 3}
+      propertyPath: _trailEffect
+      value: 
+      objectReference: {fileID: 8334127513155043024}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1523,6 +1544,11 @@ PrefabInstance:
 --- !u!65 &3947215109667423622 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 5786013063925400726, guid: c2ec4bfd1a6491c49a0c34b8dc3a7639, type: 3}
+  m_PrefabInstance: {fileID: 7389104081241047312}
+  m_PrefabAsset: {fileID: 0}
+--- !u!96 &8334127513155043024 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 1523232427049844672, guid: c2ec4bfd1a6491c49a0c34b8dc3a7639, type: 3}
   m_PrefabInstance: {fileID: 7389104081241047312}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8376399447542331345 stripped

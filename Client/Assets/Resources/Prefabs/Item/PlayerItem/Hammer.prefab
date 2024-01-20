@@ -47,11 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aaa8762c0d0d02439173e7845726072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
-  damage: 25
-  rate: 0.4
-  meleeArea: {fileID: 0}
-  trailEffect: {fileID: 1523232427049844672}
+  _damage: 25
+  _rate: 0.6
+  _meleeArea: {fileID: 5786013063925400726}
+  _trailEffect: {fileID: 1523232427049844672}
 --- !u!65 &5786013063925400726
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class PlayerEventController : MonoBehaviour
     public event Action<Vector3> OnLookEvent;
     public event Action<ItemNumber> OnWeaponSwapEvent;
     public event Action OnLootItemEvent;
+    public event Action OnAttackEvent;
 
     public void CallMoveEvent(Vector3 direction)
     {
@@ -28,5 +29,10 @@ public class PlayerEventController : MonoBehaviour
     public void CallLootItemEvent()
     {
         OnLootItemEvent?.Invoke();
+    }
+    
+    public void CallAttackEvent()
+    {
+        OnAttackEvent?.Invoke();
     }
 }

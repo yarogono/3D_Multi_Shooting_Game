@@ -1,8 +1,6 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
-using Google.Protobuf.WellKnownTypes;
-using System;
 using UnityEngine;
 
 [AddComponentMenu("Player/PlayerSyncTransform")]
@@ -98,7 +96,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         }
     }
 
-    #region SyncPacket
+    #region OnSync
     public void OnSync(IMessage packet)
     {
         if (packet == null)
@@ -245,6 +243,11 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
             MoveSpeed = _moveSpeed
         };
         NetworkManager.Instance.Send(movePacket);
+    }
+
+    public void StopPlayerMoving()
+    {
+        _movementDirection = Vector3.zero;
     }
     #endregion
 

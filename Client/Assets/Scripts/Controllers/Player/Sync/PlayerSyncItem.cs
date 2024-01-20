@@ -15,6 +15,8 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
     private GameObject _nearItemObject;
 
     private PlayerInputController _inputController;
+    private PlayerSyncAnimation _playerSyncAnimation;
+
     private bool _isLootPopUpOpen = false;
 
     public ItemNumber HandHeldWeapon 
@@ -26,10 +28,16 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
     {
         get => _hasWeapon;
     }
+    
+    public GameObject MeleeWeaponGameObject
+    {
+        get => _weapons[(int)ItemNumber.One];
+    }
 
     private void Awake()
     {
         _inputController = GetComponent<PlayerInputController>();
+        _playerSyncAnimation = GetComponent<PlayerSyncAnimation>();
         _handheldWeapon = ItemNumber.None;
     }
 
@@ -60,6 +68,7 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
         GameObject weaponItem = _weapons[(int)itemNumber];
         weaponItem.active = true;
         _handheldWeapon = itemNumber;
+        _playerSyncAnimation.WeaponSwapAnimation();
 
         SendSwapWeaponItemPacket(itemNumber);
     }
