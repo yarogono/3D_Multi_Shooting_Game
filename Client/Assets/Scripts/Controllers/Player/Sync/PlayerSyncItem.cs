@@ -12,7 +12,7 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 
     private ItemNumber _handheldWeapon;
 
-    private GameObject _nearItemObject;
+    private DropItemController _nearDropItem;
 
     private PlayerInputController _inputController;
     private PlayerSyncAnimation _playerSyncAnimation;
@@ -63,10 +63,10 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
             return;
 
         if (_handheldWeapon != ItemNumber.None)
-            _weapons[(int)_handheldWeapon].active = false;
+            _weapons[(int)_handheldWeapon].SetActive(false);
 
         GameObject weaponItem = _weapons[(int)itemNumber];
-        weaponItem.active = true;
+        weaponItem.SetActive(true);
         _handheldWeapon = itemNumber;
         _playerSyncAnimation.WeaponSwapAnimation();
 
@@ -130,25 +130,24 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
             return;
 
         if (_handheldWeapon != ItemNumber.None)
-            _weapons[(int)_handheldWeapon].active = false;
+            _weapons[(int)_handheldWeapon].SetActive(false);
 
-        _weapons[(int)itemNumber].active = true;
+        _weapons[(int)itemNumber].SetActive(true);
         _handheldWeapon = (ItemNumber)itemNumber;
     }
 
     public void LootItem()
     {
-        if (_nearItemObject != null)
+        if (_nearDropItem != null)
         {
-            DropItemController item = _nearItemObject.GetComponent<DropItemController>();
-            int weaponIndex = item.Value;
+            int weaponIndex = _nearDropItem.Value;
             _hasWeapon[weaponIndex] = true;
 
-            SendLootItemPacket(item.Id, weaponIndex);
+            SendLootItemPacket(_nearDropItem.Id, weaponIndex);
 
             UIManager.Instance.ClosePopupUI();
 
-            Destroy(_nearItemObject);
+            Destroy(_nearDropItem.gameObject);
         }
     }
 
@@ -167,6 +166,9 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 
     private void OnTriggerStay(Collider other)
     {
+        if (other.CompareTag("Structure"))
+            return;
+
         if (_isLootPopUpOpen == false)
         {
             UI_Loot lootUI = UIManager.Instance.ShowPopupUI<UI_Loot>("LootUI");
@@ -175,9 +177,9 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
             lootUI.ShowLootText(other.gameObject.name);
         }
 
-        if (_nearItemObject == null)
+        if (_nearDropItem == null)
         {
-            _nearItemObject = other.gameObject;
+            _nearDropItem = other.gameObject.GetComponent<DropItemController>();
         }
     }
 
@@ -185,6 +187,6 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
     {
         UIManager.Instance.ClosePopupUI();
         _isLootPopUpOpen = false;
-        _nearItemObject = null;
+        _nearDropItem = null;
     }
 }
