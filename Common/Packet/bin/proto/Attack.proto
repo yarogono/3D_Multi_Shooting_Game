@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package Protocol;
+
+import "Protocol.proto";
+option csharp_namespace = "Google.Protobuf.Protocol";
+
+message C_MeleeAttack {
+	int32 attackPlayerId = 1;
+	Vec3 posInfo = 2;
+}
+
+message S_MeleeAttack {
+	int32 attackPlayerId = 1;
+}

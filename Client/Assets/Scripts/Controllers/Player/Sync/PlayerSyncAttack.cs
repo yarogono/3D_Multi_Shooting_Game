@@ -1,5 +1,6 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
+using Google.Protobuf.Protocol;
 using UnityEngine;
 using static Define;
 
@@ -66,14 +67,40 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
             _playerSyncAnimation.WeaponAttackSwingAnimation();
             _attackDelayTimer = 0;
             _playerSyncTransform.StopPlayerMoving();
+
+            SendMeleeAttackPacket();
         }
+    }
+
+    private void SendMeleeAttackPacket()
+    {
+        Vec3 meleeAttackPlayerPosInfo = new Vec3();
+        meleeAttackPlayerPosInfo.MergeFrom(_playerSyncTransform.PosInfo);
+
+        C_MeleeAttack meleeAttackPacket = new C_MeleeAttack()
+        {
+            AttackPlayerId = playerController.Id,
+            PosInfo = meleeAttackPlayerPosInfo,
+        };
+
+        NetworkManager.Instance.Send(meleeAttackPacket);
     }
 
     #region OnSync
     public void OnSync(IMessage packet)
     {
-        Debug.Log("PlayerSyncAttack");
+        switch (packet)
+        {
+            case S_MeleeAttack:
+                OnSyncMeleeAttack();
+                break;
+        }
     }
 
+    private void OnSyncMeleeAttack()
+    {
+        _meleeWeaponController.WeaponAttack();
+        _playerSyncAnimation.WeaponAttackSwingAnimation();
+    }
     #endregion
 }

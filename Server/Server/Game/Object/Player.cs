@@ -140,5 +140,17 @@ namespace Server.Game.Object
 
             Room.Broadcast(lootItemPacket, this.Id);
         }
+
+        public void MeleeAttack(C_MeleeAttack reqMeleeAttackPacket)
+        {
+            // ToDo : 클라이언트 위치에 따른 공격 검증 로직 추가 필요(공격 검증)
+
+            S_MeleeAttack resMeleeAttackPacket = new S_MeleeAttack()
+            {
+                AttackPlayerId = reqMeleeAttackPacket.AttackPlayerId,
+            };
+
+            Room.Broadcast(resMeleeAttackPacket, this.Id);
+        }
     }
 }

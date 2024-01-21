@@ -1,11 +1,5 @@
 public class Define
 {
-    public enum State
-    {
-        Idle,
-        Moving,
-    }
-
     public enum Sound
     {
         Bgm,

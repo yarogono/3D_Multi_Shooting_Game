@@ -21,6 +21,8 @@ enum MsgId {
 	S_SWAP_WEAPON_ITEM = 12;
 	C_LOOT_ITEM = 13;
 	S_LOOT_ITEM = 14;
+	C_MELEE_ATTACK = 15;
+	S_MELEE_ATTACK = 16;
 }
 
 enum GameObjectType {
