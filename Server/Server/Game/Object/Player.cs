@@ -45,6 +45,7 @@ namespace Server.Game.Object
         {
             ObjectType = GameObjectType.Player;
             _items = new Dictionary<int, Item>();
+            this.Hp = 100;
         }
 
         public void LeaveGame(int objectId)
@@ -143,14 +144,27 @@ namespace Server.Game.Object
 
         public void MeleeAttack(C_MeleeAttack reqMeleeAttackPacket)
         {
-            // ToDo : 클라이언트 위치에 따른 공격 검증 로직 추가 필요(공격 검증)
-
             S_MeleeAttack resMeleeAttackPacket = new S_MeleeAttack()
             {
                 AttackPlayerId = reqMeleeAttackPacket.AttackPlayerId,
             };
 
             Room.Broadcast(resMeleeAttackPacket, this.Id);
+        }
+
+        internal void DamageMelee(C_DamageMelee reqDamageMelee)
+        {
+            // ToDo : 클라이언트 위치에 따른 공격 검증 로직 추가 필요(공격 검증)
+            int getDamagedHp = this.Hp - reqDamageMelee.Damage;
+            this.Hp = getDamagedHp;
+
+            S_DamageMelee resDamageMelee = new S_DamageMelee()
+            {
+                TargetPlayerId = reqDamageMelee.TargetPlayerId,
+                Damage = reqDamageMelee.Damage,
+            };
+
+            Room.Broadcast(resDamageMelee, this.Id);
         }
     }
 }

@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 6619652720329074078}
   - component: {fileID: 3773598927448814721}
   - component: {fileID: 992719275591339828}
-  - component: {fileID: 7886030203221055145}
+  - component: {fileID: 5420908447927504386}
   m_Layer: 5
   m_Name: StartCanvas
   m_TagString: Untagged
@@ -264,7 +264,7 @@ RectTransform:
   - {fileID: 4700367037986116323}
   - {fileID: 3124061898663378043}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7886030203221055145
+--- !u!114 &5420908447927504386
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -23,6 +23,8 @@ enum MsgId {
 	S_LOOT_ITEM = 14;
 	C_MELEE_ATTACK = 15;
 	S_MELEE_ATTACK = 16;
+	C_DAMAGE_MELEE = 17;
+	S_DAMAGE_MELEE = 18;
 }
 
 enum GameObjectType {

@@ -13,6 +13,11 @@ public class MeleeWeaponController : MonoBehaviour
         get => _rate;
     }
 
+    public int Damage
+    {
+        get => _damage;
+    }
+
     public void WeaponAttack()
     {
         StartCoroutine(MeleeWeaponSwing());
@@ -20,7 +25,7 @@ public class MeleeWeaponController : MonoBehaviour
 
     IEnumerator MeleeWeaponSwing()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         _meleeArea.enabled = true;
         _trailEffect.enabled = true;
 

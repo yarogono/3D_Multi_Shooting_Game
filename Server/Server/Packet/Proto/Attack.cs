@@ -27,13 +27,17 @@ namespace Google.Protobuf.Protocol {
             "CgxBdHRhY2sucHJvdG8SCFByb3RvY29sGg5Qcm90b2NvbC5wcm90byJICg1D",
             "X01lbGVlQXR0YWNrEhYKDmF0dGFja1BsYXllcklkGAEgASgFEh8KB3Bvc0lu",
             "Zm8YAiABKAsyDi5Qcm90b2NvbC5WZWMzIicKDVNfTWVsZWVBdHRhY2sSFgoO",
-            "YXR0YWNrUGxheWVySWQYASABKAVCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90",
-            "b2NvbGIGcHJvdG8z"));
+            "YXR0YWNrUGxheWVySWQYASABKAUiNwoNQ19EYW1hZ2VNZWxlZRIWCg50YXJn",
+            "ZXRQbGF5ZXJJZBgBIAEoBRIOCgZkYW1hZ2UYAiABKAUiNwoNU19EYW1hZ2VN",
+            "ZWxlZRIWCg50YXJnZXRQbGF5ZXJJZBgBIAEoBRIOCgZkYW1hZ2UYAiABKAVC",
+            "G6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_MeleeAttack), global::Google.Protobuf.Protocol.C_MeleeAttack.Parser, new[]{ "AttackPlayerId", "PosInfo" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_MeleeAttack), global::Google.Protobuf.Protocol.S_MeleeAttack.Parser, new[]{ "AttackPlayerId" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_MeleeAttack), global::Google.Protobuf.Protocol.S_MeleeAttack.Parser, new[]{ "AttackPlayerId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_DamageMelee), global::Google.Protobuf.Protocol.C_DamageMelee.Parser, new[]{ "TargetPlayerId", "Damage" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_DamageMelee), global::Google.Protobuf.Protocol.S_DamageMelee.Parser, new[]{ "TargetPlayerId", "Damage" }, null, null, null, null)
           }));
     }
     #endregion
@@ -324,6 +328,320 @@ namespace Google.Protobuf.Protocol {
             break;
           case 8: {
             AttackPlayerId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class C_DamageMelee : pb::IMessage<C_DamageMelee> {
+    private static readonly pb::MessageParser<C_DamageMelee> _parser = new pb::MessageParser<C_DamageMelee>(() => new C_DamageMelee());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<C_DamageMelee> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.AttackReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_DamageMelee() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_DamageMelee(C_DamageMelee other) : this() {
+      targetPlayerId_ = other.targetPlayerId_;
+      damage_ = other.damage_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public C_DamageMelee Clone() {
+      return new C_DamageMelee(this);
+    }
+
+    /// <summary>Field number for the "targetPlayerId" field.</summary>
+    public const int TargetPlayerIdFieldNumber = 1;
+    private int targetPlayerId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int TargetPlayerId {
+      get { return targetPlayerId_; }
+      set {
+        targetPlayerId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "damage" field.</summary>
+    public const int DamageFieldNumber = 2;
+    private int damage_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Damage {
+      get { return damage_; }
+      set {
+        damage_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as C_DamageMelee);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(C_DamageMelee other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (TargetPlayerId != other.TargetPlayerId) return false;
+      if (Damage != other.Damage) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (TargetPlayerId != 0) hash ^= TargetPlayerId.GetHashCode();
+      if (Damage != 0) hash ^= Damage.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (TargetPlayerId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(TargetPlayerId);
+      }
+      if (Damage != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Damage);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (TargetPlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetPlayerId);
+      }
+      if (Damage != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Damage);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(C_DamageMelee other) {
+      if (other == null) {
+        return;
+      }
+      if (other.TargetPlayerId != 0) {
+        TargetPlayerId = other.TargetPlayerId;
+      }
+      if (other.Damage != 0) {
+        Damage = other.Damage;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            TargetPlayerId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Damage = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class S_DamageMelee : pb::IMessage<S_DamageMelee> {
+    private static readonly pb::MessageParser<S_DamageMelee> _parser = new pb::MessageParser<S_DamageMelee>(() => new S_DamageMelee());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<S_DamageMelee> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Protobuf.Protocol.AttackReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_DamageMelee() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_DamageMelee(S_DamageMelee other) : this() {
+      targetPlayerId_ = other.targetPlayerId_;
+      damage_ = other.damage_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_DamageMelee Clone() {
+      return new S_DamageMelee(this);
+    }
+
+    /// <summary>Field number for the "targetPlayerId" field.</summary>
+    public const int TargetPlayerIdFieldNumber = 1;
+    private int targetPlayerId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int TargetPlayerId {
+      get { return targetPlayerId_; }
+      set {
+        targetPlayerId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "damage" field.</summary>
+    public const int DamageFieldNumber = 2;
+    private int damage_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Damage {
+      get { return damage_; }
+      set {
+        damage_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as S_DamageMelee);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(S_DamageMelee other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (TargetPlayerId != other.TargetPlayerId) return false;
+      if (Damage != other.Damage) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (TargetPlayerId != 0) hash ^= TargetPlayerId.GetHashCode();
+      if (Damage != 0) hash ^= Damage.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (TargetPlayerId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(TargetPlayerId);
+      }
+      if (Damage != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Damage);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (TargetPlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TargetPlayerId);
+      }
+      if (Damage != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Damage);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(S_DamageMelee other) {
+      if (other == null) {
+        return;
+      }
+      if (other.TargetPlayerId != 0) {
+        TargetPlayerId = other.TargetPlayerId;
+      }
+      if (other.Damage != 0) {
+        Damage = other.Damage;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            TargetPlayerId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Damage = input.ReadInt32();
             break;
           }
         }

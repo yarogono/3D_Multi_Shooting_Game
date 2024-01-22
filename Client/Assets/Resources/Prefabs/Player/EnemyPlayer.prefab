@@ -95,6 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2440095803248850997}
+  - component: {fileID: 272287574341709543}
   - component: {fileID: 3475638041942186803}
   - component: {fileID: 3084106579633461202}
   - component: {fileID: 6937661691742340683}
@@ -102,7 +103,7 @@ GameObject:
   - component: {fileID: 8492777399764930498}
   m_Layer: 0
   m_Name: EnemyPlayer
-  m_TagString: Untagged
+  m_TagString: EnemyPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,6 +124,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &272287574341709543
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470357823029104312}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.272592
+  m_Height: 4.4203835
+  m_Direction: 1
+  m_Center: {x: -0.043338537, y: 2.3381968, z: 0.48160303}
 --- !u!114 &3475638041942186803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +285,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b2fe663db2d56e8438a4c5c392ab1f67, type: 3}
       propertyPath: m_Name
       value: Mesh Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b2fe663db2d56e8438a4c5c392ab1f67, type: 3}
+      propertyPath: m_TagString
+      value: EnemyPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 1320344850454072318, guid: b2fe663db2d56e8438a4c5c392ab1f67, type: 3}
       propertyPath: m_Materials.Array.data[0]

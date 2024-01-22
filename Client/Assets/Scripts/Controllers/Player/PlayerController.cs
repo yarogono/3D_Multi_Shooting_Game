@@ -1,17 +1,37 @@
 using Assets.Scripts.Controllers.Player;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("Player/PlayerController")]
 public class PlayerController : MonoBehaviour
 {
-    public int Id { get; set; }
+    private int _id;
+    private string _name;
+    private int _hp;
 
-    public string Name { get; set; }
+    public int Id 
+    { 
+        get => _id; 
+        set => _id = value; 
+    }
+
+    public string Name 
+    { 
+        get => _name; 
+        set => _name = value; 
+    }
+
+    public int Hp 
+    { 
+        get => _hp;
+        set => _hp = Math.Clamp(value, 0, _hp);
+    }
 
     private void Awake()
     {
         this.FindObservables();
+        _hp = 100;
     }
 
 

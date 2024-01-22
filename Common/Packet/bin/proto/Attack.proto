@@ -13,3 +13,13 @@ message C_MeleeAttack {
 message S_MeleeAttack {
 	int32 attackPlayerId = 1;
 }
+
+message C_DamageMelee {
+	int32 targetPlayerId = 1;
+	int32 damage = 2;
+}
+
+message S_DamageMelee {
+	int32 targetPlayerId = 1;
+	int32 damage = 2;
+}

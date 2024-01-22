@@ -8,6 +8,8 @@ TagManager:
   - MyPlayer
   - Melee
   - Structure
+  - ChatContent
+  - EnemyPlayer
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - 
   - Wall
   - Cube
-  - 
+  - Weapon
   - 
   - 
   - 

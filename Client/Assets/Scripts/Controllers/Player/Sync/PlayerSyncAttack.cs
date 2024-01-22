@@ -94,7 +94,21 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
             case S_MeleeAttack:
                 OnSyncMeleeAttack();
                 break;
+            case S_DamageMelee:
+                OnSyncDamageMelee(packet);
+                break;
         }
+    }
+
+    private void OnSyncDamageMelee(IMessage packet)
+    {
+        S_DamageMelee damageMeleePacket = (S_DamageMelee)packet;
+
+        if (damageMeleePacket.TargetPlayerId != playerController.Id)
+            return;
+
+        int getDamagedHp = playerController.Hp - damageMeleePacket.Damage;
+        playerController.Hp = getDamagedHp;
     }
 
     private void OnSyncMeleeAttack()
@@ -103,4 +117,24 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         _playerSyncAnimation.WeaponAttackSwingAnimation();
     }
     #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Melee"))
+        {
+            MeleeWeaponController melee = other.GetComponent<MeleeWeaponController>();
+            SendDamagePacket(playerController.Id, melee.Damage);
+        }
+    }
+
+    private void SendDamagePacket(int targetPlayerId, int damage)
+    {
+        C_DamageMelee damageMeleePacket = new C_DamageMelee()
+        {
+            TargetPlayerId = targetPlayerId,
+            Damage = damage,
+        };
+
+        NetworkManager.Instance.Send(damageMeleePacket);
+    }
 }

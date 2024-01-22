@@ -42,7 +42,9 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SLootItem, MakePacket<S_LootItem>);
 		_handler.Add((ushort)MsgId.SLootItem, PacketHandler.S_LootItemHandler);		
 		_onRecv.Add((ushort)MsgId.SMeleeAttack, MakePacket<S_MeleeAttack>);
-		_handler.Add((ushort)MsgId.SMeleeAttack, PacketHandler.S_MeleeAttackHandler);
+		_handler.Add((ushort)MsgId.SMeleeAttack, PacketHandler.S_MeleeAttackHandler);		
+		_onRecv.Add((ushort)MsgId.SDamageMelee, MakePacket<S_DamageMelee>);
+		_handler.Add((ushort)MsgId.SDamageMelee, PacketHandler.S_DamageMeleeHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

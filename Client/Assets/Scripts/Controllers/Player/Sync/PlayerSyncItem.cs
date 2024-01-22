@@ -166,10 +166,7 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Structure"))
-            return;
-
-        if (_isLootPopUpOpen == false)
+        if (_isLootPopUpOpen == false && other.CompareTag("Weapon"))
         {
             UI_Loot lootUI = UIManager.Instance.ShowPopupUI<UI_Loot>("LootUI");
             _isLootPopUpOpen = true;
@@ -177,7 +174,7 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
             lootUI.ShowLootText(other.gameObject.name);
         }
 
-        if (_nearDropItem == null)
+        if (_nearDropItem == null && other.CompareTag("Weapon"))
         {
             _nearDropItem = other.gameObject.GetComponent<DropItemController>();
         }
@@ -185,8 +182,11 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 
     private void OnTriggerExit(Collider other)
     {
-        UIManager.Instance.ClosePopupUI();
-        _isLootPopUpOpen = false;
-        _nearDropItem = null;
+        if (other.CompareTag("Weapon"))
+        {
+            UIManager.Instance.ClosePopupUI();
+            _isLootPopUpOpen = false;
+            _nearDropItem = null;
+        }
     }
 }
