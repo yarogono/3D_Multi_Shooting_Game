@@ -1,4 +1,5 @@
 using Assets.Scripts.Controllers.Player;
+using Google.Protobuf.Protocol;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private int _id;
     private string _name;
     private int _hp;
+    private CreatureState _state = new CreatureState();
 
     public int Id 
     { 
@@ -28,10 +30,23 @@ public class PlayerController : MonoBehaviour
         set => _hp = Math.Clamp(value, 0, _hp);
     }
 
+    public CreatureState State
+    {
+        get => _state;
+        set
+        {
+            if (_state == value)
+                return;
+
+            _state = value;
+        }
+    }
+
     private void Awake()
     {
         this.FindObservables();
         _hp = 100;
+        _state = CreatureState.Idle;
     }
 
 

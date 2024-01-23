@@ -3,7 +3,7 @@
     {
       "id": "0",
       "name": "Drop_Hammer",
-      "damage": "10",
+      "damage": "15",
       "posX": 5,
       "posY": 1,
       "posZ": 5

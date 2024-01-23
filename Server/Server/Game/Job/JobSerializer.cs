@@ -1,4 +1,4 @@
-﻿namespace Server.Game.Job
+namespace Server.Game.Job
 {
     public class JobSerializer
     {

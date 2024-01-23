@@ -27,16 +27,17 @@ namespace Google.Protobuf.Protocol {
             "CgxBdHRhY2sucHJvdG8SCFByb3RvY29sGg5Qcm90b2NvbC5wcm90byJICg1D",
             "X01lbGVlQXR0YWNrEhYKDmF0dGFja1BsYXllcklkGAEgASgFEh8KB3Bvc0lu",
             "Zm8YAiABKAsyDi5Qcm90b2NvbC5WZWMzIicKDVNfTWVsZWVBdHRhY2sSFgoO",
-            "YXR0YWNrUGxheWVySWQYASABKAUiNwoNQ19EYW1hZ2VNZWxlZRIWCg50YXJn",
-            "ZXRQbGF5ZXJJZBgBIAEoBRIOCgZkYW1hZ2UYAiABKAUiNwoNU19EYW1hZ2VN",
-            "ZWxlZRIWCg50YXJnZXRQbGF5ZXJJZBgBIAEoBRIOCgZkYW1hZ2UYAiABKAVC",
-            "G6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
+            "YXR0YWNrUGxheWVySWQYASABKAUiXgoNQ19EYW1hZ2VNZWxlZRIWCg50YXJn",
+            "ZXRQbGF5ZXJJZBgBIAEoBRIOCgZkYW1hZ2UYAiABKAUSJQoNdGFyZ2V0UG9z",
+            "SW5mbxgDIAEoCzIOLlByb3RvY29sLlZlYzMiNwoNU19EYW1hZ2VNZWxlZRIW",
+            "Cg50YXJnZXRQbGF5ZXJJZBgBIAEoBRIOCgZkYW1hZ2UYAiABKAVCG6oCGEdv",
+            "b2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_MeleeAttack), global::Google.Protobuf.Protocol.C_MeleeAttack.Parser, new[]{ "AttackPlayerId", "PosInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_MeleeAttack), global::Google.Protobuf.Protocol.S_MeleeAttack.Parser, new[]{ "AttackPlayerId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_DamageMelee), global::Google.Protobuf.Protocol.C_DamageMelee.Parser, new[]{ "TargetPlayerId", "Damage" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_DamageMelee), global::Google.Protobuf.Protocol.C_DamageMelee.Parser, new[]{ "TargetPlayerId", "Damage", "TargetPosInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_DamageMelee), global::Google.Protobuf.Protocol.S_DamageMelee.Parser, new[]{ "TargetPlayerId", "Damage" }, null, null, null, null)
           }));
     }
@@ -363,6 +364,7 @@ namespace Google.Protobuf.Protocol {
     public C_DamageMelee(C_DamageMelee other) : this() {
       targetPlayerId_ = other.targetPlayerId_;
       damage_ = other.damage_;
+      targetPosInfo_ = other.targetPosInfo_ != null ? other.targetPosInfo_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -393,6 +395,17 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
+    /// <summary>Field number for the "targetPosInfo" field.</summary>
+    public const int TargetPosInfoFieldNumber = 3;
+    private global::Google.Protobuf.Protocol.Vec3 targetPosInfo_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Google.Protobuf.Protocol.Vec3 TargetPosInfo {
+      get { return targetPosInfo_; }
+      set {
+        targetPosInfo_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as C_DamageMelee);
@@ -408,6 +421,7 @@ namespace Google.Protobuf.Protocol {
       }
       if (TargetPlayerId != other.TargetPlayerId) return false;
       if (Damage != other.Damage) return false;
+      if (!object.Equals(TargetPosInfo, other.TargetPosInfo)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -416,6 +430,7 @@ namespace Google.Protobuf.Protocol {
       int hash = 1;
       if (TargetPlayerId != 0) hash ^= TargetPlayerId.GetHashCode();
       if (Damage != 0) hash ^= Damage.GetHashCode();
+      if (targetPosInfo_ != null) hash ^= TargetPosInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -437,6 +452,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(16);
         output.WriteInt32(Damage);
       }
+      if (targetPosInfo_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(TargetPosInfo);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -450,6 +469,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (Damage != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Damage);
+      }
+      if (targetPosInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(TargetPosInfo);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -468,6 +490,12 @@ namespace Google.Protobuf.Protocol {
       if (other.Damage != 0) {
         Damage = other.Damage;
       }
+      if (other.targetPosInfo_ != null) {
+        if (targetPosInfo_ == null) {
+          TargetPosInfo = new global::Google.Protobuf.Protocol.Vec3();
+        }
+        TargetPosInfo.MergeFrom(other.TargetPosInfo);
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -485,6 +513,13 @@ namespace Google.Protobuf.Protocol {
           }
           case 16: {
             Damage = input.ReadInt32();
+            break;
+          }
+          case 26: {
+            if (targetPosInfo_ == null) {
+              TargetPosInfo = new global::Google.Protobuf.Protocol.Vec3();
+            }
+            input.ReadMessage(TargetPosInfo);
             break;
           }
         }

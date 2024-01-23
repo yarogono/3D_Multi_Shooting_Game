@@ -1,6 +1,7 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using System.Collections;
 using UnityEngine;
 using static Define;
 
@@ -17,6 +18,8 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
     private GameObject _meleeGameObject;
 
     private float _attackDelayTimer;
+
+    private bool _isHit;
 
     private void Awake()
     {
@@ -54,7 +57,6 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         }
         else
         {
-            // ToDo : 총 아이템 => 총 아이템 공격 로직 실행
             Debug.Log("GunAttack");
         }
     }
@@ -122,19 +124,26 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
     {
         if (other.CompareTag("Melee"))
         {
+            if (_isHit)
+                return;
+
+            _isHit = true;
             MeleeWeaponController melee = other.GetComponent<MeleeWeaponController>();
-            SendDamagePacket(playerController.Id, melee.Damage);
+            StartCoroutine(SendDamagePacket(playerController.Id, melee.Damage));
         }
     }
 
-    private void SendDamagePacket(int targetPlayerId, int damage)
+    private IEnumerator SendDamagePacket(int targetPlayerId, int damage)
     {
         C_DamageMelee damageMeleePacket = new C_DamageMelee()
         {
             TargetPlayerId = targetPlayerId,
             Damage = damage,
+            TargetPosInfo = _playerSyncTransform.PosInfo,
         };
-
         NetworkManager.Instance.Send(damageMeleePacket);
+
+        yield return new WaitForSeconds(1.5f);
+        _isHit = false;
     }
 }

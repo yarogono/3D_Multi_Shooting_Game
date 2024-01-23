@@ -58,7 +58,7 @@ namespace Assets.Scripts.Controllers.Player
         #region MyPlayer
         private void UpdateMyPlayerAnimation()
         {
-            switch (_syncTransform.State)
+            switch (playerController.State)
             {
                 case CreatureState.Idle:
                     UpdateMyPlayerIdle();
@@ -84,7 +84,7 @@ namespace Assets.Scripts.Controllers.Player
         #region Enemy Player
         private void UpdateEnemyPlayerAnimation()
         {
-            switch (_syncTransform.State)
+            switch (playerController.State)
             {
                 case CreatureState.Idle:
                     UpdateEnemyPlayerIdle();

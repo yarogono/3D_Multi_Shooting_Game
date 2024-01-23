@@ -56,25 +56,8 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         }
     }
 
-
-    private CreatureState _state = new CreatureState();
-
-    public CreatureState State
-    {
-        get { return _state; }
-        set
-        {
-            if (_state == value)
-                return;
-
-            _state = value;
-        }
-    }
-
     private void Awake()
     {
-        _state = CreatureState.Idle;
-
         _inputController = GetComponent<PlayerInputController>();
     }
 
@@ -121,7 +104,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
         this.PosInfo = new Vec3() { X = networkPos.x, Y = networkPos.y, Z = networkPos.z };
         this._moveSpeed = movePacket.MoveSpeed;
-        State = CreatureState.Moving;
+        playerController.State = CreatureState.Moving;
     }
 
     public double CalSentServerTime(Google.Protobuf.WellKnownTypes.Timestamp serverTimestamp)
@@ -161,14 +144,14 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     {
         if (_movementDirection == Vector3.zero)
         {
-            State = CreatureState.Idle;
+            playerController.State = CreatureState.Idle;
         }
         else
         {
-            State = CreatureState.Moving;
+            playerController.State = CreatureState.Moving;
         }
 
-        switch (State)
+        switch (playerController.State)
         {
             case CreatureState.Idle:
                 UpdateMyPlayerIdle();
@@ -254,7 +237,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     #region Enemy Player
     private void UpdateEnemyPlayer()
     {
-        switch (State)
+        switch (playerController.State)
         {
             case CreatureState.Idle:
                 UpdateEnemyIdle();
@@ -277,7 +260,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
         if (distance <= _syncMargin)
         {
-            State = CreatureState.Idle;
+            playerController.State = CreatureState.Idle;
             return;
         }
 

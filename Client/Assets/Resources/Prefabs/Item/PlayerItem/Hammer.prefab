@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aaa8762c0d0d02439173e7845726072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 25
+  _damage: 15
   _rate: 0.6
   _meleeArea: {fileID: 5786013063925400726}
   _trailEffect: {fileID: 1523232427049844672}
@@ -70,8 +70,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 3.4435875, y: 2.5781941, z: 1.2513332}
-  m_Center: {x: -0.008943677, y: 2.0546143, z: -0.04194376}
+  m_Size: {x: 3.4435875, y: 2.861045, z: 2.1768446}
+  m_Center: {x: -0.008943677, y: 2.1960392, z: 0.09640312}
 --- !u!1 &2704794071813897057
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,10 +43,9 @@ partial class PacketHandler
             return;
 
         Player targetPlayer = ObjectManager.Instance.Find(damageMeleePacket.TargetPlayerId);
-
         if (targetPlayer == null)
             return;
 
-        room.Push(targetPlayer.DamageMelee, damageMeleePacket);
+        room.Push(targetPlayer.DamageMelee, damageMeleePacket, player.PosInfo);
     }
 }

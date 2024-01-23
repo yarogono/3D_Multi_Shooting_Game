@@ -1,6 +1,7 @@
 using Google.Protobuf.Protocol;
 using Server.Data;
 using Server.Session;
+using Server.Utils;
 
 namespace Server.Game.Object
 {
@@ -152,9 +153,17 @@ namespace Server.Game.Object
             Room.Broadcast(resMeleeAttackPacket, this.Id);
         }
 
-        internal void DamageMelee(C_DamageMelee reqDamageMelee)
+        internal void DamageMelee(C_DamageMelee reqDamageMelee, Vec3 attackerPosInfo)
         {
-            // ToDo : 클라이언트 위치에 따른 공격 검증 로직 추가 필요(공격 검증)
+            float targetDistanceMatch = MathUtils.Vector3Distance(reqDamageMelee.TargetPosInfo, this.PosInfo);
+            Console.WriteLine($"Target Match: {targetDistanceMatch}");
+
+            float attackDistance = MathUtils.Vector3Distance(this.PosInfo, attackerPosInfo);
+            if (attackDistance > 1)
+                return;
+
+            Console.WriteLine($"Attack Dis: {attackDistance}");
+
             int getDamagedHp = this.Hp - reqDamageMelee.Damage;
             this.Hp = getDamagedHp;
 
