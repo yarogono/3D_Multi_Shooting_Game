@@ -46,6 +46,6 @@ partial class PacketHandler
         if (targetPlayer == null)
             return;
 
-        room.Push(targetPlayer.DamageMelee, damageMeleePacket, player.PosInfo);
+        room.Push(targetPlayer.DamageMelee, damageMeleePacket, targetPlayer.PosInfo);
     }
 }

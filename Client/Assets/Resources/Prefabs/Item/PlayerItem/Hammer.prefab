@@ -51,6 +51,7 @@ MonoBehaviour:
   _rate: 0.6
   _meleeArea: {fileID: 5786013063925400726}
   _trailEffect: {fileID: 1523232427049844672}
+  _attackRange: 1
 --- !u!65 &5786013063925400726
 BoxCollider:
   m_ObjectHideFlags: 0

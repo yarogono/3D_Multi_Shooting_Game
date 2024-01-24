@@ -27,17 +27,18 @@ namespace Google.Protobuf.Protocol {
             "CgxBdHRhY2sucHJvdG8SCFByb3RvY29sGg5Qcm90b2NvbC5wcm90byJICg1D",
             "X01lbGVlQXR0YWNrEhYKDmF0dGFja1BsYXllcklkGAEgASgFEh8KB3Bvc0lu",
             "Zm8YAiABKAsyDi5Qcm90b2NvbC5WZWMzIicKDVNfTWVsZWVBdHRhY2sSFgoO",
-            "YXR0YWNrUGxheWVySWQYASABKAUiXgoNQ19EYW1hZ2VNZWxlZRIWCg50YXJn",
+            "YXR0YWNrUGxheWVySWQYASABKAUidwoNQ19EYW1hZ2VNZWxlZRIWCg50YXJn",
             "ZXRQbGF5ZXJJZBgBIAEoBRIOCgZkYW1hZ2UYAiABKAUSJQoNdGFyZ2V0UG9z",
-            "SW5mbxgDIAEoCzIOLlByb3RvY29sLlZlYzMiNwoNU19EYW1hZ2VNZWxlZRIW",
-            "Cg50YXJnZXRQbGF5ZXJJZBgBIAEoBRIOCgZkYW1hZ2UYAiABKAVCG6oCGEdv",
-            "b2dsZS5Qcm90b2J1Zi5Qcm90b2NvbGIGcHJvdG8z"));
+            "SW5mbxgDIAEoCzIOLlByb3RvY29sLlZlYzMSFwoPbWVsZWVJdGVtTnVtYmVy",
+            "GAQgASgFIjcKDVNfRGFtYWdlTWVsZWUSFgoOdGFyZ2V0UGxheWVySWQYASAB",
+            "KAUSDgoGZGFtYWdlGAIgASgFQhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9j",
+            "b2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.Protocol.ProtocolReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_MeleeAttack), global::Google.Protobuf.Protocol.C_MeleeAttack.Parser, new[]{ "AttackPlayerId", "PosInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_MeleeAttack), global::Google.Protobuf.Protocol.S_MeleeAttack.Parser, new[]{ "AttackPlayerId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_DamageMelee), global::Google.Protobuf.Protocol.C_DamageMelee.Parser, new[]{ "TargetPlayerId", "Damage", "TargetPosInfo" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.C_DamageMelee), global::Google.Protobuf.Protocol.C_DamageMelee.Parser, new[]{ "TargetPlayerId", "Damage", "TargetPosInfo", "MeleeItemNumber" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_DamageMelee), global::Google.Protobuf.Protocol.S_DamageMelee.Parser, new[]{ "TargetPlayerId", "Damage" }, null, null, null, null)
           }));
     }
@@ -365,6 +366,7 @@ namespace Google.Protobuf.Protocol {
       targetPlayerId_ = other.targetPlayerId_;
       damage_ = other.damage_;
       targetPosInfo_ = other.targetPosInfo_ != null ? other.targetPosInfo_.Clone() : null;
+      meleeItemNumber_ = other.meleeItemNumber_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -406,6 +408,17 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
+    /// <summary>Field number for the "meleeItemNumber" field.</summary>
+    public const int MeleeItemNumberFieldNumber = 4;
+    private int meleeItemNumber_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MeleeItemNumber {
+      get { return meleeItemNumber_; }
+      set {
+        meleeItemNumber_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as C_DamageMelee);
@@ -422,6 +435,7 @@ namespace Google.Protobuf.Protocol {
       if (TargetPlayerId != other.TargetPlayerId) return false;
       if (Damage != other.Damage) return false;
       if (!object.Equals(TargetPosInfo, other.TargetPosInfo)) return false;
+      if (MeleeItemNumber != other.MeleeItemNumber) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -431,6 +445,7 @@ namespace Google.Protobuf.Protocol {
       if (TargetPlayerId != 0) hash ^= TargetPlayerId.GetHashCode();
       if (Damage != 0) hash ^= Damage.GetHashCode();
       if (targetPosInfo_ != null) hash ^= TargetPosInfo.GetHashCode();
+      if (MeleeItemNumber != 0) hash ^= MeleeItemNumber.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -456,6 +471,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(26);
         output.WriteMessage(TargetPosInfo);
       }
+      if (MeleeItemNumber != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(MeleeItemNumber);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -472,6 +491,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (targetPosInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(TargetPosInfo);
+      }
+      if (MeleeItemNumber != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MeleeItemNumber);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -495,6 +517,9 @@ namespace Google.Protobuf.Protocol {
           TargetPosInfo = new global::Google.Protobuf.Protocol.Vec3();
         }
         TargetPosInfo.MergeFrom(other.TargetPosInfo);
+      }
+      if (other.MeleeItemNumber != 0) {
+        MeleeItemNumber = other.MeleeItemNumber;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -520,6 +545,10 @@ namespace Google.Protobuf.Protocol {
               TargetPosInfo = new global::Google.Protobuf.Protocol.Vec3();
             }
             input.ReadMessage(TargetPosInfo);
+            break;
+          }
+          case 32: {
+            MeleeItemNumber = input.ReadInt32();
             break;
           }
         }

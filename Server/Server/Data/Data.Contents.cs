@@ -7,6 +7,7 @@ namespace Server.Data
         public int id;
         public string name;
         public int damage;
+        public int attackRange;
         public int posX;
         public int posY;
         public int posZ;

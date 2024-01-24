@@ -156,13 +156,13 @@ namespace Server.Game.Object
         internal void DamageMelee(C_DamageMelee reqDamageMelee, Vec3 attackerPosInfo)
         {
             float targetDistanceMatch = MathUtils.Vector3Distance(reqDamageMelee.TargetPosInfo, this.PosInfo);
-            Console.WriteLine($"Target Match: {targetDistanceMatch}");
-
-            float attackDistance = MathUtils.Vector3Distance(this.PosInfo, attackerPosInfo);
-            if (attackDistance > 1)
+            if (targetDistanceMatch > 5f)
                 return;
 
-            Console.WriteLine($"Attack Dis: {attackDistance}");
+            float attackDistance = MathUtils.Vector3Distance(this.PosInfo, attackerPosInfo);
+            var meleeItemInfo = DataManager.ItemDict[reqDamageMelee.MeleeItemNumber];
+            if (attackDistance > meleeItemInfo.attackRange)
+                return;
 
             int getDamagedHp = this.Hp - reqDamageMelee.Damage;
             this.Hp = getDamagedHp;

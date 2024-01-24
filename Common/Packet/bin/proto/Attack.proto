@@ -18,6 +18,7 @@ message C_DamageMelee {
 	int32 targetPlayerId = 1;
 	int32 damage = 2;
 	Vec3 targetPosInfo = 3;
+	int32 meleeItemNumber = 4;
 }
 
 message S_DamageMelee {

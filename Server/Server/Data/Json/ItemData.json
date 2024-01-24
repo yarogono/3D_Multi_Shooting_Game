@@ -4,6 +4,7 @@
       "id": "0",
       "name": "Drop_Hammer",
       "damage": "15",
+      "attackRange":  1,
       "posX": 5,
       "posY": 1,
       "posZ": 5
@@ -12,6 +13,7 @@
       "id": "1",
       "name": "Drop_HandGun",
       "damage": "5",
+      "attackRange": 1,
       "posX": 7,
       "posY": 2,
       "posZ": 7
@@ -20,6 +22,7 @@
       "id": "2",
       "name": "Drop_SubMachineGun",
       "damage": "7",
+      "attackRange": 1,
       "posX": 10,
       "posY": 2,
       "posZ": 10

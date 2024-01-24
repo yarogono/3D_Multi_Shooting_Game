@@ -115,7 +115,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 
     private void OnSyncMeleeAttack()
     {
-        _meleeWeaponController.WeaponAttack();
+        _meleeWeaponController.OnSyncWeaponAttack();
         _playerSyncAnimation.WeaponAttackSwingAnimation();
     }
     #endregion
@@ -129,21 +129,22 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 
             _isHit = true;
             MeleeWeaponController melee = other.GetComponent<MeleeWeaponController>();
-            StartCoroutine(SendDamagePacket(playerController.Id, melee.Damage));
+            StartCoroutine(SendDamagePacket(playerController.Id, melee));
         }
     }
 
-    private IEnumerator SendDamagePacket(int targetPlayerId, int damage)
+    private IEnumerator SendDamagePacket(int targetPlayerId, MeleeWeaponController melee)
     {
         C_DamageMelee damageMeleePacket = new C_DamageMelee()
         {
             TargetPlayerId = targetPlayerId,
-            Damage = damage,
+            Damage = melee.Damage,
             TargetPosInfo = _playerSyncTransform.PosInfo,
+            MeleeItemNumber = melee.AttackRange,
         };
         NetworkManager.Instance.Send(damageMeleePacket);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.2f);
         _isHit = false;
     }
 }
