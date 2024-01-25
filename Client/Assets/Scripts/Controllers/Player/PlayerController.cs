@@ -3,14 +3,18 @@ using Google.Protobuf.Protocol;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [AddComponentMenu("Player/PlayerController")]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Slider _hpSlider;
+
     private int _id;
     private string _name;
     private int _hp;
     private CreatureState _state = new CreatureState();
+    private bool _isMine;
 
     public int Id 
     { 
@@ -27,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public int Hp 
     { 
         get => _hp;
-        set => _hp = Math.Clamp(value, 0, _hp);
+        private set => _hp = Math.Clamp(value, 0, _hp);
     }
 
     public CreatureState State
@@ -42,23 +46,44 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool IsMine 
+    { 
+        get => _isMine; 
+        private set => _isMine = value; 
+    }
+
+
     private void Awake()
     {
         this.FindObservables();
         _hp = 100;
+        SetMaxHealth(_hp);
         _state = CreatureState.Idle;
     }
-
-
-    public bool IsMine { get; private set; }
 
     public void SetIsMine(bool isMine)
     {
         this.IsMine = isMine;
     }
 
-    public List<Component> ObservedComponents;
+    public void SetMaxHealth(int health)
+    {
+        _hpSlider.maxValue = health;
+        _hpSlider.value = health;
+    }
 
+    public void GetDamage(int damage)
+    {
+        Debug.Log($"Before: {Hp}");
+        int getDamagedHp = Hp - damage;
+        Hp = getDamagedHp;
+        _hpSlider.value = Hp;
+        Debug.Log($"After: {Hp}");
+    }
+
+
+    #region ObservedComponents
+    public List<Component> ObservedComponents;
 
     public enum ObservableSearch { Manual, AutoFindActive, AutoFindAll }
 
@@ -93,4 +118,5 @@ public class PlayerController : MonoBehaviour
     {
         return gameObj.transform.GetParentComponent<PlayerController>();
     }
+    #endregion
 }

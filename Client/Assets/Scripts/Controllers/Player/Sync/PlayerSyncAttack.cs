@@ -109,8 +109,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         if (damageMeleePacket.TargetPlayerId != playerController.Id)
             return;
 
-        int getDamagedHp = playerController.Hp - damageMeleePacket.Damage;
-        playerController.Hp = getDamagedHp;
+        playerController.GetDamage(damageMeleePacket.Damage);
     }
 
     private void OnSyncMeleeAttack()

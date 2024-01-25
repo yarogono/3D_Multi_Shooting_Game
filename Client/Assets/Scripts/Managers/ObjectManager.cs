@@ -55,7 +55,6 @@ public class ObjectManager : CustomSingleton<ObjectManager>
 
         PlayerController myPlayer = myPlayerGameObject.GetComponent<PlayerController>();
         myPlayer.Id = info.ObjectId;
-        myPlayer.Hp = 100;
         myPlayer.Name = info.Name;
         myPlayer.SetIsMine(true);
         PlayerSyncTransform playerSyncTransform = myPlayerGameObject.GetComponent<PlayerSyncTransform>();
@@ -72,7 +71,6 @@ public class ObjectManager : CustomSingleton<ObjectManager>
         PlayerController enemyPlayer = gameObject.GetComponent<PlayerController>();
         enemyPlayer.Id = info.ObjectId;
         enemyPlayer.Name = info.Name;
-        enemyPlayer.Hp = 100;
         enemyPlayer.SetIsMine(false);
         PlayerSyncTransform enemyPlayerSyncTransform = enemyPlayer.GetComponent<PlayerSyncTransform>();
         enemyPlayerSyncTransform.PosInfo = info.PosInfo;

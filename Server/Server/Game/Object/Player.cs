@@ -173,7 +173,7 @@ namespace Server.Game.Object
                 Damage = reqDamageMelee.Damage,
             };
 
-            Room.Broadcast(resDamageMelee, this.Id);
+            Room.Broadcast(resDamageMelee);
         }
     }
 }
