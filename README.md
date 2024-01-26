@@ -6,7 +6,7 @@
 
 <br/>
 
-# 기술 스택
+# 기술 스택(Tech stack)
 ---
 
 <table>
@@ -40,7 +40,7 @@
 
 <br/>
 
-# 아키텍처
+# 아키텍처(Architecture)
 ---
 
 <img src="https://github.com/yarogono/3D_Multi_Shooting_Game/assets/70641418/6668aefb-4f88-44df-bb90-bf37e9607623">
