@@ -7,12 +7,12 @@ public class PlayerCameraController : MonoBehaviour
 
     private Transform target;
 
-    public void TargetSetting(Transform target)
+    private void Start()
     {
-        this.target = target;
+        target = ObjectManager.Instance.MyPlayer.gameObject.transform;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (target != null)
             transform.position = target.position + offset;

@@ -524,6 +524,7 @@ GameObject:
   - component: {fileID: 6937661691742340683}
   - component: {fileID: -4176546206156383925}
   - component: {fileID: 8492777399764930498}
+  - component: {fileID: 2965009626205403213}
   m_Layer: 0
   m_Name: EnemyPlayer
   m_TagString: EnemyPlayer
@@ -583,7 +584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ba49b0b3d8f2a4088106aa0643193f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hpSlider: {fileID: 6622367778149224489}
+  _hpBar: {fileID: 6622367778149224489}
   ObservedComponents: []
   observableSearch: 2
 --- !u!114 &3084106579633461202
@@ -643,6 +644,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 689f0c94a5ba3ec4fbf85fb20bf31a9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2965009626205403213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470357823029104312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bff557ef7f534745bc099bb17d88c68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthBar: {fileID: 261805027642063127}
 --- !u!1 &6488299858336549421
 GameObject:
   m_ObjectHideFlags: 0

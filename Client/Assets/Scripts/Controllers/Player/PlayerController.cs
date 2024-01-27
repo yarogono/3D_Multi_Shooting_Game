@@ -8,7 +8,7 @@ using UnityEngine.UI;
 [AddComponentMenu("Player/PlayerController")]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Slider _hpSlider;
+    [SerializeField] private Slider _hpBar;
 
     private int _id;
     private string _name;
@@ -68,15 +68,15 @@ public class PlayerController : MonoBehaviour
 
     public void SetMaxHealth(int health)
     {
-        _hpSlider.maxValue = health;
-        _hpSlider.value = health;
+        _hpBar.maxValue = health;
+        _hpBar.value = health;
     }
 
     public void GetDamage(int damage)
     {
         int getDamagedHp = Hp - damage;
         Hp = getDamagedHp;
-        _hpSlider.value = Hp;
+        _hpBar.value = Hp;
     }
 
 

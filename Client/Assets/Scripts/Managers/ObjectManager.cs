@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class ObjectManager : CustomSingleton<ObjectManager>
 {
-    public PlayerController MyPlayer { get; set; }
-    readonly Dictionary<int, GameObject> _objects = new();
+    private readonly Dictionary<int, GameObject> _objects = new();
+    private PlayerController _myPlayer;
+    private PlayerCameraController _mainCamera;
+
+    public PlayerController MyPlayer 
+    { 
+        get => _myPlayer; 
+        private set => _myPlayer = value; 
+    }
+    public PlayerCameraController MainCamera 
+    { 
+        get => _mainCamera; 
+        private set => _mainCamera = value; 
+    }
+
 
     public static GameObjectType GetObjectTypeById(int id)
     {
@@ -46,9 +59,8 @@ public class ObjectManager : CustomSingleton<ObjectManager>
         GameObject cameraGameObject = ResourceManager.Instance.Instantiate("MainCamera");
         GameObject myPlayerGameObject = ResourceManager.Instance.Instantiate("Player/MyPlayer");
 
-        PlayerCameraController _controller = cameraGameObject.GetComponent<PlayerCameraController>();
-        Transform target = myPlayerGameObject.GetComponent<Transform>();
-        _controller.TargetSetting(target);
+        PlayerCameraController cameraController = cameraGameObject.GetComponent<PlayerCameraController>();
+        MainCamera = cameraController;
 
         myPlayerGameObject.name = info.Name;
         _objects.Add(info.ObjectId, myPlayerGameObject);
@@ -64,11 +76,11 @@ public class ObjectManager : CustomSingleton<ObjectManager>
 
     private void AddEnemyPlayer(ObjectInfo info)
     {
-        GameObject gameObject = ResourceManager.Instance.Instantiate("Player/EnemyPlayer");
+        GameObject enemyGameObject = ResourceManager.Instance.Instantiate("Player/EnemyPlayer");
 
         _objects.Add(info.ObjectId, gameObject);
 
-        PlayerController enemyPlayer = gameObject.GetComponent<PlayerController>();
+        PlayerController enemyPlayer = enemyGameObject.GetComponent<PlayerController>();
         enemyPlayer.Id = info.ObjectId;
         enemyPlayer.Name = info.Name;
         enemyPlayer.SetIsMine(false);

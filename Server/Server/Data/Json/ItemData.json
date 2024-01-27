@@ -4,7 +4,7 @@
       "id": "0",
       "name": "Drop_Hammer",
       "damage": "15",
-      "attackRange":  1,
+      "attackRange":  2,
       "posX": 5,
       "posY": 1,
       "posZ": 5

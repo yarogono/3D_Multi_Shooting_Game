@@ -827,6 +827,7 @@ GameObject:
   - component: {fileID: -8162548859666162617}
   - component: {fileID: -4240753501037477091}
   - component: {fileID: 3306970367865201969}
+  - component: {fileID: 5864703232752076374}
   m_Layer: 0
   m_Name: MyPlayer
   m_TagString: MyPlayer
@@ -967,7 +968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ba49b0b3d8f2a4088106aa0643193f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hpSlider: {fileID: 8983690095537123187}
+  _hpBar: {fileID: 8983690095537123187}
   ObservedComponents: []
   observableSearch: 2
 --- !u!114 &-6773896491000546529
@@ -1027,6 +1028,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 689f0c94a5ba3ec4fbf85fb20bf31a9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5864703232752076374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684022663209458036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bff557ef7f534745bc099bb17d88c68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthBar: {fileID: 8835974127337492736}
 --- !u!1 &6092943947472575045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,7 +1150,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6443189852296652122}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.0032175428, y: 0.0012585465, z: 1}
   m_ConstrainProportionsScale: 0
