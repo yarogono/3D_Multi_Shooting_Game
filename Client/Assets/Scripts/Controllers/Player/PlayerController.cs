@@ -74,11 +74,9 @@ public class PlayerController : MonoBehaviour
 
     public void GetDamage(int damage)
     {
-        Debug.Log($"Before: {Hp}");
         int getDamagedHp = Hp - damage;
         Hp = getDamagedHp;
         _hpSlider.value = Hp;
-        Debug.Log($"After: {Hp}");
     }
 
 

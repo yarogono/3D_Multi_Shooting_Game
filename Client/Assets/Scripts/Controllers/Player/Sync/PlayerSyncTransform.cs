@@ -27,33 +27,16 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private Vec3 _positionInfo = new Vec3();
     public Vec3 PosInfo
     {
-        get { return _positionInfo; }
-        set
-        {
-            if (_positionInfo.Equals(value))
-                return;
-
-            CellPos = new Vector3(value.X, value.Y, value.Z);
-        }
-    }
-
-
-    public Vector3 CellPos
-    {
         get
         {
-            return new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
+            return new Vec3()
+            {
+                X = _positionInfo.X,
+                Y = _positionInfo.Y,
+                Z = _positionInfo.Z,
+            };
         }
-
-        set
-        {
-            if (PosInfo.X == value.x && PosInfo.Y == value.y)
-                return;
-
-            PosInfo.X = value.x;
-            PosInfo.Y = value.y;
-            PosInfo.Z = value.z;
-        }
+        set => _positionInfo = value;
     }
 
     private void Awake()
@@ -97,12 +80,12 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     {
         double sentServerTime = CalSentServerTime(movePacket.ServerTimestamp);
         float lag = Mathf.Abs((float)(ClientNetworkTime(sentServerTime) - sentServerTime));
-        this.PosInfo = movePacket.PosInfo;
+        Vec3 movePacketPos = movePacket.PosInfo;
 
-        Vector3 networkPos = new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
+        Vector3 networkPos = new Vector3(movePacketPos.X, movePacketPos.Y, movePacketPos.Z);
         networkPos += this._direction * lag;
 
-        this.PosInfo = new Vec3() { X = networkPos.x, Y = networkPos.y, Z = networkPos.z };
+        this._movementDirection = networkPos;
         this._moveSpeed = movePacket.MoveSpeed;
         playerController.State = CreatureState.Moving;
     }
@@ -144,14 +127,14 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     {
         if (_movementDirection == Vector3.zero)
         {
-            playerController.State = CreatureState.Idle;
+            this.playerController.State = CreatureState.Idle;
         }
         else
         {
-            playerController.State = CreatureState.Moving;
+            this.playerController.State = CreatureState.Moving;
         }
 
-        switch (playerController.State)
+        switch (this.playerController.State)
         {
             case CreatureState.Idle:
                 UpdateMyPlayerIdle();
@@ -255,19 +238,18 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
     private void UpdateEnemyPlayerMoving()
     {
-        Vector3 destPos = new Vector3(PosInfo.X, PosInfo.Y, PosInfo.Z);
-        float distance = Vector3.Distance(transform.position, destPos);
+        float distance = Vector3.Distance(transform.position, _movementDirection);
 
-        if (distance <= _syncMargin)
-        {
-            playerController.State = CreatureState.Idle;
-            return;
-        }
-
-        Vector3 nextPosition = Vector3.MoveTowards(transform.position, destPos, distance * Time.deltaTime * 10);
+        Vector3 nextPosition = Vector3.MoveTowards(transform.position, _movementDirection, distance * Time.deltaTime * 10);
 
         Vector3 moveDir = nextPosition - transform.position;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveDir), Time.deltaTime * _rotationSpeed);
+
+        if (distance <= _syncMargin)
+        {
+            this.playerController.State = CreatureState.Idle;
+            return;
+        }
 
         // 다음 위치로 이동
         transform.position = nextPosition;
