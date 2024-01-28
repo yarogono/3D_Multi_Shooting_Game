@@ -25,7 +25,9 @@ public class HealthBarController : MonoBehaviour
     void LateUpdate()
     {
         if (_camTransform != null)
-            _healthBar.LookAt(_camTransform.position);
+        {
+            _healthBar.forward = -_camTransform.forward;
+        }
     }
 
     public void CameraSetting()
