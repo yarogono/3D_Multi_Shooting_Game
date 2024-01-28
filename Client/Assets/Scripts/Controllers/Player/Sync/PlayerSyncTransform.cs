@@ -87,7 +87,6 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
         this._movementDirection = networkPos;
         this._moveSpeed = movePacket.MoveSpeed;
-        playerController.State = CreatureState.Moving;
     }
 
     public double CalSentServerTime(Google.Protobuf.WellKnownTypes.Timestamp serverTimestamp)
@@ -220,6 +219,15 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     #region Enemy Player
     private void UpdateEnemyPlayer()
     {
+        if (_movementDirection == Vector3.zero)
+        {
+            this.playerController.State = CreatureState.Idle;
+        }
+        else
+        {
+            this.playerController.State = CreatureState.Moving;
+        }
+
         switch (playerController.State)
         {
             case CreatureState.Idle:

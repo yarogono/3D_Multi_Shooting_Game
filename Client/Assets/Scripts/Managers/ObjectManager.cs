@@ -13,6 +13,7 @@ public class ObjectManager : CustomSingleton<ObjectManager>
         get => _myPlayer; 
         private set => _myPlayer = value; 
     }
+
     public PlayerCameraController MainCamera 
     { 
         get => _mainCamera; 
@@ -78,7 +79,7 @@ public class ObjectManager : CustomSingleton<ObjectManager>
     {
         GameObject enemyGameObject = ResourceManager.Instance.Instantiate("Player/EnemyPlayer");
 
-        _objects.Add(info.ObjectId, gameObject);
+        _objects.Add(info.ObjectId, enemyGameObject);
 
         PlayerController enemyPlayer = enemyGameObject.GetComponent<PlayerController>();
         enemyPlayer.Id = info.ObjectId;
