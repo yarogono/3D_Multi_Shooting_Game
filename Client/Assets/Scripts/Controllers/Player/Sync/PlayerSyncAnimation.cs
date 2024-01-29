@@ -1,7 +1,7 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using System.Collections;
 using UnityEngine;
-using static Define;
 
 namespace Assets.Scripts.Controllers.Player
 {
@@ -10,13 +10,15 @@ namespace Assets.Scripts.Controllers.Player
     public class PlayerSyncAnimation : BasePlayerSyncController, ISyncObservable
     {
         private Animator _anim;
-
         private PlayerSyncTransform _syncTransform;
+        private MeshRenderer[] _meshs;
+
 
         private void Awake()
         {
+            _syncTransform = GetComponent<PlayerSyncTransform>();
             _anim = GetComponentInChildren<Animator>();
-            _syncTransform = GetComponentInChildren<PlayerSyncTransform>();
+            _meshs = GetComponentsInChildren<MeshRenderer>();
         }
 
 
@@ -31,6 +33,30 @@ namespace Assets.Scripts.Controllers.Player
                 UpdateEnemyPlayerAnimation();
             }
 
+        }
+
+        public void GetDamageAnimation()
+        {
+            StartCoroutine(GetDamageAnimationCo());
+        }
+
+        private IEnumerator GetDamageAnimationCo()
+        {
+            if (playerController.Hp <= 0)
+            {
+                foreach (MeshRenderer mesh in _meshs)
+                    mesh.material.color = Color.gray;
+
+                yield break;
+            }
+
+            foreach (MeshRenderer mesh in _meshs)
+                mesh.material.color = Color.red;
+
+            yield return new WaitForSeconds(0.1f);
+
+            foreach (MeshRenderer mesh in _meshs)
+                mesh.material.color = Color.white;
         }
 
         public void WeaponSwapAnimation()

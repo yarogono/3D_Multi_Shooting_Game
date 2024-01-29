@@ -110,6 +110,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
             return;
 
         playerController.GetDamage(damageMeleePacket.Damage);
+        _playerSyncAnimation.GetDamageAnimation();
     }
 
     private void OnSyncMeleeAttack()
