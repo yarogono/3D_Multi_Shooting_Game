@@ -1,7 +1,7 @@
 using AccountServer.DB;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
-using System;
+using AccountServer.Utils;
 
 namespace AccountServer
 {
@@ -37,6 +37,10 @@ namespace AccountServer
             });
 
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddSingleton<PasswordEncryptor>();
 
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                        .AddEnvironmentVariables();

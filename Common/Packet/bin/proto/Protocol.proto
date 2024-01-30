@@ -75,7 +75,6 @@ message S_Ping {
 }
 
 message C_Pong {
-	google.protobuf.Timestamp clientTimestamp = 1;
 }
 
 message ObjectInfo {

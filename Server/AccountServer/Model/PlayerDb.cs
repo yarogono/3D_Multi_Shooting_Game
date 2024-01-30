@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace AccountServer.Model
@@ -9,8 +9,16 @@ namespace AccountServer.Model
         [Key]
         public int PlayerId { get; set; }
 
+        [Required]
+        public string PlayerAccountName { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
         public string Nickname { get; set; }
 
+        [Required]
         public DateTime CreatedAt { get; set; }
     }
 }

@@ -16,12 +16,12 @@ namespace Server.Session
         List<ArraySegment<byte>> _reserveQueue = new List<ArraySegment<byte>>();
 
         #region Ping Pong Check
-        long _pingpongTick = 0;
+        private long _pingpongTick = 0;
         public void Ping()
         {
             if (_pingpongTick > 0)
             {
-                long delta = (System.Environment.TickCount64 - _pingpongTick);
+                long delta = (Environment.TickCount64 - _pingpongTick);
                 if (delta > 30 * 1000)
                 {
                     Console.WriteLine("Disconnected by PingCheck");
@@ -40,7 +40,7 @@ namespace Server.Session
 
         public void HandlePong()
         {
-            _pingpongTick = System.Environment.TickCount64;
+            _pingpongTick = Environment.TickCount64;
         }
         #endregion
 
@@ -77,13 +77,13 @@ namespace Server.Session
             lock (_lock)
             {
                 // 0.1초가 지났거나, 너무 패킷이 많이 모일 때 (1만 바이트)
-                long delta = (System.Environment.TickCount64 - _lastSendTick);
+                long delta = (Environment.TickCount64 - _lastSendTick);
                 if (delta < 100 && _reservedSendBytes < 10000)
                     return;
 
                 // 패킷 모아 보내기
                 _reservedSendBytes = 0;
-                _lastSendTick = System.Environment.TickCount64;
+                _lastSendTick = Environment.TickCount64;
 
                 sendList = _reserveQueue;
                 _reserveQueue = new List<ArraySegment<byte>>();
