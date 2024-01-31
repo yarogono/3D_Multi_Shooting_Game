@@ -5,7 +5,7 @@ namespace AccountServer.DB
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<PlayerDb> Player { get; set; }
+        public DbSet<AccountDb> Accounts { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -14,8 +14,8 @@ namespace AccountServer.DB
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<PlayerDb>()
-                .HasIndex(p => p.PlayerId)
+            builder.Entity<AccountDb>()
+                .HasIndex(a => a.AccountId)
                 .IsUnique();
         }
     }

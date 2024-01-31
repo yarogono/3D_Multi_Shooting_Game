@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AccountServer.Model
 {
-    [Table("Player")]
-    public class PlayerDb
+    [Table("Account")]
+    public class AccountDb
     {
         [Key]
-        public int PlayerId { get; set; }
+        public int AccountId { get; set; }
 
         [Required]
-        public string PlayerAccountName { get; set; }
+        public string AccountName { get; set; }
 
         [Required]
         public string Password { get; set; }
