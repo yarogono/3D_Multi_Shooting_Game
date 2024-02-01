@@ -3,18 +3,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AccountServer.DB
 {
-    public class AppDbContext : DbContext
+    public class DataContext : DbContext
     {
-        public DbSet<AccountDb> Accounts { get; set; }
+        public DbSet<Account> Accounts { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<AccountDb>()
+            builder.Entity<Account>()
                 .HasIndex(a => a.AccountId)
                 .IsUnique();
         }

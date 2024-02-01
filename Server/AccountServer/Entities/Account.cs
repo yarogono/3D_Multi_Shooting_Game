@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace AccountServer.Model
 {
     [Table("Account")]
-    public class AccountDb
+    public class Account
     {
         [Key]
         public int AccountId { get; set; }

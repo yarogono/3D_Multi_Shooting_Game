@@ -27,7 +27,7 @@ namespace AccountServer
 
             string connectionString = configuration.GetConnectionString("MyConnection");
 
-            builder.Services.AddDbContext<AppDbContext>(options =>
+            builder.Services.AddDbContext<DataContext>(options =>
                 options.UseMySQL(connectionString));
 
             builder.Services.AddControllers().AddJsonOptions(options =>
