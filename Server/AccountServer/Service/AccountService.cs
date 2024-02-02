@@ -2,7 +2,7 @@ using AccountServer.Model;
 using AccountServer.Service.Contract;
 using AccountServer.Utils;
 using AccountServer.Repository.Contract;
-using System.Security.Principal;
+using AutoMapper;
 
 namespace AccountServer.Service
 {
@@ -10,11 +10,13 @@ namespace AccountServer.Service
     {
         private readonly IAccountRepository _accountRepository;
         private readonly PasswordEncryptor _passwordEncryptor;
+        private readonly IMapper _mapper;
 
-        public AccountService(PasswordEncryptor passwordEncryptor, IAccountRepository accountRepository)
+        public AccountService(PasswordEncryptor passwordEncryptor, IAccountRepository accountRepository, IMapper mapper)
         {
             _passwordEncryptor = passwordEncryptor;
             _accountRepository = accountRepository;
+            _mapper = mapper;
         }
         public async Task<ServiceResponse<AccountSignupResDto>> AddAccount(AccountSignupReqDto req)
         {
@@ -26,17 +28,25 @@ namespace AccountServer.Service
             {
                 string encryptPassword = _passwordEncryptor.Encrypt(req.Password);
 
-                //Account newAccount = new Account()
-                //{
-                //    AccountName = req.AccountName,
-                //    Password = encryptPassword,
-                //    Nickname = req.Nickname,
-                //    CreatedAt = DateTime.Now,
-                //};
-                //EntityEntry<Account> addedAccount = _context.Accounts.Add(newAccount);
+                Account newAccount = new Account()
+                {
+                    AccountName = req.AccountName,
+                    Password = encryptPassword,
+                    Nickname = req.Nickname,
+                    CreatedAt = DateTime.Now,
+                };
 
-                //_context.SaveChanges();
+                bool isAddAccountSucced = await _accountRepository.AddAccount(newAccount);
+                if (isAddAccountSucced == false)
+                {
+                    res.Error = "RepoError";
+                    res.Success = false;
+                    res.Data = null;
+                    return res;
+                }
 
+                res.Success = true;
+                res.Message = "Created";
                 //res.AccountId = addedAccount.Entity.AccountId;
                 //res.IsSignupSucceed = true;
             }
@@ -71,6 +81,5 @@ namespace AccountServer.Service
 
             return res;
         }
-
     }
 }

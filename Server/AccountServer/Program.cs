@@ -42,6 +42,8 @@ namespace AccountServer
 
             builder.Services.AddSingleton<PasswordEncryptor>();
 
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                        .AddEnvironmentVariables();
 
