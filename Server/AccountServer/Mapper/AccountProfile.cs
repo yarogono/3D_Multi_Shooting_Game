@@ -9,6 +9,9 @@ namespace AccountServer.Mapper
         {
             CreateMap<Account, AccountLoginReqDto>().ReverseMap();
             CreateMap<Account, AccountLoginResDto>().ReverseMap();
+
+            CreateMap<Account, AccountSignupReqDto>().ReverseMap();
+            CreateMap<Account, AccountSignupResDto>().ReverseMap();
         }
     }
 }

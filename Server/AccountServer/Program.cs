@@ -2,6 +2,10 @@ using AccountServer.DB;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using AccountServer.Utils;
+using AccountServer.Service.Contract;
+using AccountServer.Service;
+using AccountServer.Repository.Contract;
+using AccountServer.Repository;
 
 namespace AccountServer
 {
@@ -27,27 +31,34 @@ namespace AccountServer
 
             string connectionString = configuration.GetConnectionString("MyConnection");
 
-            builder.Services.AddDbContext<DataContext>(options =>
-                options.UseMySQL(connectionString));
-
-            builder.Services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                options.JsonSerializerOptions.DictionaryKeyPolicy = null;
-            });
-
-            builder.Services.AddSwaggerGen();
-
-            builder.Services.AddControllersWithViews();
-
-            builder.Services.AddSingleton<PasswordEncryptor>();
-
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            ConfigureServices(builder.Services, connectionString);
 
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                        .AddEnvironmentVariables();
 
             return builder.Build();
+        }
+
+        private static void ConfigureServices(IServiceCollection services, string connectionString)
+        {
+            services.AddDbContext<DataContext>(options =>
+                                            options.UseMySQL(connectionString));
+
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+            });
+
+            services.AddSwaggerGen();
+
+            services.AddScoped<IAccountService,  AccountService>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddSingleton<PasswordEncryptor>();
+
+            services.AddControllersWithViews();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         private static void WebApplicationSetting(WebApplication app)

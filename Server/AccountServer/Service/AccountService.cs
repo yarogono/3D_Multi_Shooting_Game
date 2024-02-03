@@ -46,13 +46,14 @@ namespace AccountServer.Service
                 }
 
                 res.Success = true;
+                res.Data = _mapper.Map<AccountSignupResDto>(newAccount);
                 res.Message = "Created";
-                //res.AccountId = addedAccount.Entity.AccountId;
-                //res.IsSignupSucceed = true;
             }
             else
             {
-                //res.IsSignupSucceed = false;
+                res.Message = "Duplicated Account";
+                res.Success = false;
+                res.Data = null;
             }
 
             return res;
@@ -67,10 +68,8 @@ namespace AccountServer.Service
             if (account != null || _passwordEncryptor.IsmatchPassword(req.Password, account.Password))
             {
                 res.Success = true;
-                //res.Data = 
-                //res.AccountId = account.AccountId;
-                //res.Nickname = account.Nickname;
-                //res.IsLoginSucceed = true;
+                res.Data = _mapper.Map<AccountLoginResDto>(account);
+                res.Message = "ok";
             }
             else
             {
