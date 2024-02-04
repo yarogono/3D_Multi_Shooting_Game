@@ -6,6 +6,10 @@ using AccountServer.Service.Contract;
 using AccountServer.Service;
 using AccountServer.Repository.Contract;
 using AccountServer.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AccountServer
 {
@@ -33,8 +37,11 @@ namespace AccountServer
 
             ConfigureServices(builder.Services, connectionString);
 
+            Authentication(builder.Services, builder.Configuration);
+
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                        .AddEnvironmentVariables();
+
 
             return builder.Build();
         }
@@ -52,13 +59,30 @@ namespace AccountServer
 
             services.AddSwaggerGen();
 
-            services.AddScoped<IAccountService,  AccountService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddSingleton<PasswordEncryptor>();
 
             services.AddControllersWithViews();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        }
+
+        private static void Authentication(IServiceCollection services, ConfigurationManager configuration)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+                .AddCookie()
+                .AddGoogle(googleOptions =>
+                {
+                    googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+                    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+                    googleOptions.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
+                }
+            );
         }
 
         private static void WebApplicationSetting(WebApplication app)
@@ -82,6 +106,7 @@ namespace AccountServer
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
