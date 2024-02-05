@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 namespace AccountServer.Controllers
 {
@@ -33,32 +34,45 @@ namespace AccountServer.Controllers
             return Ok(res);
         }
 
-        //[Route("google-login")]
-        //public IActionResult GoogleLogin()
-        //{
-        //    var properties = new AuthenticationProperties
-        //    {
-        //        RedirectUri = Url.Action("GoogleResponse")
-        //    };
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("test")]
+        public IEnumerable<string> TestGet()
+        {
+            List<string> testList = new List<string>()
+            {
+                "Test1", "Test2", "Test3"
+            };
 
-        //    return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        //}
+            return testList;
+        }
 
-        //[Route("google-reponse")]
-        //public async Task<IActionResult> GoogleResponse()
-        //{
-        //    var result = await HttpContext.AuthenticateAsync();
+        [Route("google-login")]
+        public IActionResult GoogleLogin()
+        {
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            };
 
-        //    var claims = result.Principal.Identities.FirstOrDefault()
-        //        .Claims.Select(claim => new
-        //        {
-        //            claim.Issuer,
-        //            claim.OriginalIssuer,
-        //            claim.Type,
-        //            claim.Value
-        //        });
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
 
-        //    return Json(claims);
-        //}
+        [Route("google-reponse")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync();
+
+            var claims = result.Principal.Identities.FirstOrDefault()
+                .Claims.Select(claim => new
+                {
+                    claim.Issuer,
+                    claim.OriginalIssuer,
+                    claim.Type,
+                    claim.Value
+                });
+
+            return Json(claims);
+        }
     }
 }

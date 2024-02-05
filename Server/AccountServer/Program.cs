@@ -102,7 +102,6 @@ namespace AccountServer
             app.UseForwardedHeaders();
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
             app.UseRouting();
 
