@@ -8,7 +8,6 @@ using AccountServer.Repository.Contract;
 using AccountServer.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication;
 
 namespace AccountServer
@@ -61,6 +60,8 @@ namespace AccountServer
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IOauthService, OauthService>();
+            services.AddScoped<IOauthRepository, OauthRepository>();
             services.AddSingleton<PasswordEncryptor>();
 
             services.AddControllersWithViews();

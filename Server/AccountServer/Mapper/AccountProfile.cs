@@ -1,4 +1,4 @@
-using AccountServer.Model;
+using AccountServer.Entities;
 using AutoMapper;
 
 namespace AccountServer.Mapper

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace AccountServer.Model
+namespace AccountServer.Entities
 {
     [Table("Account")]
     public class Account
@@ -20,5 +20,7 @@ namespace AccountServer.Model
 
         [Required]
         public DateTime CreatedAt { get; set; }
+
+        public DateTime ExpiredAt { get; set; }
     }
 }

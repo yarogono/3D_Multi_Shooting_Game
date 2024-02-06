@@ -1,5 +1,5 @@
 using AccountServer.DB;
-using AccountServer.Model;
+using AccountServer.Entities;
 using AccountServer.Repository.Contract;
 using Microsoft.EntityFrameworkCore;
 

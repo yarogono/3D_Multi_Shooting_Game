@@ -1,4 +1,6 @@
-using AccountServer.Model;
+
+
+using AccountServer.Entities;
 
 namespace AccountServer.Repository.Contract
 {

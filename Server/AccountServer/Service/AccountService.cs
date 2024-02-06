@@ -1,4 +1,4 @@
-using AccountServer.Model;
+using AccountServer.Entities;
 using AccountServer.Service.Contract;
 using AccountServer.Utils;
 using AccountServer.Repository.Contract;
