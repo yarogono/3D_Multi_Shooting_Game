@@ -16,7 +16,7 @@ namespace AccountServer.Entities
         [Required]
         public OauthType OauthType { get; set; }
 
-        [ForeignKey("accountId")]
-        public Account AccountId { get; set; }
+        [ForeignKey("AccountId")]
+        public Account? Account { get; set; }
     }
 }

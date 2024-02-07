@@ -3,6 +3,7 @@ using System;
 using AccountServer.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccountServer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240206160927_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,6 +60,9 @@ namespace AccountServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<string>("OauthToken")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -64,28 +70,25 @@ namespace AccountServer.Migrations
                     b.Property<int>("OauthType")
                         .HasColumnType("int");
 
-                    b.Property<int>("accountId")
-                        .HasColumnType("int");
-
                     b.HasKey("OauthId");
+
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("OauthId")
                         .IsUnique();
-
-                    b.HasIndex("accountId");
 
                     b.ToTable("Oauth");
                 });
 
             modelBuilder.Entity("AccountServer.Entities.Oauth", b =>
                 {
-                    b.HasOne("AccountServer.Entities.Account", "AccountId")
+                    b.HasOne("AccountServer.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("accountId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AccountId");
+                    b.Navigation("Account");
                 });
 #pragma warning restore 612, 618
         }

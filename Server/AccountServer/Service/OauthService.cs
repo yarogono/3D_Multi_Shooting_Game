@@ -1,9 +1,9 @@
+using AccountServer.Entities;
 using AccountServer.Repository.Contract;
 using AccountServer.Service.Contract;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
-using System.Security.Principal;
 
 namespace AccountServer.Service
 {
@@ -17,7 +17,7 @@ namespace AccountServer.Service
             _oauthRepository = oauthRepository;
         }
 
-        public async Task<ServiceResponse<GoogleLoginResDto>> GoogleLogin(AuthenticateResult result)
+        public async Task<ServiceResponse<GoogleLoginResDto>> GoogleLogin(AuthenticateResult result, string token)
         {
             ServiceResponse<GoogleLoginResDto> res = new();
 
@@ -27,6 +27,7 @@ namespace AccountServer.Service
 
                 string email = principal.FindFirstValue(ClaimTypes.Email);
                 string name = principal.FindFirstValue(ClaimTypes.Name);
+                string accessToken = result.Properties.GetTokenValue("access_token");
 
                 res.Success = true;
                 res.Message = "Google Login";
@@ -35,6 +36,23 @@ namespace AccountServer.Service
                     email = email,
                     name = name,
                 };
+
+                Account newAccount = new Account()
+                {
+                    AccountName = email,
+                    CreatedAt = DateTime.Now,
+                    Nickname = name,
+                    Password = "",
+                };
+
+                Oauth newOauth = new Oauth()
+                {
+                    OauthToken = accessToken,
+                    OauthType = Utils.Define.OauthType.Google,
+                    Account = newAccount,
+                };
+
+                _oauthRepository.AddAccountOauth(newOauth, newAccount);
             }
             else
             {

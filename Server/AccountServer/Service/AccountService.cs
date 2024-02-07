@@ -65,7 +65,7 @@ namespace AccountServer.Service
 
             Account account = await _accountRepository.GetAccountByAccountnameAsync(req.AccountName);
 
-            if (account != null || _passwordEncryptor.IsmatchPassword(req.Password, account.Password))
+            if (account != null && _passwordEncryptor.IsmatchPassword(req.Password, account.Password))
             {
                 res.Success = true;
                 res.Data = _mapper.Map<AccountLoginResDto>(account);

@@ -13,11 +13,17 @@ namespace AccountServer.Repository
             _dataContext = dataContext;
         }
 
-        public async Task<Oauth> AddAccountOauth(Oauth oauth)
+        public async Task<bool> AddAccountOauth(Oauth oauth, Account account)
         {
+            await _dataContext.Accounts.AddAsync(account);
             await _dataContext.Oauths.AddAsync(oauth);
 
-            return null;
+            return await Save();
+        }
+
+        public async Task<bool> Save()
+        {
+            return await _dataContext.SaveChangesAsync() >= 0 ? true : false;
         }
     }
 }

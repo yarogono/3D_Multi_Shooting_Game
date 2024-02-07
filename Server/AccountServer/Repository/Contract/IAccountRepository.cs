@@ -1,5 +1,3 @@
-
-
 using AccountServer.Entities;
 
 namespace AccountServer.Repository.Contract

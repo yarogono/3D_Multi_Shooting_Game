@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using AccountServer.Service.Contract;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace AccountServer.Controllers
 {
@@ -18,11 +19,21 @@ namespace AccountServer.Controllers
 
         [HttpGet]
         [Route("google-login")]
+        public async Task Login()
+        {
+            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties()
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            });
+        }
+
+        [HttpGet]
         public async Task<ActionResult<GoogleLoginResDto>> GoogleResponse()
         {
             AuthenticateResult result = await HttpContext.AuthenticateAsync();
+            string token = await HttpContext.GetTokenAsync("access_token");
 
-            var res = _oauthService.GoogleLogin(result);
+            var res = _oauthService.GoogleLogin(result, token);
             
             return Ok(res.Result);
         }

@@ -8,7 +8,6 @@ using AccountServer.Repository.Contract;
 using AccountServer.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication;
 
 namespace AccountServer
 {
@@ -81,7 +80,7 @@ namespace AccountServer
                 {
                     googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
                     googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-                    googleOptions.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
+                    googleOptions.SaveTokens = true;
                 }
             );
         }

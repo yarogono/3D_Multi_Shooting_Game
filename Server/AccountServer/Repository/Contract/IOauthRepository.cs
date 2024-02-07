@@ -4,6 +4,6 @@ namespace AccountServer.Repository.Contract
 {
     public interface IOauthRepository
     {
-        Task<Oauth> AddAccountOauth(Oauth oauth);
+        Task<bool> AddAccountOauth(Oauth oauth, Account account);
     }
 }
