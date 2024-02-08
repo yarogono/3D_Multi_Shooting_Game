@@ -47,6 +47,14 @@
 
 <br/>
 
+
+# DB 설계
+---
+
+![image](https://github.com/yarogono/3D_Multi_Shooting_Game/assets/70641418/73544b14-1c92-48f0-a447-4c5147da0313)
+
+<br/>
+
 # 기술 내용
 ---
 
