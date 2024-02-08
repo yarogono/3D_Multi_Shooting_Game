@@ -14,20 +14,27 @@ namespace AccountServer.Repository
             _dataContext = dataContext;
         }
 
-        public async Task<Account> GetAccountByAccountnameAsync(string accountname)
+        public Account GetAccountByAccountname(string accountname)
         {
-            return await _dataContext.Accounts.FirstOrDefaultAsync(a => a.AccountName == accountname);
+            return _dataContext.Accounts.FirstOrDefault(a => a.AccountName == accountname);
         }
 
-        public async Task<bool> AddAccount(Account account)
+        public bool AddAccount(Account account)
         {
-            await _dataContext.Accounts.AddAsync(account);
-            return await Save();
+            _dataContext.Accounts.Add(account);
+            return Save();
+        }
+        public void UpdateAccountLastLogin(Account account)
+        {
+            account.LastLoginAt = DateTime.Now;
+
+            Save();
         }
 
-        public async Task<bool> Save()
+        public bool Save()
         {
-            return await _dataContext.SaveChangesAsync() >= 0 ? true : false;
+            return _dataContext.SaveChanges() >= 0 ? true : false;
         }
+
     }
 }

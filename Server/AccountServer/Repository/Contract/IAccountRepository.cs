@@ -4,8 +4,10 @@ namespace AccountServer.Repository.Contract
 {
     public interface IAccountRepository
     {
-        Task<Account> GetAccountByAccountnameAsync(string accountname);
+        void UpdateAccountLastLogin(Account account);
 
-        Task<bool> AddAccount(Account account);
+        Account GetAccountByAccountname(string accountname);
+
+        bool AddAccount(Account account);
     }
 }

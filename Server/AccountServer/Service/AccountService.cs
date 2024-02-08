@@ -22,7 +22,7 @@ namespace AccountServer.Service
         {
             ServiceResponse<AccountSignupResDto> res = new();
 
-            Account account = await _accountRepository.GetAccountByAccountnameAsync(req.AccountName);
+            Account account = _accountRepository.GetAccountByAccountname(req.AccountName);
 
             if (account == null)
             {
@@ -36,7 +36,7 @@ namespace AccountServer.Service
                     CreatedAt = DateTime.Now,
                 };
 
-                bool isAddAccountSucced = await _accountRepository.AddAccount(newAccount);
+                bool isAddAccountSucced = _accountRepository.AddAccount(newAccount);
                 if (isAddAccountSucced == false)
                 {
                     res.Error = "RepoError";
@@ -63,13 +63,15 @@ namespace AccountServer.Service
         {
             ServiceResponse<AccountLoginResDto> res = new();
 
-            Account account = await _accountRepository.GetAccountByAccountnameAsync(req.AccountName);
+            Account account = _accountRepository.GetAccountByAccountname(req.AccountName);
 
             if (account != null && _passwordEncryptor.IsmatchPassword(req.Password, account.Password))
             {
                 res.Success = true;
                 res.Data = _mapper.Map<AccountLoginResDto>(account);
                 res.Message = "ok";
+
+                _accountRepository.UpdateAccountLastLogin(account);
             }
             else
             {

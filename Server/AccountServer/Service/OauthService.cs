@@ -10,11 +10,12 @@ namespace AccountServer.Service
     public class OauthService : IOauthService
     {
         private readonly IOauthRepository _oauthRepository;
-        private readonly IMapper _mapper;
+        private readonly IAccountRepository _accountRepository;
 
-        public OauthService(IOauthRepository oauthRepository)
+        public OauthService(IOauthRepository oauthRepository, IAccountRepository accountRepository)
         {
             _oauthRepository = oauthRepository;
+            _accountRepository = accountRepository;
         }
 
         public async Task<ServiceResponse<GoogleLoginResDto>> GoogleLogin(AuthenticateResult result, string token)
@@ -28,6 +29,20 @@ namespace AccountServer.Service
                 string email = principal.FindFirstValue(ClaimTypes.Email);
                 string name = principal.FindFirstValue(ClaimTypes.Name);
                 string accessToken = result.Properties.GetTokenValue("access_token");
+
+                Account account = _accountRepository.GetAccountByAccountname(email);
+                if (account != null)
+                {
+                    res.Success = true;
+                    res.Message = "Google Login";
+                    res.Data = new GoogleLoginResDto()
+                    {
+                        email = email,
+                        name = name,
+                    };
+                    _accountRepository.UpdateAccountLastLogin(account);
+                    return res;
+                }
 
                 res.Success = true;
                 res.Message = "Google Login";
@@ -53,6 +68,7 @@ namespace AccountServer.Service
                 };
 
                 _oauthRepository.AddAccountOauth(newOauth, newAccount);
+                _accountRepository.UpdateAccountLastLogin(newAccount);
             }
             else
             {
