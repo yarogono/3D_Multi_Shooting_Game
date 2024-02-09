@@ -73,3 +73,8 @@ crashlytics-build.properties
 
 .vs/**
 /.vsconfig
+
+
+# Config
+/assets/Resources/Config
+/assets/Resources/Config.meta
