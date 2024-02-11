@@ -1,7 +1,6 @@
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
 using AccountServer.Service.Contract;
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 

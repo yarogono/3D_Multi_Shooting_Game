@@ -1,7 +1,6 @@
 using AccountServer.DB;
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
-using Microsoft.EntityFrameworkCore;
 
 namespace AccountServer.Repository
 {
