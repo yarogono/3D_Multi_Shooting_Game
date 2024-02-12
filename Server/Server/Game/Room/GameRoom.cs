@@ -3,7 +3,6 @@ using Google.Protobuf.Protocol;
 using Server.Data;
 using Server.Game.Job;
 using Server.Game.Object;
-using System;
 
 namespace Server.Game.Room
 {
@@ -67,27 +66,7 @@ namespace Server.Game.Room
 
                 player.Room = this;
 
-                // 본인한테 정보 전송
-                {
-                    S_EnterGame enterPacket = new S_EnterGame();
-                    enterPacket.Player = player.Info;
-                    player.Session.Send(enterPacket);
-
-                    S_Spawn enemyPlayersSpawnPacket = new S_Spawn();
-                    foreach (Player p in _players.Values)
-                    {
-                        if (player != p)
-                            enemyPlayersSpawnPacket.Objects.Add(p.Info);
-                    }
-
-                    player.Session.Send(enemyPlayersSpawnPacket);
-
-                    S_SpawnItem itemsSpawnPacket = new S_SpawnItem();
-                    foreach (Item item in _items.Values)
-                        itemsSpawnPacket.Objects.Add(item.Info);
-
-                    player.Session.Send(itemsSpawnPacket);
-                }
+                player.EnterGame(_players, _items);
             }
 
             // 타인한테 정보 전송

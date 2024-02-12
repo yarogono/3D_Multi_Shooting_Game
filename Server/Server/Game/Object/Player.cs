@@ -2,6 +2,7 @@ using Google.Protobuf.Protocol;
 using Server.Data;
 using Server.Session;
 using Server.Utils;
+using System.Numerics;
 
 namespace Server.Game.Object
 {
@@ -174,6 +175,28 @@ namespace Server.Game.Object
             };
 
             Room.Broadcast(resDamageMelee);
+        }
+
+        public void EnterGame(Dictionary<int, Player> _roomPlayers, Dictionary<int, Item> _roomItems)
+        {
+            S_EnterGame enterPacket = new S_EnterGame();
+            enterPacket.Player = this.Info;
+            this.Session.Send(enterPacket);
+
+            S_Spawn enemyPlayersSpawnPacket = new S_Spawn();
+            foreach (Player p in _roomPlayers.Values)
+            {
+                if (this != p)
+                    enemyPlayersSpawnPacket.Objects.Add(p.Info);
+            }
+
+            this.Session.Send(enemyPlayersSpawnPacket);
+
+            S_SpawnItem itemsSpawnPacket = new S_SpawnItem();
+            foreach (Item item in _roomItems.Values)
+                itemsSpawnPacket.Objects.Add(item.Info);
+
+            this.Session.Send(itemsSpawnPacket);
         }
     }
 }
