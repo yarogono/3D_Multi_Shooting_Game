@@ -40,7 +40,7 @@ namespace Google.Protobuf.Protocol {
             "Ck9iamVjdEluZm8SEAoIb2JqZWN0SWQYASABKAUSDAoEbmFtZRgCIAEoCRIf",
             "Cgdwb3NJbmZvGAMgASgLMg4uUHJvdG9jb2wuVmVjMxImCgVzdGF0ZRgEIAEo",
             "DjIXLlByb3RvY29sLkNyZWF0dXJlU3RhdGUiJwoEVmVjMxIJCgF4GAEgASgC",
-            "EgkKAXkYAiABKAISCQoBehgDIAEoAirPAgoFTXNnSWQSEAoMQ19FTlRFUl9H",
+            "EgkKAXkYAiABKAISCQoBehgDIAEoAir5AgoFTXNnSWQSEAoMQ19FTlRFUl9H",
             "QU1FEAASEAoMU19FTlRFUl9HQU1FEAESEAoMQ19MRUFWRV9HQU1FEAISEAoM",
             "U19MRUFWRV9HQU1FEAMSCwoHU19TUEFXThAEEg0KCVNfREVTUEFXThAFEgoK",
             "BkNfTU9WRRAGEgoKBlNfTU9WRRAHEhAKDFNfU1BBV05fSVRFTRAIEgoKBlNf",
@@ -48,10 +48,11 @@ namespace Google.Protobuf.Protocol {
             "ElNfU1dBUF9XRUFQT05fSVRFTRAMEg8KC0NfTE9PVF9JVEVNEA0SDwoLU19M",
             "T09UX0lURU0QDhISCg5DX01FTEVFX0FUVEFDSxAPEhIKDlNfTUVMRUVfQVRU",
             "QUNLEBASEgoOQ19EQU1BR0VfTUVMRUUQERISCg5TX0RBTUFHRV9NRUxFRRAS",
-            "Kj0KDkdhbWVPYmplY3RUeXBlEggKBE5PTkUQABIKCgZQTEFZRVIQARILCgdN",
-            "T05TVEVSEAISCAoESVRFTRADKjoKDUNyZWF0dXJlU3RhdGUSCAoESURMRRAA",
-            "EgoKBk1PVklORxABEgkKBVNLSUxMEAISCAoEREVBRBADQhuqAhhHb29nbGUu",
-            "UHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
+            "EhMKD0NfREFNQUdFX0JVTExFVBATEhMKD1NfREFNQUdFX0JVTExFVBAUKj0K",
+            "DkdhbWVPYmplY3RUeXBlEggKBE5PTkUQABIKCgZQTEFZRVIQARILCgdNT05T",
+            "VEVSEAISCAoESVRFTRADKjoKDUNyZWF0dXJlU3RhdGUSCAoESURMRRAAEgoK",
+            "Bk1PVklORxABEgkKBVNLSUxMEAISCAoEREVBRBADQhuqAhhHb29nbGUuUHJv",
+            "dG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -93,6 +94,8 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_MELEE_ATTACK")] SMeleeAttack = 16,
     [pbr::OriginalName("C_DAMAGE_MELEE")] CDamageMelee = 17,
     [pbr::OriginalName("S_DAMAGE_MELEE")] SDamageMelee = 18,
+    [pbr::OriginalName("C_DAMAGE_BULLET")] CDamageBullet = 19,
+    [pbr::OriginalName("S_DAMAGE_BULLET")] SDamageBullet = 20,
   }
 
   public enum GameObjectType {

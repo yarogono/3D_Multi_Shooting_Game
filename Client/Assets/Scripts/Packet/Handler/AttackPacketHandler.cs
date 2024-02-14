@@ -42,4 +42,24 @@ partial class PacketHandler
 
         playerSyncAttack.OnSync(damageMeleePacket);
     }
+
+
+    public static void S_DamageBulletHandler(PacketSession session, IMessage packet)
+    {
+        S_DamageBullet damageBulletPacket = (S_DamageBullet)packet;
+
+        if (damageBulletPacket == null)
+            return;
+
+        int targetPlayerId = damageBulletPacket.TargetPlayerId;
+        GameObject targetPlayer = ObjectManager.Instance.FindById(targetPlayerId);
+        if (targetPlayer == null)
+            return;
+
+        PlayerSyncAttack playerSyncAttack = targetPlayer.GetComponent<PlayerSyncAttack>();
+        if (playerSyncAttack == null)
+            return;
+
+        playerSyncAttack.OnSync(damageBulletPacket);
+    }
 }

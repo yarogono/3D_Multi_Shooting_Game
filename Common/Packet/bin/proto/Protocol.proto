@@ -25,6 +25,8 @@ enum MsgId {
 	S_MELEE_ATTACK = 16;
 	C_DAMAGE_MELEE = 17;
 	S_DAMAGE_MELEE = 18;
+	C_DAMAGE_BULLET = 19;
+	S_DAMAGE_BULLET = 20;
 }
 
 enum GameObjectType {

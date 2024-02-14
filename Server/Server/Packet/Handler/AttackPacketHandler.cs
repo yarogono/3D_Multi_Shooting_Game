@@ -48,4 +48,27 @@ partial class PacketHandler
 
         room.Push(targetPlayer.DamageMelee, damageMeleePacket, targetPlayer.PosInfo);
     }
+
+    public static void C_DamageBulletHandler(PacketSession session, IMessage packet)
+    {
+        ClientSession clientSession = (ClientSession)session;
+        C_DamageBullet damageBulletPacket = (C_DamageBullet)packet;
+
+        if (damageBulletPacket == null)
+            return;
+
+        Player player = clientSession.MyPlayer;
+        if (player == null)
+            return;
+
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
+
+        Player targetPlayer = ObjectManager.Instance.Find(damageBulletPacket.TargetPlayerId);
+        if (targetPlayer == null)
+            return;
+
+        room.Push(targetPlayer.DamageBullet, damageBulletPacket, targetPlayer.PosInfo);
+    }
 }

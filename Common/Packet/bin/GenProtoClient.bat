@@ -6,3 +6,4 @@ XCOPY /Y Protocol.cs "../../../Client/Assets/Scripts/Packet/Proto"
 XCOPY /Y Item.cs "../../../Client/Assets/Scripts/Packet/Proto"
 XCOPY /Y Attack.cs "../../../Client/Assets/Scripts/Packet/Proto"
 XCOPY /Y ClientPacketManager.cs "../../../Client/Assets/Scripts/Packet"
+IF ERRORLEVEL 1 PAUSE

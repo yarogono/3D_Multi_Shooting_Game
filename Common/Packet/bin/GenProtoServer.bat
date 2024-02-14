@@ -6,3 +6,4 @@ XCOPY /Y Protocol.cs "../../../Server/Server/Packet/Proto"
 XCOPY /Y Item.cs "../../../Server/Server/Packet/Proto"
 XCOPY /Y Attack.cs "../../../Server/Server/Packet/Proto"
 XCOPY /Y ServerPacketManager.cs "../../../Server/Server/Packet"
+IF ERRORLEVEL 1 PAUSE

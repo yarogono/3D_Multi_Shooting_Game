@@ -1,6 +1,7 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using System;
 using System.Collections;
 using UnityEngine;
 using static Define;
@@ -99,7 +100,21 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
             case S_DamageMelee:
                 OnSyncDamageMelee(packet);
                 break;
+            case S_DamageBullet:
+                OnSyncDamageBullet(packet);
+                break;
         }
+    }
+
+    private void OnSyncDamageBullet(IMessage packet)
+    {
+        S_DamageBullet damageBulletPacket = (S_DamageBullet)packet;
+
+        if (damageBulletPacket.TargetPlayerId != playerController.Id)
+            return;
+
+        playerController.GetDamage(damageBulletPacket.Damage);
+        _playerSyncAnimation.GetDamageAnimation();
     }
 
     private void OnSyncDamageMelee(IMessage packet)
@@ -129,11 +144,16 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 
             _isHit = true;
             MeleeWeaponController melee = other.GetComponent<MeleeWeaponController>();
-            StartCoroutine(SendDamagePacket(playerController.Id, melee));
+            StartCoroutine(SendMeleeDamagePacket(playerController.Id, melee));
+        }
+        else if (other.CompareTag("Bullet"))
+        {
+            BulletController bullet = other.GetComponent<BulletController>();
+            StartCoroutine(SendBulletDamagePacket(playerController.Id, bullet));
         }
     }
 
-    private IEnumerator SendDamagePacket(int targetPlayerId, MeleeWeaponController melee)
+    private IEnumerator SendMeleeDamagePacket(int targetPlayerId, MeleeWeaponController melee)
     {
         C_DamageMelee damageMeleePacket = new C_DamageMelee()
         {
@@ -146,5 +166,18 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 
         yield return new WaitForSeconds(0.1f);
         _isHit = false;
+    }
+
+    private IEnumerator SendBulletDamagePacket(int targetPlayerId, BulletController bullet)
+    {
+        C_DamageBullet damageBulletPacket = new C_DamageBullet()
+        {
+            TargetPlayerId = targetPlayerId,
+            Damage = bullet.Damage,
+            TargetPosInfo = _playerSyncTransform.PosInfo,
+        };
+        NetworkManager.Instance.Send(damageBulletPacket);
+
+        yield return null;
     }
 }

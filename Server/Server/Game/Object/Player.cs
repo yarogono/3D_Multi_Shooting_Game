@@ -198,5 +198,23 @@ namespace Server.Game.Object
 
             this.Session.Send(itemsSpawnPacket);
         }
+
+        public void DamageBullet(C_DamageBullet reqDamageBullet, Vec3 attackerPosInfo)
+        {
+            float targetDistanceMatch = MathUtils.Vector3Distance(reqDamageBullet.TargetPosInfo, this.PosInfo);
+            if (targetDistanceMatch > 5f)
+                return;
+
+            int getDamagedHp = this.Hp - reqDamageBullet.Damage;
+            this.Hp = getDamagedHp;
+
+            S_DamageBullet resDamageBullet = new S_DamageBullet()
+            {
+                TargetPlayerId = reqDamageBullet.TargetPlayerId,
+                Damage = reqDamageBullet.Damage,
+            };
+
+            Room.Broadcast(resDamageBullet);
+        }
     }
 }
