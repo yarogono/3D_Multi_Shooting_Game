@@ -10,6 +10,7 @@ TagManager:
   - Structure
   - ChatContent
   - EnemyPlayer
+  - Bullet
   layers:
   - Default
   - TransparentFX

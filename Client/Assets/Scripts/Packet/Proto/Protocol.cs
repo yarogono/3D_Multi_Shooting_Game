@@ -40,7 +40,7 @@ namespace Google.Protobuf.Protocol {
             "Ck9iamVjdEluZm8SEAoIb2JqZWN0SWQYASABKAUSDAoEbmFtZRgCIAEoCRIf",
             "Cgdwb3NJbmZvGAMgASgLMg4uUHJvdG9jb2wuVmVjMxImCgVzdGF0ZRgEIAEo",
             "DjIXLlByb3RvY29sLkNyZWF0dXJlU3RhdGUiJwoEVmVjMxIJCgF4GAEgASgC",
-            "EgkKAXkYAiABKAISCQoBehgDIAEoAir5AgoFTXNnSWQSEAoMQ19FTlRFUl9H",
+            "EgkKAXkYAiABKAISCQoBehgDIAEoAiqdAwoFTXNnSWQSEAoMQ19FTlRFUl9H",
             "QU1FEAASEAoMU19FTlRFUl9HQU1FEAESEAoMQ19MRUFWRV9HQU1FEAISEAoM",
             "U19MRUFWRV9HQU1FEAMSCwoHU19TUEFXThAEEg0KCVNfREVTUEFXThAFEgoK",
             "BkNfTU9WRRAGEgoKBlNfTU9WRRAHEhAKDFNfU1BBV05fSVRFTRAIEgoKBlNf",
@@ -48,11 +48,12 @@ namespace Google.Protobuf.Protocol {
             "ElNfU1dBUF9XRUFQT05fSVRFTRAMEg8KC0NfTE9PVF9JVEVNEA0SDwoLU19M",
             "T09UX0lURU0QDhISCg5DX01FTEVFX0FUVEFDSxAPEhIKDlNfTUVMRUVfQVRU",
             "QUNLEBASEgoOQ19EQU1BR0VfTUVMRUUQERISCg5TX0RBTUFHRV9NRUxFRRAS",
-            "EhMKD0NfREFNQUdFX0JVTExFVBATEhMKD1NfREFNQUdFX0JVTExFVBAUKj0K",
-            "DkdhbWVPYmplY3RUeXBlEggKBE5PTkUQABIKCgZQTEFZRVIQARILCgdNT05T",
-            "VEVSEAISCAoESVRFTRADKjoKDUNyZWF0dXJlU3RhdGUSCAoESURMRRAAEgoK",
-            "Bk1PVklORxABEgkKBVNLSUxMEAISCAoEREVBRBADQhuqAhhHb29nbGUuUHJv",
-            "dG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
+            "EhMKD0NfREFNQUdFX0JVTExFVBATEhMKD1NfREFNQUdFX0JVTExFVBAUEhAK",
+            "DENfR1VOX0FUVEFDSxAVEhAKDFNfR1VOX0FUVEFDSxAWKj0KDkdhbWVPYmpl",
+            "Y3RUeXBlEggKBE5PTkUQABIKCgZQTEFZRVIQARILCgdNT05TVEVSEAISCAoE",
+            "SVRFTRADKjoKDUNyZWF0dXJlU3RhdGUSCAoESURMRRAAEgoKBk1PVklORxAB",
+            "EgkKBVNLSUxMEAISCAoEREVBRBADQhuqAhhHb29nbGUuUHJvdG9idWYuUHJv",
+            "dG9jb2xiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.GameObjectType), typeof(global::Google.Protobuf.Protocol.CreatureState), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -96,6 +97,8 @@ namespace Google.Protobuf.Protocol {
     [pbr::OriginalName("S_DAMAGE_MELEE")] SDamageMelee = 18,
     [pbr::OriginalName("C_DAMAGE_BULLET")] CDamageBullet = 19,
     [pbr::OriginalName("S_DAMAGE_BULLET")] SDamageBullet = 20,
+    [pbr::OriginalName("C_GUN_ATTACK")] CGunAttack = 21,
+    [pbr::OriginalName("S_GUN_ATTACK")] SGunAttack = 22,
   }
 
   public enum GameObjectType {

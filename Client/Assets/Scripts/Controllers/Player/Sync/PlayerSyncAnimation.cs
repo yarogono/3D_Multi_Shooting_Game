@@ -69,6 +69,11 @@ namespace Assets.Scripts.Controllers.Player
             _anim.SetTrigger("doSwing");
         }
 
+        public void WeaponGunAttackAnimation()
+        {
+            _anim.SetTrigger("doShoot");
+        }
+
         #region OnSync
         public void OnSync(IMessage packet)
         {

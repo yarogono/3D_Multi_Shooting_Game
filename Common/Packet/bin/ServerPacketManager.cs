@@ -40,7 +40,9 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.CDamageMelee, MakePacket<C_DamageMelee>);
 		_handler.Add((ushort)MsgId.CDamageMelee, PacketHandler.C_DamageMeleeHandler);		
 		_onRecv.Add((ushort)MsgId.CDamageBullet, MakePacket<C_DamageBullet>);
-		_handler.Add((ushort)MsgId.CDamageBullet, PacketHandler.C_DamageBulletHandler);
+		_handler.Add((ushort)MsgId.CDamageBullet, PacketHandler.C_DamageBulletHandler);		
+		_onRecv.Add((ushort)MsgId.CGunAttack, MakePacket<C_GunAttack>);
+		_handler.Add((ushort)MsgId.CGunAttack, PacketHandler.C_GunAttackHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

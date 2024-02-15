@@ -1,7 +1,6 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
-using System;
 using System.Collections;
 using UnityEngine;
 using static Define;
@@ -56,9 +55,10 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         {
             MeleeAttack();
         }
-        else
+        else if (handHeldWeapon == ItemNumber.Two || 
+                 handHeldWeapon == ItemNumber.Three)
         {
-            Debug.Log("GunAttack");
+            GunAttack();
         }
     }
 
@@ -77,16 +77,30 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 
     private void SendMeleeAttackPacket()
     {
-        Vec3 meleeAttackPlayerPosInfo = new Vec3();
-        meleeAttackPlayerPosInfo.MergeFrom(_playerSyncTransform.PosInfo);
-
         C_MeleeAttack meleeAttackPacket = new C_MeleeAttack()
         {
             AttackPlayerId = playerController.Id,
-            PosInfo = meleeAttackPlayerPosInfo,
         };
 
         NetworkManager.Instance.Send(meleeAttackPacket);
+    }
+
+    private void GunAttack()
+    {
+        _playerSyncAnimation.WeaponGunAttackAnimation();
+        _playerSyncTransform.StopPlayerMoving();
+
+        SendGunAttackPacket();
+    }
+
+    private void SendGunAttackPacket()
+    {
+        C_GunAttack gunAttackPacket = new C_GunAttack()
+        {
+            AttackPlayerId = playerController.Id,
+        };
+
+        NetworkManager.Instance.Send(gunAttackPacket);
     }
 
     #region OnSync
@@ -97,6 +111,9 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
             case S_MeleeAttack:
                 OnSyncMeleeAttack();
                 break;
+            case S_GunAttack:
+                OnSyncGunAttack();
+                break;
             case S_DamageMelee:
                 OnSyncDamageMelee(packet);
                 break;
@@ -104,6 +121,11 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
                 OnSyncDamageBullet(packet);
                 break;
         }
+    }
+
+    private void OnSyncGunAttack()
+    {
+        _playerSyncAnimation.WeaponGunAttackAnimation();
     }
 
     private void OnSyncDamageBullet(IMessage packet)

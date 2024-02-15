@@ -71,4 +71,23 @@ partial class PacketHandler
 
         room.Push(targetPlayer.DamageBullet, damageBulletPacket, targetPlayer.PosInfo);
     }
+
+    public static void C_GunAttackHandler(PacketSession session, IMessage packet)
+    {
+        ClientSession clientSession = (ClientSession)session;
+        C_GunAttack gunAttackPacket = (C_GunAttack)packet;
+
+        if (gunAttackPacket == null)
+            return;
+
+        Player player = clientSession.MyPlayer;
+        if (player == null)
+            return;
+
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
+
+        room.Push(player.GunAttack, gunAttackPacket);
+    }
 }

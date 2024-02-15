@@ -24,6 +24,25 @@ partial class PacketHandler
         playerSyncAttack.OnSync(meleeAttackPacket);
     }
 
+    public static void S_GunAttackHandler(PacketSession session, IMessage packet)
+    {
+        S_GunAttack gunAttackPacket = (S_GunAttack)packet;
+
+        if (gunAttackPacket == null)
+            return;
+
+        int attackPlayerId = gunAttackPacket.AttackPlayerId;
+        GameObject attackPlayer = ObjectManager.Instance.FindById(attackPlayerId);
+        if (attackPlayer == null)
+            return;
+
+        PlayerSyncAttack playerSyncAttack = attackPlayer.GetComponent<PlayerSyncAttack>();
+        if (playerSyncAttack == null)
+            return;
+
+        playerSyncAttack.OnSync(gunAttackPacket);
+    }
+
     public static void S_DamageMeleeHandler(PacketSession session, IMessage packet)
     {
         S_DamageMelee damageMeleePacket = (S_DamageMelee)packet;

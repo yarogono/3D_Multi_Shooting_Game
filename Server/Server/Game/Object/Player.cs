@@ -154,6 +154,16 @@ namespace Server.Game.Object
             Room.Broadcast(resMeleeAttackPacket, this.Id);
         }
 
+        public void GunAttack(C_GunAttack reqGunAttack)
+        {
+            S_GunAttack resGunAttackPacket = new S_GunAttack()
+            {
+                AttackPlayerId = reqGunAttack.AttackPlayerId,
+            };
+
+            Room.Broadcast(resGunAttackPacket, this.Id);
+        }
+
         internal void DamageMelee(C_DamageMelee reqDamageMelee, Vec3 attackerPosInfo)
         {
             float targetDistanceMatch = MathUtils.Vector3Distance(reqDamageMelee.TargetPosInfo, this.PosInfo);
