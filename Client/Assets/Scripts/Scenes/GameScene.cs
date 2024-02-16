@@ -1,6 +1,4 @@
 using Google.Protobuf.Protocol;
-using Unity.VisualScripting;
-using UnityEngine;
 
 public class GameScene : BaseScene
 {
@@ -9,6 +7,8 @@ public class GameScene : BaseScene
     {
         base.Init();
         SceneType = Define.Scene.Game;
+
+        DataManager.Instance.Init();
 
         Vec3 posInfo = new Vec3() { X = 0, Y = 1, Z = 0 };
         CreatureState state = CreatureState.Idle;

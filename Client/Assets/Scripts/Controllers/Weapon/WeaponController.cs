@@ -1,13 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
-public class MeleeWeaponController : MonoBehaviour
+public class WeaponController : MonoBehaviour
 {
     [SerializeField] private int _damage;
     [SerializeField] private float _rate;
     [SerializeField] private BoxCollider _meleeArea;
     [SerializeField] private TrailRenderer _trailEffect;
     [SerializeField] private int _attackRange;
+    private int _weaponId;
 
     public float Rate
     {

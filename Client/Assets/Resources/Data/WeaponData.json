@@ -1,0 +1,25 @@
+{
+  "weapons": [
+    {
+      "id": "0",
+      "name": "Hammer",
+      "rate": "0.8",
+      "damage": "15",
+      "attackRange": "1"
+    },
+    {
+      "id": "1",
+      "name": "HandGun",
+      "rate": "0.4",
+      "damage": "0",
+      "attackRange": "0"
+    },
+    {
+      "id": "2",
+      "name": "SubMachineGun",
+      "rate": "0.15",
+      "damage": "0",
+      "attackRange": "0"
+    }
+  ]
+} 

@@ -39,6 +39,7 @@ public class Define
     public enum WeaponItemType
     {
         Melee,
-        Range,
+        Gun,
+        Grenade
     }
 }

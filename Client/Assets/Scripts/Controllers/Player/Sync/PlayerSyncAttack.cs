@@ -9,13 +9,11 @@ using static Define;
 public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 {
     private PlayerInputController _inputController;
-    private MeleeWeaponController _meleeWeaponController;
+    private WeaponController _weaponController;
 
     private PlayerSyncItem _playerSyncItem;
     private PlayerSyncAnimation _playerSyncAnimation;
     private PlayerSyncTransform _playerSyncTransform;
-
-    private GameObject _meleeGameObject;
 
     private float _attackDelayTimer;
 
@@ -28,8 +26,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         _playerSyncAnimation = GetComponent<PlayerSyncAnimation>();
         _playerSyncTransform = GetComponent<PlayerSyncTransform>();
 
-        _meleeGameObject = _playerSyncItem.MeleeWeaponGameObject;
-        _meleeWeaponController = _meleeGameObject.GetComponent<MeleeWeaponController>();
+        _weaponController = _playerSyncItem.MeleeWeaponGameObject.GetComponent<WeaponController>();
     }
 
     private void Start()
@@ -51,22 +48,25 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         if (handHeldWeapon == ItemNumber.None)
             return;
 
-        if (handHeldWeapon == ItemNumber.One)
+        switch (handHeldWeapon)
         {
-            MeleeAttack();
-        }
-        else if (handHeldWeapon == ItemNumber.Two || 
-                 handHeldWeapon == ItemNumber.Three)
-        {
-            GunAttack();
+            case ItemNumber.One:
+                MeleeAttack();
+                break;
+            case ItemNumber.Two:
+                GunAttack();
+                break;
+            case ItemNumber.Three:
+                GunAttack();
+                break;
         }
     }
 
     private void MeleeAttack()
     {
-        if (_meleeWeaponController.Rate < _attackDelayTimer)
+        if (_weaponController.Rate < _attackDelayTimer)
         {
-            _meleeWeaponController.WeaponAttack();
+            _weaponController.WeaponAttack();
             _playerSyncAnimation.WeaponAttackSwingAnimation();
             _attackDelayTimer = 0;
             _playerSyncTransform.StopPlayerMoving();
@@ -152,7 +152,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 
     private void OnSyncMeleeAttack()
     {
-        _meleeWeaponController.OnSyncWeaponAttack();
+        _weaponController.OnSyncWeaponAttack();
         _playerSyncAnimation.WeaponAttackSwingAnimation();
     }
     #endregion
@@ -165,7 +165,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
                 return;
 
             _isHit = true;
-            MeleeWeaponController melee = other.GetComponent<MeleeWeaponController>();
+            WeaponController melee = other.GetComponent<WeaponController>();
             StartCoroutine(SendMeleeDamagePacket(playerController.Id, melee));
         }
         else if (other.CompareTag("Bullet"))
@@ -175,7 +175,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         }
     }
 
-    private IEnumerator SendMeleeDamagePacket(int targetPlayerId, MeleeWeaponController melee)
+    private IEnumerator SendMeleeDamagePacket(int targetPlayerId, WeaponController melee)
     {
         C_DamageMelee damageMeleePacket = new C_DamageMelee()
         {
