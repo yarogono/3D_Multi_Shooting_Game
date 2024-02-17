@@ -36,10 +36,11 @@ public class Define
         Weapon,
     }
 
-    public enum WeaponItemType
+    public enum WeaponType
     {
         Melee,
-        Gun,
+        HandGun,
+        SubMachineGun,
         Grenade
     }
 }

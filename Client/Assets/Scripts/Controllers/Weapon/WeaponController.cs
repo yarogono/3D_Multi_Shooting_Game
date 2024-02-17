@@ -1,35 +1,25 @@
 using System.Collections;
 using UnityEngine;
+using static Define;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private int _damage;
-    [SerializeField] private float _rate;
     [SerializeField] private BoxCollider _meleeArea;
     [SerializeField] private TrailRenderer _trailEffect;
-    [SerializeField] private int _attackRange;
-    private int _weaponId;
 
-    public float Rate
+    public void WeaponAttack(WeaponType weaponType)
     {
-        get => _rate;
+        switch (weaponType)
+        {
+            case WeaponType.Melee:
+                StartCoroutine(MeleeWeaponSwing());
+                break;
+            case WeaponType.HandGun:
+                break;
+            case WeaponType.SubMachineGun:
+                break;
+        }
     }
-
-    public int Damage
-    {
-        get => _damage;
-    }
-
-    public int AttackRange
-    {
-        get => _attackRange;
-    }
-
-    public void WeaponAttack()
-    {
-        StartCoroutine(MeleeWeaponSwing());
-    }
-
 
     IEnumerator MeleeWeaponSwing()
     {

@@ -1,4 +1,5 @@
 using Assets.Scripts.Controllers.Player;
+using Data;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using System.Collections;
@@ -54,19 +55,20 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
                 MeleeAttack();
                 break;
             case ItemNumber.Two:
-                GunAttack();
+                GunAttack(WeaponType.HandGun);
                 break;
             case ItemNumber.Three:
-                GunAttack();
+                GunAttack(WeaponType.SubMachineGun);
                 break;
         }
     }
 
     private void MeleeAttack()
     {
-        if (_weaponController.Rate < _attackDelayTimer)
+        Weapon weapon = DataManager.Instance.WeaponDict[(int)_playerSyncItem.HandHeldWeapon];
+        if (weapon.rate < _attackDelayTimer)
         {
-            _weaponController.WeaponAttack();
+            _weaponController.WeaponAttack(WeaponType.Melee);
             _playerSyncAnimation.WeaponAttackSwingAnimation();
             _attackDelayTimer = 0;
             _playerSyncTransform.StopPlayerMoving();
@@ -85,12 +87,17 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         NetworkManager.Instance.Send(meleeAttackPacket);
     }
 
-    private void GunAttack()
+    private void GunAttack(WeaponType gunWeaponType)
     {
-        _playerSyncAnimation.WeaponGunAttackAnimation();
-        _playerSyncTransform.StopPlayerMoving();
+        Weapon weapon = DataManager.Instance.WeaponDict[(int)_playerSyncItem.HandHeldWeapon];
+        if (weapon.rate < _attackDelayTimer)
+        {
+            _weaponController.WeaponAttack(gunWeaponType);
+            _playerSyncAnimation.WeaponGunAttackAnimation();
+            _playerSyncTransform.StopPlayerMoving();
 
-        SendGunAttackPacket();
+            SendGunAttackPacket();
+        }
     }
 
     private void SendGunAttackPacket()
@@ -165,8 +172,8 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
                 return;
 
             _isHit = true;
-            WeaponController melee = other.GetComponent<WeaponController>();
-            StartCoroutine(SendMeleeDamagePacket(playerController.Id, melee));
+            Weapon meleeWeapon = DataManager.Instance.WeaponDict[(int)ItemNumber.One];
+            StartCoroutine(SendMeleeDamagePacket(playerController.Id, meleeWeapon));
         }
         else if (other.CompareTag("Bullet"))
         {
@@ -175,14 +182,14 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         }
     }
 
-    private IEnumerator SendMeleeDamagePacket(int targetPlayerId, WeaponController melee)
+    private IEnumerator SendMeleeDamagePacket(int targetPlayerId, Weapon melee)
     {
         C_DamageMelee damageMeleePacket = new C_DamageMelee()
         {
             TargetPlayerId = targetPlayerId,
-            Damage = melee.Damage,
+            Damage = melee.damage,
             TargetPosInfo = _playerSyncTransform.PosInfo,
-            MeleeItemNumber = melee.AttackRange,
+            MeleeItemNumber = melee.id,
         };
         NetworkManager.Instance.Send(damageMeleePacket);
 
