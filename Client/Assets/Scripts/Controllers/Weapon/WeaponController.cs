@@ -1,50 +1,20 @@
-using System.Collections;
 using UnityEngine;
 using static Define;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private BoxCollider _meleeArea;
-    [SerializeField] private TrailRenderer _trailEffect;
+    private int _weaponId;
+    private WeaponType _weaponType;
 
-    public void WeaponAttack(WeaponType weaponType)
+    public int WeaponId
     {
-        switch (weaponType)
-        {
-            case WeaponType.Melee:
-                StartCoroutine(MeleeWeaponSwing());
-                break;
-            case WeaponType.HandGun:
-                break;
-            case WeaponType.SubMachineGun:
-                break;
-        }
+        get => _weaponId;
+        set => _weaponId = value;
     }
 
-    IEnumerator MeleeWeaponSwing()
+    public WeaponType WeaponType
     {
-        yield return new WaitForSeconds(0.2f);
-        _meleeArea.enabled = true;
-        _trailEffect.enabled = true;
-
-        yield return new WaitForSeconds(0.2f);
-        _meleeArea.enabled = false;
-
-        yield return new WaitForSeconds(0.3f);
-        _trailEffect.enabled = false;
-    }
-
-    public void OnSyncWeaponAttack()
-    {
-        StartCoroutine(OnSyncMeleeWeaponSwing());
-    }
-
-    IEnumerator OnSyncMeleeWeaponSwing()
-    {
-        yield return new WaitForSeconds(0.2f);
-        _trailEffect.enabled = true;
-
-        yield return new WaitForSeconds(0.5f);
-        _trailEffect.enabled = false;
+        get => _weaponType;
+        set => _weaponType = value;
     }
 }

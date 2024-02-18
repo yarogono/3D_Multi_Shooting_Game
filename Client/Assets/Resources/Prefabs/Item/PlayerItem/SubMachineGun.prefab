@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 924136447322616994}
-  - component: {fileID: 810092024652374942}
+  - component: {fileID: -8145774424179429440}
   m_Layer: 0
   m_Name: SubMachineGun
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &810092024652374942
+--- !u!114 &-8145774424179429440
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,14 +42,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 547435428816858648}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aaa8762c0d0d02439173e7845726072, type: 3}
+  m_Script: {fileID: 11500000, guid: ee1451c22969f9a48aabd5aa5bd98307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
-  _rate: 0.15
-  _meleeArea: {fileID: 0}
-  _trailEffect: {fileID: 0}
-  _attackRange: 0
+  _bulletPos: {fileID: 0}
+  _bullet: {fileID: 0}
+  _bulletCasePos: {fileID: 0}
+  _bulletCase: {fileID: 0}
 --- !u!1 &4895473748344367657
 GameObject:
   m_ObjectHideFlags: 0

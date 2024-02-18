@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2285952976136801637}
-  - component: {fileID: 3769561914268581443}
+  - component: {fileID: 7989115189244027668}
   m_Layer: 0
   m_Name: HandGun
   m_TagString: Untagged
@@ -116,7 +116,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3769561914268581443
+--- !u!114 &7989115189244027668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,11 +125,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1509416925549156319}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aaa8762c0d0d02439173e7845726072, type: 3}
+  m_Script: {fileID: 11500000, guid: ee1451c22969f9a48aabd5aa5bd98307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
-  _rate: 0.4
-  _meleeArea: {fileID: 0}
-  _trailEffect: {fileID: 0}
-  _attackRange: 0
+  _bulletPos: {fileID: 0}
+  _bullet: {fileID: 0}
+  _bulletCasePos: {fileID: 0}
+  _bulletCase: {fileID: 0}

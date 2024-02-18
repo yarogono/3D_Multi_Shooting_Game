@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1873072230472789115}
-  - component: {fileID: 9041501400920535451}
   - component: {fileID: 5786013063925400726}
+  - component: {fileID: -7961673926144871481}
   m_Layer: 10
   m_Name: Hammer
   m_TagString: Melee
@@ -35,23 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9041501400920535451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1348174882345252545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aaa8762c0d0d02439173e7845726072, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _damage: 15
-  _rate: 0.6
-  _meleeArea: {fileID: 5786013063925400726}
-  _trailEffect: {fileID: 1523232427049844672}
-  _attackRange: 1
 --- !u!65 &5786013063925400726
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73,6 +56,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.4435875, y: 2.861045, z: 2.1768446}
   m_Center: {x: -0.008943677, y: 2.1960392, z: 0.09640312}
+--- !u!114 &-7961673926144871481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348174882345252545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0205928a376977545b435287af9e388c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meleeArea: {fileID: 5786013063925400726}
+  _trailEffect: {fileID: 1523232427049844672}
 --- !u!1 &2704794071813897057
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,9 +10,8 @@ using static Define;
 public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 {
     private PlayerInputController _inputController;
-    private WeaponController _weaponController;
+    private PlayerWeaponController _playerWeaponController;
 
-    private PlayerSyncItem _playerSyncItem;
     private PlayerSyncAnimation _playerSyncAnimation;
     private PlayerSyncTransform _playerSyncTransform;
 
@@ -23,11 +22,9 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
     private void Awake()
     {
         _inputController = GetComponent<PlayerInputController>();
-        _playerSyncItem = GetComponent<PlayerSyncItem>();
         _playerSyncAnimation = GetComponent<PlayerSyncAnimation>();
         _playerSyncTransform = GetComponent<PlayerSyncTransform>();
-
-        _weaponController = _playerSyncItem.MeleeWeaponGameObject.GetComponent<WeaponController>();
+        _playerWeaponController = GetComponent<PlayerWeaponController>();
     }
 
     private void Start()
@@ -45,7 +42,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 
     public void PlayerAttack()
     {
-        ItemNumber handHeldWeapon = _playerSyncItem.HandHeldWeapon;
+        ItemNumber handHeldWeapon = _playerWeaponController.HandHeldWeapon;
         if (handHeldWeapon == ItemNumber.None)
             return;
 
@@ -55,20 +52,20 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
                 MeleeAttack();
                 break;
             case ItemNumber.Two:
-                GunAttack(WeaponType.HandGun);
+                GunAttack();
                 break;
             case ItemNumber.Three:
-                GunAttack(WeaponType.SubMachineGun);
+                GunAttack();
                 break;
         }
     }
 
     private void MeleeAttack()
     {
-        Weapon weapon = DataManager.Instance.WeaponDict[(int)_playerSyncItem.HandHeldWeapon];
+        Weapon weapon = DataManager.Instance.WeaponDict[(int)_playerWeaponController.HandHeldWeapon];
         if (weapon.rate < _attackDelayTimer)
         {
-            _weaponController.WeaponAttack(WeaponType.Melee);
+            _playerWeaponController.CurrentWeaponAttack.Attack();
             _playerSyncAnimation.WeaponAttackSwingAnimation();
             _attackDelayTimer = 0;
             _playerSyncTransform.StopPlayerMoving();
@@ -87,12 +84,12 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         NetworkManager.Instance.Send(meleeAttackPacket);
     }
 
-    private void GunAttack(WeaponType gunWeaponType)
+    private void GunAttack()
     {
-        Weapon weapon = DataManager.Instance.WeaponDict[(int)_playerSyncItem.HandHeldWeapon];
+        Weapon weapon = DataManager.Instance.WeaponDict[(int)_playerWeaponController.HandHeldWeapon];
         if (weapon.rate < _attackDelayTimer)
         {
-            _weaponController.WeaponAttack(gunWeaponType);
+            _playerWeaponController.CurrentWeaponAttack.Attack();
             _playerSyncAnimation.WeaponGunAttackAnimation();
             _playerSyncTransform.StopPlayerMoving();
 
@@ -159,7 +156,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 
     private void OnSyncMeleeAttack()
     {
-        _weaponController.OnSyncWeaponAttack();
+        _playerWeaponController.CurrentWeaponAttack.OnSyncAttack();
         _playerSyncAnimation.WeaponAttackSwingAnimation();
     }
     #endregion

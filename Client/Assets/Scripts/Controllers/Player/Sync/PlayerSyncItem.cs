@@ -7,80 +7,25 @@ using static Define;
 [AddComponentMenu("Player/PlayerSyncItem")]
 public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 {
-    [SerializeField] private GameObject[] _weapons;
-    [SerializeField] private bool[] _hasWeapon;
-
-    private ItemNumber _handheldWeapon;
-
     private DropItemController _nearDropItem;
 
     private PlayerInputController _inputController;
-    private PlayerSyncAnimation _playerSyncAnimation;
+    private PlayerWeaponController _playerWeaponController;
 
     private bool _isLootPopUpOpen = false;
-
-    public ItemNumber HandHeldWeapon 
-    { 
-        get => _handheldWeapon; 
-    }
-
-    public bool[] HasWeapon
-    {
-        get => _hasWeapon;
-    }
-    
-    public GameObject MeleeWeaponGameObject
-    {
-        get => _weapons[(int)ItemNumber.One];
-    }
 
     private void Awake()
     {
         _inputController = GetComponent<PlayerInputController>();
-        _playerSyncAnimation = GetComponent<PlayerSyncAnimation>();
-        _handheldWeapon = ItemNumber.None;
+        _playerWeaponController = GetComponent<PlayerWeaponController>();
     }
 
     private void Start()
     {
         if (playerController.IsMine)
         {
-            _inputController.OnWeaponSwapEvent += WeaponSwap;
             _inputController.OnLootItemEvent += LootItem;
         }
-    }
-
-
-    private void WeaponSwap(ItemNumber itemNumber)
-    {
-        if (_hasWeapon[(int)itemNumber] == false)
-            return;
-
-        if ((int)itemNumber > _weapons.Length)
-            return;
-
-        if (itemNumber == _handheldWeapon)
-            return;
-
-        if (_handheldWeapon != ItemNumber.None)
-            _weapons[(int)_handheldWeapon].SetActive(false);
-
-        GameObject weaponItem = _weapons[(int)itemNumber];
-        weaponItem.SetActive(true);
-        _handheldWeapon = itemNumber;
-        _playerSyncAnimation.WeaponSwapAnimation();
-
-        SendSwapWeaponItemPacket(itemNumber);
-    }
-
-    private void SendSwapWeaponItemPacket(ItemNumber itemNumber)
-    {
-        C_SwapWeaponItem swapWeaponItemPacket = new C_SwapWeaponItem()
-        {
-            WeaponItemNumber = (int)itemNumber,
-        };
-
-        NetworkManager.Instance.Send(swapWeaponItemPacket);
     }
 
 
@@ -111,7 +56,7 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 
         GameObject itemGameObject = ObjectManager.Instance.FindById(itemId);
 
-        _hasWeapon[weaponItemNumber] = true;
+        _playerWeaponController.PlayerLootItem(weaponItemNumber);
         Destroy(itemGameObject);
     }
 
@@ -123,25 +68,28 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
         S_SwapWeaponItem swapWeaponItem = (S_SwapWeaponItem)packet;
         int itemNumber = swapWeaponItem.WeaponItemNumber;
 
-        if (_hasWeapon[itemNumber] == false)
+        if (_playerWeaponController.HasWeapon[itemNumber] == false)
             return;
 
-        if (itemNumber > _weapons.Length)
+        if (itemNumber > _playerWeaponController.Weapons.Length)
             return;
 
-        if (_handheldWeapon != ItemNumber.None)
-            _weapons[(int)_handheldWeapon].SetActive(false);
+        if (_playerWeaponController.HandHeldWeapon != ItemNumber.None)
+            _playerWeaponController.HandHeldWeaponActive(false);
 
-        _weapons[(int)itemNumber].SetActive(true);
-        _handheldWeapon = (ItemNumber)itemNumber;
+        _playerWeaponController.HandHeldWeapon = (ItemNumber)itemNumber;
+        _playerWeaponController.WeaponActive(itemNumber);
+        _playerWeaponController.SwapWeaponAttack();
+
     }
+    #endregion
 
     public void LootItem()
     {
         if (_nearDropItem != null)
         {
             int weaponIndex = _nearDropItem.Value;
-            _hasWeapon[weaponIndex] = true;
+            _playerWeaponController.PlayerLootItem(weaponIndex);
 
             SendLootItemPacket(_nearDropItem.Id, weaponIndex);
 
@@ -161,7 +109,6 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 
         NetworkManager.Instance.Send(lootItemPacket);
     }
-    #endregion
 
 
     private void OnTriggerStay(Collider other)

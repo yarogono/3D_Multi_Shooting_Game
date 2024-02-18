@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: -4176546206156383925}
   - component: {fileID: 8492777399764930498}
   - component: {fileID: 2965009626205403213}
+  - component: {fileID: -4438345880138777485}
   m_Layer: 0
   m_Name: EnemyPlayer
   m_TagString: EnemyPlayer
@@ -627,11 +628,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 005502a283dcc6040a4b0f4a1120289f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapons:
-  - {fileID: 6569679912722567879}
-  - {fileID: 6684768747964020922}
-  - {fileID: 3498330222562975098}
-  _hasWeapon: 000000
 --- !u!114 &8492777399764930498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,6 +653,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 261805027642063127}
+--- !u!114 &-4438345880138777485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470357823029104312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa7cd0d930c7f44fa0acc90c1cf61ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weapons:
+  - {fileID: 6569679912722567879}
+  - {fileID: 6684768747964020922}
+  - {fileID: 3498330222562975098}
+  _hasWeapon: 000000
 --- !u!1 &6488299858336549421
 GameObject:
   m_ObjectHideFlags: 0
