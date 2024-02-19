@@ -115,7 +115,7 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
     {
         if (_isLootPopUpOpen == false && other.CompareTag("Weapon"))
         {
-            UI_Loot lootUI = UIManager.Instance.ShowPopupUI<UI_Loot>("LootUI");
+            UI_Loot lootUI = UIManager.Instance.ShowLootUI("LootUI");
             _isLootPopUpOpen = true;
 
             lootUI.ShowLootText(other.gameObject.name);
@@ -131,7 +131,7 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
     {
         if (other.CompareTag("Weapon"))
         {
-            UIManager.Instance.ClosePopupUI();
+            UIManager.Instance.CloseLootUI();
             _isLootPopUpOpen = false;
             _nearDropItem = null;
         }

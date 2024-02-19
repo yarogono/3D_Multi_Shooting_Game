@@ -6,6 +6,7 @@ public class UIManager : CustomSingleton<UIManager>
     UI_Popup _popup = null;
     UI_Scene _sceneUI = null;
 
+    UI_Loot _loot = null;
 
     public GameObject Root
     {
@@ -53,5 +54,33 @@ public class UIManager : CustomSingleton<UIManager>
 
         ResourceManager.Instance.Destroy(_popup.gameObject);
         _popup = null;
+    }
+
+    public UI_Loot ShowLootUI(string name = null)
+    {
+        if (_loot != null)
+        {
+            _loot.gameObject.SetActive(true);
+            return _loot;
+        }
+
+        if (string.IsNullOrEmpty(name))
+            name = typeof(UI_Loot).Name;
+
+        GameObject go = ResourceManager.Instance.Instantiate($"UI/Popup/{name}");
+        UI_Loot loot = Util.GetOrAddComponent<UI_Loot>(go);
+        _loot = loot;
+
+        go.transform.SetParent(Root.transform);
+
+        return _loot;
+    }
+
+    public void CloseLootUI()
+    {
+        if (_loot == null)
+            return;
+
+        _loot.gameObject.SetActive(false);
     }
 }
