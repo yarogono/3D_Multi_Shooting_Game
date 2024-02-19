@@ -1572,7 +1572,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3005715039547448624}
   m_Layer: 0
-  m_Name: Case Pos
+  m_Name: CasePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1974,7 +1974,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6114829979649348952}
   m_Layer: 0
-  m_Name: Case Pos
+  m_Name: CasePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2019,6 +2019,10 @@ PrefabInstance:
       propertyPath: _bulletCasePos
       value: 
       objectReference: {fileID: 3005715039547448624}
+    - target: {fileID: -8145774424179429440, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
+      propertyPath: _playerGameObject
+      value: 
+      objectReference: {fileID: 5684022663209458036}
     - target: {fileID: 547435428816858648, guid: 203326381d9b54d489646c6c2f61f53a, type: 3}
       propertyPath: m_Name
       value: SubMachineGun
@@ -2282,6 +2286,10 @@ PrefabInstance:
       propertyPath: _bulletCasePos
       value: 
       objectReference: {fileID: 6114829979649348952}
+    - target: {fileID: 7989115189244027668, guid: a2e051660762cbe4494c17a095a95e10, type: 3}
+      propertyPath: _playerGameObject
+      value: 
+      objectReference: {fileID: 5684022663209458036}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

@@ -129,6 +129,7 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
 
     private void OnSyncGunAttack()
     {
+        _playerWeaponController.CurrentWeaponAttack.OnSyncAttack();
         _playerSyncAnimation.WeaponGunAttackAnimation();
     }
 
@@ -174,8 +175,16 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         }
         else if (other.CompareTag("Bullet"))
         {
+            Destroy(other.gameObject);
+            if (playerController.IsMine == false)
+                return;
+
             BulletController bullet = other.GetComponent<BulletController>();
-            StartCoroutine(SendBulletDamagePacket(playerController.Id, bullet));
+
+            if (bullet.ShooterId == playerController.Id)
+                return;
+
+            SendDamageBulletPacket(playerController.Id, bullet.Damage);
         }
     }
 
@@ -194,16 +203,14 @@ public class PlayerSyncAttack : BasePlayerSyncController, ISyncObservable
         _isHit = false;
     }
 
-    private IEnumerator SendBulletDamagePacket(int targetPlayerId, BulletController bullet)
+    private void SendDamageBulletPacket(int targetPlayerId, int bulletDamage)
     {
         C_DamageBullet damageBulletPacket = new C_DamageBullet()
         {
             TargetPlayerId = targetPlayerId,
-            Damage = bullet.Damage,
+            Damage = bulletDamage,
             TargetPosInfo = _playerSyncTransform.PosInfo,
         };
         NetworkManager.Instance.Send(damageBulletPacket);
-
-        yield return null;
     }
 }

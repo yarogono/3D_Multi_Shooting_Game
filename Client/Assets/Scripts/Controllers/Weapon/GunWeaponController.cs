@@ -7,6 +7,14 @@ public class GunWeaponController : WeaponController, IAttackable
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _bulletCasePos;
     [SerializeField] private GameObject _bulletCase;
+    [SerializeField] private GameObject _playerGameObject;
+
+    private PlayerController _playerController;
+
+    private void Start()
+    {
+        _playerController = _playerGameObject.GetComponent<PlayerController>();
+    }
 
     public void Attack()
     {
@@ -18,6 +26,8 @@ public class GunWeaponController : WeaponController, IAttackable
         GameObject instantBullet = Instantiate(_bullet, _bulletPos.position, _bulletPos.rotation);
         Rigidbody bulletRigid = instantBullet.GetComponent<Rigidbody>();
         bulletRigid.velocity = _bulletPos.forward * 50;
+        BulletController bulletController = instantBullet.GetComponent<BulletController>();
+        bulletController.ShooterId = _playerController.Id;
 
         yield return null;
 
@@ -30,6 +40,21 @@ public class GunWeaponController : WeaponController, IAttackable
 
     public void OnSyncAttack()
     {
-        
+        StartCoroutine(OnSyncGunAttack());
+    }
+
+    private IEnumerator OnSyncGunAttack()
+    {
+        GameObject instantBullet = Instantiate(_bullet, _bulletPos.position, _bulletPos.rotation);
+        Rigidbody bulletRigid = instantBullet.GetComponent<Rigidbody>();
+        bulletRigid.velocity = _bulletPos.forward * 50;
+
+        yield return null;
+
+        GameObject instantCase = Instantiate(_bulletCase, _bulletCasePos.position, _bulletCasePos.rotation);
+        Rigidbody caseRigid = instantCase.GetComponent<Rigidbody>();
+        Vector3 caseVec = _bulletCasePos.forward * Random.Range(-3, -2) + Vector3.up * Random.Range(2, 3);
+        caseRigid.AddForce(caseVec, ForceMode.Impulse);
+        caseRigid.AddTorque(Vector3.up * 10, ForceMode.Impulse);
     }
 }

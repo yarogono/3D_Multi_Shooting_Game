@@ -3,6 +3,7 @@ using Google.Protobuf.Protocol;
 using UnityEngine;
 using static Define;
 
+[AddComponentMenu("Player/PlayerWeaponController")]
 public class PlayerWeaponController : BasePlayerSyncController
 {
     [SerializeField] private GameObject[] _weapons;
