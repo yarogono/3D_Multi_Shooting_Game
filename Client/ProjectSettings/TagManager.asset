@@ -11,6 +11,8 @@ TagManager:
   - ChatContent
   - EnemyPlayer
   - Bullet
+  - Wall
+  - Floor
   layers:
   - Default
   - TransparentFX

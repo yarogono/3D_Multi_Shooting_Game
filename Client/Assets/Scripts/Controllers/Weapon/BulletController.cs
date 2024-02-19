@@ -11,11 +11,7 @@ public class BulletController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Floor"))
-        {
-            Destroy(gameObject, 3f);
-        }
-        else if (other.CompareTag("Wall"))
+        if (other.CompareTag("Wall"))
         {
             Destroy(gameObject);
         }

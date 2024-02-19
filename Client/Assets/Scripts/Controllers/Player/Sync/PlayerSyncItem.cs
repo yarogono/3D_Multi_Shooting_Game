@@ -93,7 +93,7 @@ public class PlayerSyncItem : BasePlayerSyncController, ISyncObservable
 
             SendLootItemPacket(_nearDropItem.Id, weaponIndex);
 
-            UIManager.Instance.ClosePopupUI();
+            UIManager.Instance.CloseLootUI();
 
             Destroy(_nearDropItem.gameObject);
         }
