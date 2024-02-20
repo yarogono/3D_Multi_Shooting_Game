@@ -65,6 +65,7 @@ message S_Despawn {
 message C_Move {
 	Vec3 posInfo = 1;
 	float moveSpeed = 2;
+	Vec3 rotation = 3;
 }
 
 message S_Move {
@@ -72,6 +73,7 @@ message S_Move {
 	Vec3 posInfo = 2;
 	google.protobuf.Timestamp serverTimestamp = 3;
 	float moveSpeed = 4;
+	Vec3 rotation = 5;
 }
 
 message S_Ping {

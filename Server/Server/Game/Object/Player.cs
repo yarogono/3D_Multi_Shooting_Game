@@ -12,6 +12,7 @@ namespace Server.Game.Object
         private int _hp;
         private Dictionary<int, Item> _items;
         private Item _equipWeaponItem;
+        private Vec3 _rotation;
 
         public ClientSession Session 
         { 
@@ -40,6 +41,12 @@ namespace Server.Game.Object
         {
             get => _equipWeaponItem;
             set => _equipWeaponItem = value;
+        }
+
+        public Vec3 Rotation
+        {
+            get => _rotation;
+            set => _rotation = value;
         }
 
         public Player()
@@ -85,6 +92,9 @@ namespace Server.Game.Object
             Vec3 posInfo = movePacket.PosInfo;
             info.PosInfo = posInfo;
 
+            Vec3 rotation = movePacket.Rotation;
+            Rotation = rotation;
+
             // 다른 플레이어한테도 알려준다
             S_Move resMovePacket = new S_Move();
             resMovePacket.ObjectId = this.Id;
@@ -92,6 +102,8 @@ namespace Server.Game.Object
             resMovePacket.MoveSpeed = movePacket.MoveSpeed;
             DateTimeOffset pingTime = DateTimeOffset.UtcNow;
             resMovePacket.ServerTimestamp = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTimeOffset(pingTime);
+
+            resMovePacket.Rotation = new Vec3(rotation);
 
             Room.Broadcast(resMovePacket, this.Id);
         }

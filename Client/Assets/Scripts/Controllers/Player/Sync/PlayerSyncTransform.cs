@@ -1,12 +1,12 @@
 using Assets.Scripts.Controllers.Player;
 using Google.Protobuf;
 using Google.Protobuf.Protocol;
+using TMPro;
 using UnityEngine;
 
 [AddComponentMenu("Player/PlayerSyncTransform")]
 public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 {
-
     [SerializeField] [Tooltip("회전 속도")] private float _rotationSpeed = 15.0f;
     [SerializeField] [Tooltip("달리기 속도")] private float _runSpeed = 15.0f;
     [SerializeField] [Tooltip("걷기 속도")]  private float _walkSpeed = 12.0f;
@@ -27,16 +27,15 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     private Vec3 _positionInfo = new Vec3();
     public Vec3 PosInfo
     {
-        get
-        {
-            return new Vec3()
-            {
-                X = _positionInfo.X,
-                Y = _positionInfo.Y,
-                Z = _positionInfo.Z,
-            };
-        }
+        get => _positionInfo;
         set => _positionInfo = value;
+    }
+
+    private Vec3 _netWorkRotation = new Vec3();
+    public Vec3 NetworkRotation
+    {
+        get => _netWorkRotation;
+        set => _netWorkRotation = value;
     }
 
     private void Awake()
@@ -60,7 +59,17 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         {
             UpdateEnemyPlayer();
         }
+        UpdateTestText();
     }
+
+    #region Test용
+    [SerializeField] private TextMeshProUGUI _testText;
+
+    private void UpdateTestText()
+    {
+        _testText.text = $"pos {transform.position}\nrot {transform.rotation}";
+    }
+    #endregion
 
     #region OnSync
     public void OnSync(IMessage packet)
@@ -84,6 +93,8 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
         Vector3 networkPos = new Vector3(movePacketPos.X, movePacketPos.Y, movePacketPos.Z);
         networkPos += this._direction * lag;
+
+        NetworkRotation = movePacket.Rotation;
 
         this._movementDirection = networkPos;
         this._moveSpeed = movePacket.MoveSpeed;
@@ -205,7 +216,12 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
                 Y = transform.position.y,
                 Z = transform.position.z,
             },
-
+            Rotation = new()
+            {
+                X = transform.rotation.eulerAngles.x,
+                Y = transform.rotation.eulerAngles.y,
+                Z = transform.rotation.eulerAngles.z,
+            },
             MoveSpeed = _moveSpeed
         };
         NetworkManager.Instance.Send(movePacket);
@@ -242,8 +258,8 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
 
         Vector3 nextPosition = Vector3.MoveTowards(transform.position, _movementDirection, distance * Time.deltaTime * 10);
 
-        Vector3 moveDir = nextPosition - transform.position;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveDir), Time.deltaTime * _rotationSpeed);
+        Quaternion targetRotation = Quaternion.Euler(new Vector3(NetworkRotation.X, NetworkRotation.Y, NetworkRotation.Z));
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
 
         if (distance <= _syncMargin)
         {
