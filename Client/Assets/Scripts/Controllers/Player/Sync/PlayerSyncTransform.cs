@@ -259,7 +259,8 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         Vector3 nextPosition = Vector3.MoveTowards(transform.position, _movementDirection, distance * Time.deltaTime * 10);
 
         Quaternion targetRotation = Quaternion.Euler(new Vector3(NetworkRotation.X, NetworkRotation.Y, NetworkRotation.Z));
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
+        float angle = Quaternion.Angle(transform.rotation, targetRotation);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, angle * Time.deltaTime * _rotationSpeed);
 
         if (distance <= _syncMargin)
         {
