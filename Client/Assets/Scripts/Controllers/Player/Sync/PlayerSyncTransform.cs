@@ -10,7 +10,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     [SerializeField] [Tooltip("회전 속도")] private float _rotationSpeed = 15.0f;
     [SerializeField] [Tooltip("달리기 속도")] private float _runSpeed = 15.0f;
     [SerializeField] [Tooltip("걷기 속도")]  private float _walkSpeed = 12.0f;
-    [SerializeField] [Tooltip("동기화 오차범위")] private float _syncMargin = 0.1f;
+    [SerializeField] [Tooltip("동기화 오차범위")] private float _syncMargin = 0.01f;
 
     private PlayerInputController _inputController;
 
@@ -256,7 +256,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
     {
         float distance = Vector3.Distance(transform.position, _movementDirection);
 
-        Vector3 nextPosition = Vector3.MoveTowards(transform.position, _movementDirection, distance * Time.deltaTime * 10);
+        Vector3 nextPosition = Vector3.MoveTowards(transform.position, _movementDirection, distance * Time.deltaTime * _runSpeed);
 
         Quaternion targetRotation = Quaternion.Euler(new Vector3(NetworkRotation.X, NetworkRotation.Y, NetworkRotation.Z));
         float angle = Quaternion.Angle(transform.rotation, targetRotation);
