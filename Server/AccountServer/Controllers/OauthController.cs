@@ -35,7 +35,7 @@ namespace AccountServer.Controllers
 
             var res = _oauthService.GoogleLogin(result, token);
             
-            return Ok(res.Result);
+            return Ok(res);
         }
     }
 }

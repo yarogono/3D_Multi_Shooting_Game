@@ -17,7 +17,7 @@ namespace AccountServer.Service
             _accountRepository = accountRepository;
         }
 
-        public async Task<ServiceResponse<GoogleLoginResDto>> GoogleLogin(AuthenticateResult result, string token)
+        public ServiceResponse<GoogleLoginResDto> GoogleLogin(AuthenticateResult result, string token)
         {
             ServiceResponse<GoogleLoginResDto> res = new();
 

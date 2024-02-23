@@ -18,7 +18,7 @@ namespace AccountServer.Service
             _accountRepository = accountRepository;
             _mapper = mapper;
         }
-        public async Task<ServiceResponse<AccountSignupResDto>> AddAccount(AccountSignupReqDto req)
+        public ServiceResponse<AccountSignupResDto> AddAccount(AccountSignupReqDto req)
         {
             ServiceResponse<AccountSignupResDto> res = new();
 
@@ -59,7 +59,7 @@ namespace AccountServer.Service
             return res;
         }
 
-        public async Task<ServiceResponse<AccountLoginResDto>> AccountLogin(AccountLoginReqDto req)
+        public ServiceResponse<AccountLoginResDto> AccountLogin(AccountLoginReqDto req)
         {
             ServiceResponse<AccountLoginResDto> res = new();
 

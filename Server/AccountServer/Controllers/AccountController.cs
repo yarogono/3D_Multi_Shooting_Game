@@ -18,7 +18,7 @@ namespace AccountServer.Controllers
         [Route("signup")]
         public async Task<ActionResult<AccountSignupResDto>> Signup([FromBody] AccountSignupReqDto req)
         {
-            var res = await _accountService.AddAccount(req);
+            var res = _accountService.AddAccount(req);
             return Ok(res);
         }
 
@@ -26,7 +26,7 @@ namespace AccountServer.Controllers
         [Route("login")]
         public async Task<ActionResult<AccountLoginResDto>> Login([FromBody] AccountLoginReqDto req)
         {
-            var res = await _accountService.AccountLogin(req);
+            var res = _accountService.AccountLogin(req);
             return Ok(res);
         }
     }
