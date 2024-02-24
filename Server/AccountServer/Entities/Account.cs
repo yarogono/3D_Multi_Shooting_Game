@@ -10,6 +10,7 @@ namespace AccountServer.Entities
         public int AccountId { get; set; }
 
         [Required]
+        [StringLength(45)]
         public string AccountName { get; set; }
 
         [Required]
