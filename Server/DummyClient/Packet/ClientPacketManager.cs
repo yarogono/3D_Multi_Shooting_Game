@@ -34,7 +34,21 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SMove, MakePacket<S_Move>);
 		_handler.Add((ushort)MsgId.SMove, PacketHandler.S_MoveHandler);		
 		_onRecv.Add((ushort)MsgId.SSpawnItem, MakePacket<S_SpawnItem>);
-		_handler.Add((ushort)MsgId.SSpawnItem, PacketHandler.S_SpawnItemHandler);
+		_handler.Add((ushort)MsgId.SSpawnItem, PacketHandler.S_SpawnItemHandler);		
+		_onRecv.Add((ushort)MsgId.SPing, MakePacket<S_Ping>);
+		_handler.Add((ushort)MsgId.SPing, PacketHandler.S_PingHandler);		
+		_onRecv.Add((ushort)MsgId.SSwapWeaponItem, MakePacket<S_SwapWeaponItem>);
+		_handler.Add((ushort)MsgId.SSwapWeaponItem, PacketHandler.S_SwapWeaponItemHandler);		
+		_onRecv.Add((ushort)MsgId.SLootItem, MakePacket<S_LootItem>);
+		_handler.Add((ushort)MsgId.SLootItem, PacketHandler.S_LootItemHandler);		
+		_onRecv.Add((ushort)MsgId.SMeleeAttack, MakePacket<S_MeleeAttack>);
+		_handler.Add((ushort)MsgId.SMeleeAttack, PacketHandler.S_MeleeAttackHandler);		
+		_onRecv.Add((ushort)MsgId.SDamageMelee, MakePacket<S_DamageMelee>);
+		_handler.Add((ushort)MsgId.SDamageMelee, PacketHandler.S_DamageMeleeHandler);		
+		_onRecv.Add((ushort)MsgId.SDamageBullet, MakePacket<S_DamageBullet>);
+		_handler.Add((ushort)MsgId.SDamageBullet, PacketHandler.S_DamageBulletHandler);		
+		_onRecv.Add((ushort)MsgId.SGunAttack, MakePacket<S_GunAttack>);
+		_handler.Add((ushort)MsgId.SGunAttack, PacketHandler.S_GunAttackHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
