@@ -9,7 +9,7 @@ namespace DummyClient
 
         static void Main(string[] args)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
 
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);

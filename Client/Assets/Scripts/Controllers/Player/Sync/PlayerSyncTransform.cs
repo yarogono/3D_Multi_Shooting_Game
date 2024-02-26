@@ -62,7 +62,7 @@ public class PlayerSyncTransform : BasePlayerSyncController, ISyncObservable
         UpdateTestText();
     }
 
-    #region Test용
+    #region Test용 (케릭터 transform & rotation)
     [SerializeField] private TextMeshProUGUI _testText;
 
     private void UpdateTestText()

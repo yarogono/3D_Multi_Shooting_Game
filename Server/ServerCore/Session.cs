@@ -84,6 +84,8 @@ namespace ServerCore
                 if (_pendingList.Count == 0)
                     RegisterSend();
             }
+
+            sendBuffList = null;
         }
 
         public void Send(ArraySegment<byte> sendBuff)

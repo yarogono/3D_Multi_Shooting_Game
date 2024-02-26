@@ -25,6 +25,21 @@ namespace DummyClient
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"OnConnected : {endPoint}");
+
+            Vec3 posInfo = new Vec3() { X = 0, Y = 1, Z = 0 };
+            CreatureState state = CreatureState.Idle;
+            ObjectInfo myPlayer = new ObjectInfo() { Name = "MyPlayer", PosInfo = posInfo, State = state };
+            C_EnterGame enterGamePacket = new C_EnterGame() { Player = myPlayer };
+            Send(enterGamePacket);
+
+            Thread.Sleep(5000);
+
+            C_LeaveGame leaveGamePacket = new C_LeaveGame()
+            {
+                PlayerId = DummyId,
+            };
+
+            Send(leaveGamePacket);
         }
 
         public override void OnDisconnected(EndPoint endPoint)
