@@ -32,14 +32,14 @@ namespace DummyClient
             C_EnterGame enterGamePacket = new C_EnterGame() { Player = myPlayer };
             Send(enterGamePacket);
 
-            Thread.Sleep(5000);
+            //Thread.Sleep(5000);
 
-            C_LeaveGame leaveGamePacket = new C_LeaveGame()
-            {
-                PlayerId = DummyId,
-            };
+            //C_LeaveGame leaveGamePacket = new C_LeaveGame()
+            //{
+            //    PlayerId = DummyId,
+            //};
 
-            Send(leaveGamePacket);
+            //Send(leaveGamePacket);
         }
 
         public override void OnDisconnected(EndPoint endPoint)
