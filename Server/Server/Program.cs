@@ -9,7 +9,6 @@ namespace Server
     class Program
     {
         static Listener _listener = new Listener();
-        static List<System.Timers.Timer> _timers = new List<System.Timers.Timer>();
 
         static void GameLogicTask()
         {
