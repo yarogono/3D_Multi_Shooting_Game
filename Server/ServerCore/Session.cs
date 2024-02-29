@@ -47,6 +47,10 @@ namespace ServerCore
         SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs();
         SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
 
+        public SocketAsyncEventArgs ReceiveEventArgs { get; private set; }
+        public SocketAsyncEventArgs SendEventArgs { get; private set; }
+
+
         public abstract void OnConnected(EndPoint endPoint);
         public abstract int OnRecv(ArraySegment<byte> buffer);
         public abstract void OnSend(int numOfBytes);
@@ -69,6 +73,15 @@ namespace ServerCore
             _sendArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
 
             RegisterRecv();
+        }
+
+        public void SetEventArgs(SocketAsyncEventArgs receiveEventArgs, SocketAsyncEventArgs sendEventArgs)
+        {
+            ReceiveEventArgs = receiveEventArgs;
+            SendEventArgs = sendEventArgs;
+
+            ReceiveEventArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
+            SendEventArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
         }
 
         public void Send(List<ArraySegment<byte>> sendBuffList)

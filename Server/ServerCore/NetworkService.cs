@@ -6,9 +6,11 @@ namespace ServerCore;
 public class NetworkService
 {
     SocketAsyncEventArgsPool ReceiveEventArgsPool;
-    SocketAsyncEventArgsPool SendEventArgsPool;
+    SocketAsyncEventArgsPool SendEventArgsPool; 
 
     Listener ClientListener = new();
+
+    Socket _listenSocket;
 
     public ServerOption ServerOpt { get; private set; }
 
@@ -67,5 +69,13 @@ public class NetworkService
                 SendEventArgsPool.Push(arg);
             }
         }
+    }
+
+    void OnSessionClosed(Session session)
+    {
+        ReceiveEventArgsPool.Push(session.ReceiveEventArgs);
+        SendEventArgsPool.Push(session.SendEventArgs);
+
+        session.SetEventArgs(null, null);
     }
 }
