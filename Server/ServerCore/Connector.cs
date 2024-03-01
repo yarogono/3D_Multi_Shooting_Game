@@ -7,8 +7,12 @@ namespace ServerCore
     {
         Func<Session> _sessionFactory;
 
+        SocketAsyncEventArgsPool ReceiveEventArgsPool;
+        SocketAsyncEventArgsPool SendEventArgsPool;
+
         public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory, int count = 1)
         {
+            CreateEventArgsPool(count);
             for (int i = 0; i < count; i++)
             {
                 Socket socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -48,7 +52,8 @@ namespace ServerCore
                 if (args.SocketError == SocketError.Success)
                 {
                     Session session = _sessionFactory.Invoke();
-                    session.Start(args.ConnectSocket);
+                    session.SetEventArgs(ReceiveEventArgsPool.Pop(), SendEventArgsPool.Pop());
+                    session.Start(args.ConnectSocket, ReceiveEventArgsPool, SendEventArgsPool);
                     session.OnConnected(args.RemoteEndPoint);
                 }
                 else
@@ -59,6 +64,30 @@ namespace ServerCore
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+            }
+        }
+
+        void CreateEventArgsPool(int maxConnectionCount)
+        {
+            ReceiveEventArgsPool = new SocketAsyncEventArgsPool();
+
+            SendEventArgsPool = new SocketAsyncEventArgsPool();
+
+            SocketAsyncEventArgs arg;
+
+            for (int i = 0; i < maxConnectionCount; i++)
+            {
+                // ReceiveEventArgsPool
+                {
+                    arg = new SocketAsyncEventArgs();
+                    ReceiveEventArgsPool.Push(arg);
+                }
+
+                // SendEventArgsPool
+                {
+                    arg = new SocketAsyncEventArgs();
+                    SendEventArgsPool.Push(arg);
+                }
             }
         }
     }

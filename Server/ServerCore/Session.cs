@@ -44,8 +44,9 @@ namespace ServerCore
         object _lock = new object();
         Queue<ArraySegment<byte>> _sendQueue = new Queue<ArraySegment<byte>>();
         List<ArraySegment<byte>> _pendingList = new List<ArraySegment<byte>>();
-        SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs();
-        SocketAsyncEventArgs _recvArgs = new SocketAsyncEventArgs();
+
+        SocketAsyncEventArgsPool ReceiveEventArgsPool;
+        SocketAsyncEventArgsPool SendEventArgsPool;
 
         public SocketAsyncEventArgs ReceiveEventArgs { get; private set; }
         public SocketAsyncEventArgs SendEventArgs { get; private set; }
@@ -65,12 +66,15 @@ namespace ServerCore
             }
         }
 
-        public void Start(Socket socket)
+        public void Start(Socket socket, SocketAsyncEventArgsPool receiveEventArgsPool, SocketAsyncEventArgsPool sendEventArgsPool)
         {
             _socket = socket;
 
-            _recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
-            _sendArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
+            ReceiveEventArgsPool = receiveEventArgsPool;
+            SendEventArgsPool = sendEventArgsPool;
+
+            ReceiveEventArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
+            SendEventArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
 
             RegisterRecv();
         }
@@ -79,9 +83,6 @@ namespace ServerCore
         {
             ReceiveEventArgs = receiveEventArgs;
             SendEventArgs = sendEventArgs;
-
-            ReceiveEventArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
-            SendEventArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
         }
 
         public void Send(List<ArraySegment<byte>> sendBuffList)
@@ -116,6 +117,9 @@ namespace ServerCore
             if (Interlocked.Exchange(ref _disconnected, 1) == 1)
                 return;
 
+            ReceiveEventArgsPool.Push(ReceiveEventArgs);
+            SendEventArgsPool.Push(SendEventArgs);
+
             OnDisconnected(_socket.RemoteEndPoint);
             _socket.Shutdown(SocketShutdown.Both);
             _socket.Close();
@@ -133,14 +137,14 @@ namespace ServerCore
                 ArraySegment<byte> buff = _sendQueue.Dequeue();
                 _pendingList.Add(buff);
             }
-            _sendArgs.BufferList = _pendingList;
+            SendEventArgs.BufferList = _pendingList;
 
 
             try
             {
-                bool pending = _socket.SendAsync(_sendArgs);
+                bool pending = _socket.SendAsync(SendEventArgs);
                 if (pending == false)
-                    OnSendCompleted(null, _sendArgs);
+                    OnSendCompleted(null, SendEventArgs);
             }
             catch (Exception e)
             {
@@ -156,10 +160,10 @@ namespace ServerCore
                 {
                     try
                     {
-                        _sendArgs.BufferList = null;
+                        SendEventArgs.BufferList = null;
                         _pendingList.Clear();
 
-                        OnSend(_sendArgs.BytesTransferred);
+                        OnSend(SendEventArgs.BytesTransferred);
 
                         if (_sendQueue.Count > 0)
                             RegisterSend();
@@ -183,13 +187,13 @@ namespace ServerCore
 
             _recvBuffer.Clean();
             ArraySegment<byte> segment = _recvBuffer.WriteSegment;
-            _recvArgs.SetBuffer(segment.Array, segment.Offset, segment.Count);
+            ReceiveEventArgs.SetBuffer(segment.Array, segment.Offset, segment.Count);
 
             try
             {
-                bool pending = _socket.ReceiveAsync(_recvArgs);
+                bool pending = _socket.ReceiveAsync(ReceiveEventArgs);
                 if (pending == false)
-                    OnRecvCompleted(null, _recvArgs);
+                    OnRecvCompleted(null, ReceiveEventArgs);
             }
             catch (Exception e)
             {
