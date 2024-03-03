@@ -7,7 +7,6 @@ using Moq;
 
 namespace AccountServerTest
 {
-    [TestClass]
     public class AccountServiceTest
     {
         private readonly Mock<IAccountRepository> _mockRepository;
@@ -24,11 +23,11 @@ namespace AccountServerTest
             _accountService = new AccountService(_mockPasswordEncryptor.Object, _mockRepository.Object, _mockImapper.Object);
         }
 
-        [TestMethod]
-        public async Task AddAcount()
+        [Fact]
+        public void AddAcount()
         {
             //Arrange
-            var reqDto = new AccountSignupReqDto()
+            AccountSignupReqDto reqDto = new()
             {
                 AccountName = "test1234",
                 Password = "test1234",
@@ -46,11 +45,46 @@ namespace AccountServerTest
             _mockRepository.Verify(x => x.AddAccount(It.IsAny<Account>()), Times.Once);
 
             //Assert
-            Assert.AreEqual(reqDto.AccountName, account.AccountName);
-            Assert.AreEqual(reqDto.Nickname, account.Nickname);
+            Assert.Equal(reqDto.AccountName, account.AccountName);
+            Assert.Equal(reqDto.Nickname, account.Nickname);
 
             bool passwordMatch = _mockPasswordEncryptor.Object.IsmatchPassword(reqDto.Password, account.Password);
-            Assert.IsTrue(passwordMatch);
+            Assert.True(passwordMatch);
+        }
+
+        [Fact]
+        public void AccounLogin()
+        {
+            // Arrange
+            AccountLoginReqDto reqDto = new()
+            {
+                AccountName = "test1234",
+                Password = "test1234",
+            };
+
+            Account account = null;
+
+            AccountSignupReqDto signupReqDto = new()
+            {
+                AccountName = "test1234",
+                Password = "test1234",
+                ConfirmPassword = "test1234",
+                Nickname = "testNick",
+            };
+
+            _mockRepository.Setup(r => r.AddAccount(It.IsAny<Account>()))
+                .Callback<Account>(x => account = x);
+            _accountService.AddAccount(signupReqDto);
+            _mockRepository.Verify(x => x.AddAccount(It.IsAny<Account>()), Times.Once);
+
+            // Act
+            _accountService.AccountLogin(reqDto);
+
+            // Assert
+            Assert.Equal(reqDto.AccountName, account.AccountName);
+
+            bool passwordMatch = _mockPasswordEncryptor.Object.IsmatchPassword(reqDto.Password, account.Password);
+            Assert.True(passwordMatch);
         }
     }
 }
