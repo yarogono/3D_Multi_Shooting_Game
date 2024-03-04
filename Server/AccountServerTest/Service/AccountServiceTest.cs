@@ -5,7 +5,7 @@ using AccountServer.Utils;
 using AutoMapper;
 using Moq;
 
-namespace AccountServerTest
+namespace AccountServerTest.Service
 {
     public class AccountServiceTest
     {
@@ -23,10 +23,10 @@ namespace AccountServerTest
             _accountService = new AccountService(_mockPasswordEncryptor.Object, _mockRepository.Object, _mockImapper.Object);
         }
 
-        [Fact]
+        [Fact(DisplayName = "유저 회원가입")]
         public void AddAcount()
         {
-            //Arrange
+            // Arrange
             AccountSignupReqDto reqDto = new()
             {
                 AccountName = "test1234",
@@ -40,11 +40,11 @@ namespace AccountServerTest
             _mockRepository.Setup(r => r.AddAccount(It.IsAny<Account>()))
                 .Callback<Account>(x => account = x);
 
-            //Act
+            // Act
             _accountService.AddAccount(reqDto);
             _mockRepository.Verify(x => x.AddAccount(It.IsAny<Account>()), Times.Once);
 
-            //Assert
+            // Assert
             Assert.Equal(reqDto.AccountName, account.AccountName);
             Assert.Equal(reqDto.Nickname, account.Nickname);
 
@@ -52,7 +52,7 @@ namespace AccountServerTest
             Assert.True(passwordMatch);
         }
 
-        [Fact]
+        [Fact(DisplayName = "유저 로그인")]
         public void AccounLogin()
         {
             // Arrange
