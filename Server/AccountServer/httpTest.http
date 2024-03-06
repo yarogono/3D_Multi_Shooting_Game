@@ -1,0 +1,268 @@
+@rootUrl=https://localhost:7038/api
+
+POST {{rootUrl}}/Account/signup
+Content-Type: application/json
+
+{
+  "AccountName": "richard0326",
+  "Password": "root1234",
+  "ConfirmPassword": "root1234",
+  "Nickname": "richard"
+}
+
+###
+POST {{rootUrl}}/Account/login
+Content-Type: application/json
+
+{
+  "AccountName":"richard0326",
+  "Password":"root1234"
+}
+
+###
+POST {{rootUrl}}/UserGameInfo
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk"
+}
+
+###
+POST {{rootUrl}}/UserGameInfo
+Content-Type: application/json
+
+{
+  "ID":"richard0326",
+  "AuthToken":"hhvtdbzh603woii8fhrtyad15"
+}
+
+###
+POST {{rootUrl}}/FieldMonster
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk"
+}
+
+###
+POST {{rootUrl}}/Catch
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken": "4ov5i7xoq673mn1fonbalbaqk",
+  "MonsterID": 2
+}
+
+###
+POST {{rootUrl}}/DailyCheck
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk"
+}
+
+###
+POST {{rootUrl}}/MailList
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk",
+  "PageIndex": 0
+}
+
+###
+POST {{rootUrl}}/MailList
+Content-Type: application/json
+
+{
+  "ID":"richard0326",
+  "AuthToken":"hhvtdbzh603woii8fhrtyad15",
+  "PageIndex": 0
+}
+
+###
+POST {{rootUrl}}/SendMail
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk",
+  "sendID":"richard0326",
+  "StarCount": 900
+}
+
+###
+POST {{rootUrl}}/RecvMail
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk",
+  "MailID": 4
+}
+
+###
+POST {{rootUrl}}/RecvMail
+Content-Type: application/json
+
+{
+  "ID":"richard0326",
+  "AuthToken":"hhvtdbzh603woii8fhrtyad15",
+  "MailID": 9
+}
+
+###
+POST {{rootUrl}}/RankingList
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk",
+  "PageIndex": 0
+}
+
+###
+POST {{rootUrl}}/RemoveCatch
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk",
+  "RemoveID": 1
+}
+
+###
+POST {{rootUrl}}/Upgrade
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk",
+  "CatchID": 13,
+  "MonsterID": 2,
+  "UpgradeSize": 1
+}
+
+###
+POST {{rootUrl}}/Evolve
+Content-Type: application/json
+
+{
+  "ID":"jacking751",
+  "AuthToken":"4ov5i7xoq673mn1fonbalbaqk",
+  "CatchID": 5,
+  "MonsterID": 1
+}
+
+###
+POST {{rootUrl}}/CreateAccount
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "PW":"test"
+}
+
+###
+POST {{rootUrl}}/Login
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "PW":"test"
+}
+
+###
+POST {{rootUrl}}/UserGameInfo
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "AuthToken": "vcfp9doqy1sx6xb1epyldy2u9"
+}
+
+###
+POST {{rootUrl}}/FieldMonster
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "AuthToken": "vcfp9doqy1sx6xb1epyldy2u9"
+}
+
+###
+POST {{rootUrl}}/Catch
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "AuthToken": "vcfp9doqy1sx6xb1epyldy2u9",
+  "MonsterID": 2
+}
+
+###
+POST {{rootUrl}}/DailyCheck
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "AuthToken": "vcfp9doqy1sx6xb1epyldy2u9"
+}
+
+###
+POST {{rootUrl}}/MailList
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "AuthToken": "vcfp9doqy1sx6xb1epyldy2u9",
+  "PageIndex": 0
+}
+
+###
+POST {{rootUrl}}/SendMail
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "AuthToken": "vcfp9doqy1sx6xb1epyldy2u9",
+  "sendID":"richard0326",
+  "StarCount": 900
+}
+
+###
+POST {{rootUrl}}/RankingList
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "AuthToken": "vcfp9doqy1sx6xb1epyldy2u9",
+  "PageIndex": 0
+}
+
+###
+POST {{rootUrl}}/RemoveCatch
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "AuthToken": "vcfp9doqy1sx6xb1epyldy2u9",
+  "RemoveID": 11
+}
+
+###
+POST {{rootUrl}}/Upgrade
+Content-Type: application/json
+
+{
+  "ID":"test",
+  "AuthToken": "vcfp9doqy1sx6xb1epyldy2u9",
+  "CatchID": 13,
+  "MonsterID": 2,
+  "UpgradeSize": 1
+}
