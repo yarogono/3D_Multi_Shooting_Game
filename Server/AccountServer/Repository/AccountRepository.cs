@@ -13,6 +13,11 @@ namespace AccountServer.Repository
             _dataContext = dataContext;
         }
 
+        public void Dispose()
+        {
+            _dataContext.Dispose();
+        }
+
         public Account GetAccountByAccountname(string accountname)
         {
             return _dataContext.Accounts.FirstOrDefault(a => a.AccountName == accountname);
@@ -34,6 +39,5 @@ namespace AccountServer.Repository
         {
             return _dataContext.SaveChanges() >= 0 ? true : false;
         }
-
     }
 }

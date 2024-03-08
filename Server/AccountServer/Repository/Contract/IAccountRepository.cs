@@ -2,7 +2,7 @@ using AccountServer.Entities;
 
 namespace AccountServer.Repository.Contract
 {
-    public interface IAccountRepository
+    public interface IAccountRepository : IDisposable
     {
         void UpdateAccountLastLogin(Account account);
 

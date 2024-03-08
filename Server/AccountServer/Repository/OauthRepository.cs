@@ -13,6 +13,11 @@ namespace AccountServer.Repository
             _dataContext = dataContext;
         }
 
+        public void Dispose()
+        {
+            _dataContext.Dispose();
+        }
+
         public bool AddAccountOauth(Oauth oauth, Account account)
         {
             _dataContext.Oauths.Add(oauth);
