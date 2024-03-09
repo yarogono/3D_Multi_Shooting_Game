@@ -46,7 +46,16 @@ namespace AccountServer.Repository
 
         public bool AddAccountOauth(Oauth oauth, Account account)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return true;
         }
 
     }

@@ -2,8 +2,8 @@ namespace AccountServer.Service.Contract
 {
     public interface IAccountService
     {
-        ServiceResponse<AccountSignupResDto> AddAccount(AccountSignupReqDto req);
+        public ServiceResponse<AccountSignupResDto> AddAccount(AccountSignupReqDto req);
 
-        ServiceResponse<AccountLoginResDto> AccountLogin(AccountLoginReqDto req);
+        public ServiceResponse<AccountLoginResDto> AccountLogin(AccountLoginReqDto req);
     }
 }

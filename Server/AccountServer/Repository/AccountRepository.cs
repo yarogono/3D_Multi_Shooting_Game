@@ -1,6 +1,8 @@
 using AccountServer.DB;
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
+using AccountServer.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccountServer.Repository
 {
@@ -18,21 +20,26 @@ namespace AccountServer.Repository
             _dataContext.Dispose();
         }
 
-        public Account GetAccountByAccountname(string accountname)
+        public async Task<Account> GetAccountByAccountname(string accountname)
         {
-            return _dataContext.Accounts.FirstOrDefault(a => a.AccountName == accountname);
+            Account account = _dataContext.Accounts.FirstOrDefault(a => a.AccountName == accountname);
+            return account;
         }
 
-        public bool AddAccount(Account account)
+        public async Task<bool> AddAccount(Account account)
         {
             _dataContext.Accounts.Add(account);
-            return Save();
+            bool result = Save();
+            return result;
         }
-        public void UpdateAccountLastLogin(Account account)
+
+        public async Task<ErrorCode> UpdateAccountLastLogin(Account account)
         {
             account.LastLoginAt = DateTime.Now;
 
             Save();
+
+            return ErrorCode.None;
         }
 
         public bool Save()

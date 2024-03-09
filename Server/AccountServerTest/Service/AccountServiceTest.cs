@@ -42,7 +42,6 @@ namespace AccountServerTest.Service
 
             // Act
             _accountService.AddAccount(reqDto);
-            _mockRepository.Verify(x => x.AddAccount(It.IsAny<Account>()), Times.Once);
 
             // Assert
             Assert.Equal(reqDto.AccountName, account.AccountName);

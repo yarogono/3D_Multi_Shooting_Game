@@ -1,62 +1,91 @@
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
+using AccountServer.Utils;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 using SqlKata.Execution;
 using System.Data;
 
-namespace AccountServer.Repository
-{
-    public class AccountDb : IAccountRepository
-    {
-        readonly IOptions<DbConfig> _dbConfig;
-        readonly ILogger<AccountDb> _logger;
+namespace AccountServer.Repository;
 
-        IDbConnection _dbConn;
-        SqlKata.Compilers.MySqlCompiler _compiler;
-        QueryFactory _queryFactory;
+//public class AccountDb : IAccountRepository
+//{
+//    readonly IOptions<DbConfig> _dbConfig;
+//    readonly ILogger<AccountDb> _logger;
 
-        public AccountDb(ILogger<AccountDb> logger, IOptions<DbConfig> dbConfig)
-        {
-            _logger = logger;
-            _dbConfig = dbConfig;
+//    IDbConnection _dbConn;
+//    SqlKata.Compilers.MySqlCompiler _compiler;
+//    QueryFactory _queryFactory;
 
-            Open();
+//    public AccountDb(ILogger<AccountDb> logger, IOptions<DbConfig> dbConfig)
+//    {
+//        _logger = logger;
+//        _dbConfig = dbConfig;
 
-            _compiler = new SqlKata.Compilers.MySqlCompiler();
-            _queryFactory = new QueryFactory(_dbConn, _compiler);
-        }
+//        Open();
 
-        private void Open()
-        {
-            _dbConn = new MySqlConnection(_dbConfig.Value.AccountDb);
+//        _compiler = new SqlKata.Compilers.MySqlCompiler();
+//        _queryFactory = new QueryFactory(_dbConn, _compiler);
+//    }
 
-            _dbConn.Open();
-        }
+//    private void Open()
+//    {
+//        _dbConn = new MySqlConnection(_dbConfig.Value.AccountDb);
 
-        public void Dispose()
-        {
-            Close();
-        }
+//        _dbConn.Open();
+//    }
 
-        private void Close()
-        {
-            _dbConn.Close();
-        }
+//    public void Dispose()
+//    {
+//        Close();
+//    }
 
-        bool IAccountRepository.AddAccount(Account account)
-        {
-            throw new NotImplementedException();
-        }
+//    private void Close()
+//    {
+//        _dbConn.Close();
+//    }
 
-        Account IAccountRepository.GetAccountByAccountname(string accountname)
-        {
-            throw new NotImplementedException();
-        }
+//    public async Task<Tuple<ErrorCode, bool>> AddAccount(Account account)
+//    {
+//        try
+//        {
+//            int count = await _queryFactory.Query("account").InsertAsync(account);
 
-        void IAccountRepository.UpdateAccountLastLogin(Account account)
-        {
-            throw new NotImplementedException();
-        }
-    }
-}
+//            return new Tuple<ErrorCode, bool>(count != 1 ? ErrorCode.CreateAccountFailInsert : ErrorCode.None,  true);
+//        }
+//        catch (Exception ex) 
+//        {
+
+//        }
+
+//        return new Tuple<ErrorCode, bool>(ErrorCode.None, true);
+//    }
+
+//    public Task<Tuple<ErrorCode, Account>> GetAccountByAccountname(string accountname)
+//    {
+//        try
+//        {
+
+//        }
+//        catch (Exception ex)
+//        {
+
+//        }
+
+//        return new Task<Tuple<ErrorCode, Account>>(ErrorCode.None, null);
+//    }
+
+//    public async Task<ErrorCode> UpdateAccountLastLogin(Account account)
+//    {
+//        try
+//        {
+
+//        }
+//        catch (Exception ex)
+//        {
+
+//        }
+
+//        return ErrorCode.None;
+//    }
+//}

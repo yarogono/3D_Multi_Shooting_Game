@@ -1,13 +1,13 @@
 using AccountServer.Entities;
+using AccountServer.Utils;
 
-namespace AccountServer.Repository.Contract
+namespace AccountServer.Repository.Contract;
+
+public interface IAccountRepository : IDisposable
 {
-    public interface IAccountRepository : IDisposable
-    {
-        void UpdateAccountLastLogin(Account account);
+    public Task<ErrorCode> UpdateAccountLastLogin(Account account);
 
-        Account GetAccountByAccountname(string accountname);
+    public Task<Account> GetAccountByAccountname(string accountname);
 
-        bool AddAccount(Account account);
-    }
+    public Task<bool> AddAccount(Account account);
 }

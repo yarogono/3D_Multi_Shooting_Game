@@ -29,7 +29,8 @@ namespace AccountServer.Service
                 string name = principal.FindFirstValue(ClaimTypes.Name);
                 string accessToken = result.Properties.GetTokenValue("access_token");
 
-                Account account = _accountRepository.GetAccountByAccountname(email);
+                Account account = _accountRepository.GetAccountByAccountname(email).Result;
+
                 if (account != null)
                 {
                     res.Success = true;

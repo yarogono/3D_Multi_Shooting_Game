@@ -4,6 +4,6 @@ namespace AccountServer.Service.Contract
 {
     public interface IOauthService
     {
-        ServiceResponse<GoogleLoginResDto> GoogleLogin(AuthenticateResult result, string token);
+        public ServiceResponse<GoogleLoginResDto> GoogleLogin(AuthenticateResult result, string token);
     }
 }
