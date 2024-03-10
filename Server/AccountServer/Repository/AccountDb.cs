@@ -1,6 +1,5 @@
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
-using AccountServer.Utils;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 using SqlKata.Execution;
@@ -8,84 +7,82 @@ using System.Data;
 
 namespace AccountServer.Repository;
 
-//public class AccountDb : IAccountRepository
-//{
-//    readonly IOptions<DbConfig> _dbConfig;
-//    readonly ILogger<AccountDb> _logger;
+public class AccountDb : IAccountRepository
+{
+    readonly IOptions<DbConfig> _dbConfig;
+    readonly ILogger<AccountDb> _logger;
 
-//    IDbConnection _dbConn;
-//    SqlKata.Compilers.MySqlCompiler _compiler;
-//    QueryFactory _queryFactory;
+    IDbConnection _dbConn;
+    SqlKata.Compilers.MySqlCompiler _compiler;
+    QueryFactory _queryFactory;
 
-//    public AccountDb(ILogger<AccountDb> logger, IOptions<DbConfig> dbConfig)
-//    {
-//        _logger = logger;
-//        _dbConfig = dbConfig;
+    public AccountDb(ILogger<AccountDb> logger, IOptions<DbConfig> dbConfig)
+    {
+        _logger = logger;
+        _dbConfig = dbConfig;
 
-//        Open();
+        Open();
 
-//        _compiler = new SqlKata.Compilers.MySqlCompiler();
-//        _queryFactory = new QueryFactory(_dbConn, _compiler);
-//    }
+        _compiler = new SqlKata.Compilers.MySqlCompiler();
+        _queryFactory = new QueryFactory(_dbConn, _compiler);
+    }
 
-//    private void Open()
-//    {
-//        _dbConn = new MySqlConnection(_dbConfig.Value.AccountDb);
+    private void Open()
+    {
+        _dbConn = new MySqlConnection(_dbConfig.Value.AccountDb);
 
-//        _dbConn.Open();
-//    }
+        _dbConn.Open();
+    }
 
-//    public void Dispose()
-//    {
-//        Close();
-//    }
+    public void Dispose()
+    {
+        Close();
+    }
 
-//    private void Close()
-//    {
-//        _dbConn.Close();
-//    }
+    private void Close()
+    {
+        _dbConn.Close();
+    }
 
-//    public async Task<Tuple<ErrorCode, bool>> AddAccount(Account account)
-//    {
-//        try
-//        {
-//            int count = await _queryFactory.Query("account").InsertAsync(account);
+    public async Task<bool> AddAccount(Account account)
+    {
+        try
+        {
+            int count = await _queryFactory.Query("account").InsertAsync(account);
 
-//            return new Tuple<ErrorCode, bool>(count != 1 ? ErrorCode.CreateAccountFailInsert : ErrorCode.None,  true);
-//        }
-//        catch (Exception ex) 
-//        {
+            return count != 1 ? false : true;
+        }
+        catch (Exception ex)
+        {
 
-//        }
+        }
 
-//        return new Tuple<ErrorCode, bool>(ErrorCode.None, true);
-//    }
+        return false;
+    }
 
-//    public Task<Tuple<ErrorCode, Account>> GetAccountByAccountname(string accountname)
-//    {
-//        try
-//        {
+    public Task<Account> GetAccountByAccountname(string accountname)
+    {
+        try
+        {
 
-//        }
-//        catch (Exception ex)
-//        {
+        }
+        catch (Exception ex)
+        {
 
-//        }
+        }
 
-//        return new Task<Tuple<ErrorCode, Account>>(ErrorCode.None, null);
-//    }
+        return null;
+    }
 
-//    public async Task<ErrorCode> UpdateAccountLastLogin(Account account)
-//    {
-//        try
-//        {
+    public void UpdateAccountLastLogin(Account account)
+    {
+        try
+        {
 
-//        }
-//        catch (Exception ex)
-//        {
+        }
+        catch (Exception ex)
+        {
 
-//        }
-
-//        return ErrorCode.None;
-//    }
-//}
+        }
+    }
+}

@@ -1,8 +1,6 @@
 using AccountServer.DB;
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
-using AccountServer.Utils;
-using Microsoft.EntityFrameworkCore;
 
 namespace AccountServer.Repository
 {
@@ -33,13 +31,11 @@ namespace AccountServer.Repository
             return result;
         }
 
-        public async Task<ErrorCode> UpdateAccountLastLogin(Account account)
+        public async void UpdateAccountLastLogin(Account account)
         {
             account.LastLoginAt = DateTime.Now;
 
             Save();
-
-            return ErrorCode.None;
         }
 
         public bool Save()

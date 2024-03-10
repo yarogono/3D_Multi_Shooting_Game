@@ -5,7 +5,7 @@ namespace AccountServer.Repository.Contract;
 
 public interface IAccountRepository : IDisposable
 {
-    public Task<ErrorCode> UpdateAccountLastLogin(Account account);
+    public void UpdateAccountLastLogin(Account account);
 
     public Task<Account> GetAccountByAccountname(string accountname);
 

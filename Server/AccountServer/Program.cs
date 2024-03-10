@@ -8,6 +8,7 @@ using AccountServer.Repository.Contract;
 using AccountServer.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using ZLogger;
 
 namespace AccountServer
 {
@@ -40,8 +41,23 @@ namespace AccountServer
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                                        .AddEnvironmentVariables();
 
+            ConfigureLogging(builder, configuration);
+
 
             return builder.Build();
+        }
+
+        private static void ConfigureLogging(WebApplicationBuilder builder, IConfigurationRoot configuration)
+        {
+            builder.Host.ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+
+                logging.AddConfiguration(configuration.GetSection("Logging"));
+
+                logging.AddZLoggerConsole();
+                logging.AddZLoggerFile("zlogFile.log");
+            });
         }
 
         private static void ConfigureServices(IServiceCollection services, string connectionString)
