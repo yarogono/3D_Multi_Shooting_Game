@@ -1,9 +1,11 @@
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
+using AccountServer.Utils;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 using SqlKata.Execution;
 using System.Data;
+using ZLogger;
 
 namespace AccountServer.Repository;
 
@@ -50,39 +52,58 @@ public class AccountDb : IAccountRepository
         {
             int count = await _queryFactory.Query("account").InsertAsync(account);
 
+            if (count == 0)
+            {
+                _logger.ZLogError(
+                    $"[AccountDb.AddAccount] ErrorCode: {ErrorCode.CreateAccountFailException}, AccountId: {account.AccountId}");
+            }
+
             return count != 1 ? false : true;
         }
         catch (Exception ex)
         {
-
+            _logger.ZLogError(ex,
+                $"[AccountDb.AddAccount] ErrorCode: {ErrorCode.CreateAccountFailException}, AccountId: {account.AccountId}");
         }
 
         return false;
     }
 
-    public Task<Account> GetAccountByAccountname(string accountname)
+    public async Task<Account> GetAccountByAccountname(string accountname)
     {
+        Account account = null;
         try
         {
-
+            account = await _queryFactory.Query("account").Where(accountname).FirstOrDefaultAsync<Account>();
         }
         catch (Exception ex)
         {
-
+            _logger.ZLogError(ex,
+                $"[AccountDb.GetAccountByAccountname] ErrorCode: {ErrorCode.AccountIdMismatch}, AccountName: {accountname}");
         }
 
-        return null;
+        return account;
     }
 
-    public void UpdateAccountLastLogin(Account account)
+    public void UpdateAccountLastLogin(int accountId)
     {
         try
         {
+            int count = _queryFactory.Query("account").Where("accountId", accountId).Update(new
+            {
+                CreatedAt = DateTime.Now,
+            });
 
+            if (count == 0)
+            {
+                _logger.ZLogError(
+                    $"[AccountDb.AccountUpdateException] ErrorCode: {ErrorCode.AccountUpdateException} AccountId: {accountId}");
+            }
         }
         catch (Exception ex)
         {
-
+            _logger.ZLogError(ex,
+                $"[AccountDb.AccountUpdateException] ErrorCode: {ErrorCode.AccountUpdateException} AccountId: {accountId}");
         }
     }
 }

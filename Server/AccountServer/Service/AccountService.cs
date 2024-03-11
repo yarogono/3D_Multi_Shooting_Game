@@ -71,7 +71,7 @@ namespace AccountServer.Service
                 res.Data = _mapper.Map<AccountLoginResDto>(account);
                 res.Message = "ok";
 
-                _accountRepository.UpdateAccountLastLogin(account);
+                _accountRepository.UpdateAccountLastLogin(account.AccountId);
             }
             else
             {

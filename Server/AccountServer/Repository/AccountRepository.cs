@@ -31,11 +31,9 @@ namespace AccountServer.Repository
             return result;
         }
 
-        public async void UpdateAccountLastLogin(Account account)
+        public async void UpdateAccountLastLogin(int  accountId)
         {
-            account.LastLoginAt = DateTime.Now;
-
-            Save();
+            // ToDo : Entity Framework 제거 예정
         }
 
         public bool Save()
