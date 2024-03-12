@@ -29,5 +29,6 @@ namespace AccountServer.Utils
         CheckAuthFailNotMatch = 2016,
         CheckAuthFailException = 2017,
         AccountUpdateException = 2018,
+        AddAccountOauthFail = 2019,
     }
 }

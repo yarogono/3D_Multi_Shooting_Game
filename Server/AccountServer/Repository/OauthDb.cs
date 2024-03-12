@@ -1,9 +1,11 @@
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
+using AccountServer.Utils;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 using SqlKata.Execution;
 using System.Data;
+using ZLogger;
 
 namespace AccountServer.Repository
 {
@@ -48,11 +50,18 @@ namespace AccountServer.Repository
         {
             try
             {
+                int count = _queryFactory.Query("oauth").Insert(oauth);
 
+                if (count == 0)
+                {
+                    _logger.ZLogError(
+                        $"[AccountDb.AddAccountOauthFail] ErrorCode: {ErrorCode.AddAccountOauthFail} AccountId: {account.AccountId}");
+                }
             }
             catch (Exception ex)
             {
-
+                _logger.ZLogError(ex,
+                    $"[AccountDb.AddAccountOauthFail] ErrorCode: {ErrorCode.AddAccountOauthFail}  AccountId:  {account.AccountId}");
             }
 
             return true;
