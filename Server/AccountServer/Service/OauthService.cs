@@ -40,7 +40,7 @@ namespace AccountServer.Service
                         email = email,
                         name = name,
                     };
-                    _accountRepository.UpdateAccountLastLogin(account);
+                    _accountRepository.UpdateAccountLastLogin(account.AccountId);
                     return res;
                 }
 
@@ -68,7 +68,7 @@ namespace AccountServer.Service
                 };
 
                 _oauthRepository.AddAccountOauth(newOauth, newAccount);
-                _accountRepository.UpdateAccountLastLogin(newAccount);
+                _accountRepository.UpdateAccountLastLogin(newAccount.AccountId);
             }
             else
             {

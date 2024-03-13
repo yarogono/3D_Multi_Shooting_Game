@@ -1,44 +1,110 @@
-using AccountServer.DB;
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
+using AccountServer.Utils;
+using Microsoft.Extensions.Options;
+using MySqlConnector;
+using SqlKata.Execution;
+using System.Data;
+using ZLogger;
 
 namespace AccountServer.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly DataContext _dataContext;
+        readonly IOptions<DbConfig> _dbConfig;
+        readonly ILogger<AccountRepository> _logger;
 
-        public AccountRepository(DataContext dataContext)
+        IDbConnection _dbConn;
+        SqlKata.Compilers.MySqlCompiler _compiler;
+        QueryFactory _queryFactory;
+
+        public AccountRepository(ILogger<AccountRepository> logger, IOptions<DbConfig> dbConfig)
         {
-            _dataContext = dataContext;
+            _logger = logger;
+            _dbConfig = dbConfig;
+
+            Open();
+
+            _compiler = new SqlKata.Compilers.MySqlCompiler();
+            _queryFactory = new QueryFactory(_dbConn, _compiler);
+        }
+
+        private void Open()
+        {
+            _dbConn = new MySqlConnection(_dbConfig.Value.AccountDb);
+
+            _dbConn.Open();
         }
 
         public void Dispose()
         {
-            _dataContext.Dispose();
+            Close();
         }
 
-        public async Task<Account> GetAccountByAccountname(string accountname)
+        private void Close()
         {
-            Account account = _dataContext.Accounts.FirstOrDefault(a => a.AccountName == accountname);
-            return account;
+            _dbConn.Close();
         }
 
         public async Task<bool> AddAccount(Account account)
         {
-            _dataContext.Accounts.Add(account);
-            bool result = Save();
-            return result;
+            try
+            {
+                int count = await _queryFactory.Query("account").InsertAsync(account);
+
+                if (count == 0)
+                {
+                    _logger.ZLogError(
+                        $"[AccountDb.AddAccount] ErrorCode: {ErrorCode.CreateAccountFailException}, AccountId: {account.AccountId}");
+                }
+
+                return count != 1 ? false : true;
+            }
+            catch (Exception ex)
+            {
+                _logger.ZLogError(ex,
+                    $"[AccountDb.AddAccount] ErrorCode: {ErrorCode.CreateAccountFailException}, AccountId: {account.AccountId}");
+            }
+
+            return false;
         }
 
-        public async void UpdateAccountLastLogin(int  accountId)
+        public async Task<Account> GetAccountByAccountname(string accountname)
         {
-            // ToDo : Entity Framework 제거 예정
+            Account account = null;
+            try
+            {
+                account = await _queryFactory.Query("account").Where(accountname).FirstOrDefaultAsync<Account>();
+            }
+            catch (Exception ex)
+            {
+                _logger.ZLogError(ex,
+                    $"[AccountDb.GetAccountByAccountname] ErrorCode: {ErrorCode.AccountIdMismatch}, AccountName: {accountname}");
+            }
+
+            return account;
         }
 
-        public bool Save()
+        public void UpdateAccountLastLogin(int accountId)
         {
-            return _dataContext.SaveChanges() >= 0 ? true : false;
+            try
+            {
+                int count = _queryFactory.Query("account").Where("accountId", accountId).Update(new
+                {
+                    CreatedAt = DateTime.Now,
+                });
+
+                if (count == 0)
+                {
+                    _logger.ZLogError(
+                        $"[AccountDb.AccountUpdateException] ErrorCode: {ErrorCode.AccountUpdateException} AccountId: {accountId}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.ZLogError(ex,
+                    $"[AccountDb.AccountUpdateException] ErrorCode: {ErrorCode.AccountUpdateException} AccountId: {accountId}");
+            }
         }
     }
 }
