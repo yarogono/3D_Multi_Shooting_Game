@@ -1,9 +1,7 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace AccountServer.Entities
 {
-    [Table("Account")]
     public class Account
     {
         [Key]

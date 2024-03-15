@@ -1,6 +1,4 @@
-using AccountServer.DB;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.EntityFrameworkCore;
 using AccountServer.Utils;
 using AccountServer.Service.Contract;
 using AccountServer.Service;
@@ -62,8 +60,6 @@ namespace AccountServer
 
         private static void ConfigureServices(IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<DataContext>(options =>
-                                            options.UseMySQL(connectionString));
 
             services.AddControllers().AddJsonOptions(options =>
             {

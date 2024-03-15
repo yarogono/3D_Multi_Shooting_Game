@@ -4,7 +4,6 @@ using static AccountServer.Utils.Define;
 
 namespace AccountServer.Entities
 {
-    [Table("Oauth")]
     public class Oauth
     {
         [Key]
