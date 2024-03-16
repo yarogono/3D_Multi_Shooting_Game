@@ -11,39 +11,19 @@ namespace AccountServer.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        readonly IOptions<DbConfig> _dbConfig;
-        readonly ILogger<AccountRepository> _logger;
+        private readonly ILogger<AccountRepository> _logger;
 
-        IDbConnection _dbConn;
-        SqlKata.Compilers.MySqlCompiler _compiler;
-        QueryFactory _queryFactory;
+        private readonly QueryFactory _queryFactory;
 
-        public AccountRepository(ILogger<AccountRepository> logger, IOptions<DbConfig> dbConfig)
+        public AccountRepository(ILogger<AccountRepository> logger, QueryFactory queryFactory)
         {
             _logger = logger;
-            _dbConfig = dbConfig;
-
-            Open();
-
-            _compiler = new SqlKata.Compilers.MySqlCompiler();
-            _queryFactory = new QueryFactory(_dbConn, _compiler);
-        }
-
-        private void Open()
-        {
-            _dbConn = new MySqlConnection(_dbConfig.Value.AccountDb);
-
-            _dbConn.Open();
+            _queryFactory = queryFactory;
         }
 
         public void Dispose()
         {
-            Close();
-        }
-
-        private void Close()
-        {
-            _dbConn.Close();
+            this._queryFactory.Dispose();
         }
 
         public async Task<bool> AddAccount(Account account)

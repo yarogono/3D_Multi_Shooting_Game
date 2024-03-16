@@ -11,41 +11,19 @@ namespace AccountServer.Repository
 {
     public class OauthRepository : IOauthRepository
     {
-        readonly IOptions<DbConfig> _dbConfig;
-        readonly ILogger<OauthRepository> _logger;
-
-        IDbConnection _dbConn;
-        SqlKata.Compilers.MySqlCompiler _compiler;
+        private readonly ILogger<OauthRepository> _logger;
         QueryFactory _queryFactory;
 
-        public OauthRepository(ILogger<OauthRepository> logger, IOptions<DbConfig> dbConfig)
+        public OauthRepository(ILogger<OauthRepository> logger, QueryFactory queryFactory)
         {
             _logger = logger;
-            _dbConfig = dbConfig;
-
-            Open();
-
-            _compiler = new SqlKata.Compilers.MySqlCompiler();
-            _queryFactory = new QueryFactory(_dbConn, _compiler);
-        }
-
-        private void Open()
-        {
-            _dbConn = new MySqlConnection(_dbConfig.Value.AccountDb);
-
-            _dbConn.Open();
+            _queryFactory = queryFactory;
         }
 
         public void Dispose()
         {
-            Close();
+            this._queryFactory.Dispose();
         }
-
-        private void Close()
-        {
-            _dbConn.Close();
-        }
-
         public bool AddAccountOauth(Oauth oauth, Account account)
         {
             try

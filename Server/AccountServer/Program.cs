@@ -7,6 +7,10 @@ using AccountServer.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using ZLogger;
+using SqlKata.Execution;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using MySqlConnector;
+using SqlKata.Compilers;
 
 namespace AccountServer
 {
@@ -65,6 +69,13 @@ namespace AccountServer
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+            });
+
+            services.AddTransient<QueryFactory>((e) =>
+            {
+                var connection = new MySqlConnection(connectionString);
+                var compiler = new MySqlCompiler();
+                return new QueryFactory(connection, compiler);
             });
 
             services.AddSwaggerGen();
