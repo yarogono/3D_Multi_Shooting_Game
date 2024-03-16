@@ -1,10 +1,7 @@
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
 using AccountServer.Utils;
-using Microsoft.Extensions.Options;
-using MySqlConnector;
 using SqlKata.Execution;
-using System.Data;
 using ZLogger;
 
 namespace AccountServer.Repository
