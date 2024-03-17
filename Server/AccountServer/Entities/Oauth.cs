@@ -12,7 +12,7 @@ namespace AccountServer.Entities
         public string OauthToken { get; set; }
 
         [Required]
-        public OauthType OauthType { get; set; }
+        public string OauthType { get; set; }
 
         public int? AccountId { get; set; }
     }

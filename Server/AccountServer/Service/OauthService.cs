@@ -64,7 +64,7 @@ namespace AccountServer.Service
                 Oauth newOauth = new Oauth()
                 {   
                     OauthToken = accessToken,
-                    OauthType = Utils.Define.OauthType.Google,
+                    OauthType = Utils.Define.OauthType.Google.ToString(),
                 };
 
                 bool addAccountOauthResult = _oauthRepository.AddAccountOauth(newOauth, newAccount);

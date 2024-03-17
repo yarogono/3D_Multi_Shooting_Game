@@ -1,7 +1,6 @@
 using AccountServer.Entities;
 using AccountServer.Repository.Contract;
 using AccountServer.Utils;
-using Dapper;
 using SqlKata.Execution;
 using ZLogger;
 
