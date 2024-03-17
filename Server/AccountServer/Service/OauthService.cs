@@ -17,6 +17,7 @@ namespace AccountServer.Service
             _accountRepository = accountRepository;
         }
 
+
         public ServiceResponse<GoogleLoginResDto> GoogleLogin(AuthenticateResult result, string token)
         {
             ServiceResponse<GoogleLoginResDto> res = new();
@@ -61,14 +62,15 @@ namespace AccountServer.Service
                 };
 
                 Oauth newOauth = new Oauth()
-                {
+                {   
                     OauthToken = accessToken,
                     OauthType = Utils.Define.OauthType.Google,
-                    Account = newAccount,
                 };
 
-                _oauthRepository.AddAccountOauth(newOauth, newAccount);
-                _accountRepository.UpdateAccountLastLogin(newAccount.AccountId);
+                bool addAccountOauthResult = _oauthRepository.AddAccountOauth(newOauth, newAccount);
+                
+                if (addAccountOauthResult)
+                    _accountRepository.UpdateAccountLastLogin(newAccount.AccountId);
             }
             else
             {

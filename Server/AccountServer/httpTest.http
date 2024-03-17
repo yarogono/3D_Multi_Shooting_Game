@@ -1,5 +1,6 @@
 @rootUrl=https://localhost:7038/api
 
+# /api/Account
 POST {{rootUrl}}/Account/signup
 Content-Type: application/json
 

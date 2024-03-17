@@ -9,7 +9,6 @@ namespace AccountServer.Repository
     public class AccountRepository : IAccountRepository
     {
         private readonly ILogger<AccountRepository> _logger;
-
         private readonly QueryFactory _queryFactory;
 
         public AccountRepository(ILogger<AccountRepository> logger, QueryFactory queryFactory)
@@ -20,7 +19,7 @@ namespace AccountServer.Repository
 
         public void Dispose()
         {
-            this._queryFactory.Dispose();
+            this._queryFactory.Connection.Close();
         }
 
         public async Task<bool> AddAccount(Account account)
@@ -51,7 +50,7 @@ namespace AccountServer.Repository
             Account account = null;
             try
             {
-                account = await _queryFactory.Query("account").Where(accountname).FirstOrDefaultAsync<Account>();
+                account = await _queryFactory.Query("account").Where("AccountName", accountname).FirstOrDefaultAsync<Account>();
             }
             catch (Exception ex)
             {

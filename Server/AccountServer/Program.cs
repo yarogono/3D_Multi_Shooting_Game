@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using ZLogger;
 using SqlKata.Execution;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using MySqlConnector;
 using SqlKata.Compilers;
+using System.Data;
 
 namespace AccountServer
 {

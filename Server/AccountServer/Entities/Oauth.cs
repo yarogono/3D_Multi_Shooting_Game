@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using static AccountServer.Utils.Define;
 
 namespace AccountServer.Entities
@@ -15,7 +14,6 @@ namespace AccountServer.Entities
         [Required]
         public OauthType OauthType { get; set; }
 
-        [ForeignKey("AccountId")]
-        public Account? Account { get; set; }
+        public int? AccountId { get; set; }
     }
 }
