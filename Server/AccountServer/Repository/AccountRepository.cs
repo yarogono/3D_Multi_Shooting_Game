@@ -15,6 +15,8 @@ namespace AccountServer.Repository
         {
             _logger = logger;
             _queryFactory = queryFactory;
+
+            _queryFactory.Connection.Open();
         }
 
         public void Dispose()
