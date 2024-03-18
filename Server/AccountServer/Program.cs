@@ -11,6 +11,7 @@ using SqlKata.Execution;
 using MySqlConnector;
 using SqlKata.Compilers;
 using System.Data;
+using ZLogger.Providers;
 
 namespace AccountServer
 {
@@ -58,7 +59,18 @@ namespace AccountServer
                 logging.AddConfiguration(configuration.GetSection("Logging"));
 
                 logging.AddZLoggerConsole();
-                logging.AddZLoggerFile("zlogFile.log");
+                logging.AddZLoggerFile("/log/zlogFile.log")
+                          .AddZLoggerRollingFile(options =>
+                          {
+                              // File name determined by parameters to be rotated
+                              options.FilePathSelector = (timestamp, sequenceNumber) => $"logs/{timestamp.ToLocalTime():yyyy-MM-dd}_{sequenceNumber:000}.log";
+                          
+                              // The period of time for which you want to rotate files at time intervals.
+                              options.RollingInterval = RollingInterval.Day;
+                          
+                              // Limit of size if you want to rotate by file size. (KB)
+                              options.RollingSizeKB = 1024;
+                          });
             });
         }
 

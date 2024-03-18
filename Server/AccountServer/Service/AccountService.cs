@@ -26,6 +26,14 @@ namespace AccountServer.Service
 
             if (account == null)
             {
+                if (req.Password.Equals(req.ConfirmPassword) == false)
+                {
+                    res.Error = "Password not match";
+                    res.Success = false;
+                    res.Data = null;
+                    return res;
+                }
+
                 string encryptPassword = _passwordEncryptor.Encrypt(req.Password);
 
                 Account newAccount = new Account()
