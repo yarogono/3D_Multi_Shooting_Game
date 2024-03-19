@@ -27,6 +27,8 @@ namespace AccountServer.Repository
         public bool AddAccountOauth(Oauth oauth, Account account)
         {
             using var transaction = _queryFactory.Connection.BeginTransaction();
+            bool result = true;
+
             try
             {
                 int accountId = _queryFactory.Query("account").InsertGetId<int>(account, transaction);
@@ -41,9 +43,10 @@ namespace AccountServer.Repository
                 transaction.Rollback();
                 _logger.ZLogError(ex,
                     $"[AccountDb.AddAccountOauthFail] ErrorCode: {ErrorCode.AddAccountOauthFail}  AccountName:  {account.AccountName}");
+                result = false;
             }
 
-            return true;
+            return result;
         }
     }
 }
