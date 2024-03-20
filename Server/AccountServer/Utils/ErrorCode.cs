@@ -7,9 +7,7 @@ namespace AccountServer.Utils
 
         // Common 1000 ~
         UnhandleException = 1001,
-        RedisFailException = 1002,
-        InValidRequestHttpBody = 1003,
-        AuthTokenFailWrongAuthToken = 1006,
+        InValidRequestHttpBody = 1002,
 
         // Account 2000 ~
         CreateAccountFailException = 2001,
