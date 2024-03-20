@@ -63,11 +63,11 @@ namespace AccountServer.Repository
             return account;
         }
 
-        public void UpdateAccountLastLogin(int accountId)
+        public async void UpdateAccountLastLogin(int accountId)
         {
             try
             {
-                int count = _queryFactory.Query("account").Where("accountId", accountId).Update(new
+                int count = await _queryFactory.Query("account").Where("accountId", accountId).UpdateAsync(new
                 {
                     CreatedAt = DateTime.Now,
                 });

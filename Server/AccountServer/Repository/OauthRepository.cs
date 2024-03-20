@@ -24,14 +24,14 @@ namespace AccountServer.Repository
             this._queryFactory.Connection.Close();
         }
 
-        public bool AddAccountOauth(Oauth oauth, Account account)
+        public async Task<bool> AddAccountOauth(Oauth oauth, Account account)
         {
             using var transaction = _queryFactory.Connection.BeginTransaction();
             bool result = true;
 
             try
             {
-                int accountId = _queryFactory.Query("account").InsertGetId<int>(account, transaction);
+                int accountId = await _queryFactory.Query("account").InsertGetIdAsync<int>(account, transaction);
 
                 oauth.AccountId = accountId;
                 _queryFactory.Query("oauth").Insert(oauth, transaction);

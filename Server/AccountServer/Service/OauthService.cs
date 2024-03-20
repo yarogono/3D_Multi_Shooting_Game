@@ -18,7 +18,7 @@ namespace AccountServer.Service
         }
 
 
-        public ServiceResponse<GoogleLoginResDto> GoogleLogin(AuthenticateResult result, string token)
+        public async Task<ServiceResponse<GoogleLoginResDto>> GoogleLogin(AuthenticateResult result, string token)
         {
             ServiceResponse<GoogleLoginResDto> res = new();
 
@@ -67,7 +67,7 @@ namespace AccountServer.Service
                     OauthType = Utils.Define.OauthType.Google.ToString(),
                 };
 
-                bool addAccountOauthResult = _oauthRepository.AddAccountOauth(newOauth, newAccount);
+                bool addAccountOauthResult = await _oauthRepository.AddAccountOauth(newOauth, newAccount);
                 
                 if (addAccountOauthResult)
                     _accountRepository.UpdateAccountLastLogin(newAccount.AccountId);

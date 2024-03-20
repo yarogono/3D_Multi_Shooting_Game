@@ -4,6 +4,6 @@ namespace AccountServer.Repository.Contract
 {
     public interface IOauthRepository : IDisposable
     {
-        bool AddAccountOauth(Oauth oauth, Account account);
+        public Task<bool> AddAccountOauth(Oauth oauth, Account account);
     }
 }

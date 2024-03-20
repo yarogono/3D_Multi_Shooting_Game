@@ -18,11 +18,11 @@ namespace AccountServer.Service
             _accountRepository = accountRepository;
             _mapper = mapper;
         }
-        public ServiceResponse<AccountSignupResDto> AddAccount(AccountSignupReqDto req)
+        public async Task<ServiceResponse<AccountSignupResDto>> AddAccount(AccountSignupReqDto req)
         {
             ServiceResponse<AccountSignupResDto> res = new();
 
-            Account account = _accountRepository.GetAccountByAccountname(req.AccountName).Result;
+            Account account = await _accountRepository.GetAccountByAccountname(req.AccountName);
 
             if (account == null)
             {
@@ -44,7 +44,7 @@ namespace AccountServer.Service
                     CreatedAt = DateTime.Now,
                 };
 
-                bool isAddAccountSucced = _accountRepository.AddAccount(newAccount).Result;
+                bool isAddAccountSucced = await _accountRepository.AddAccount(newAccount);
                 if (isAddAccountSucced == false)
                 {
                     res.Error = "RepoError";
@@ -67,11 +67,11 @@ namespace AccountServer.Service
             return res;
         }
 
-        public ServiceResponse<AccountLoginResDto> AccountLogin(AccountLoginReqDto req)
+        public async Task<ServiceResponse<AccountLoginResDto>> AccountLogin(AccountLoginReqDto req)
         {
             ServiceResponse<AccountLoginResDto> res = new();
 
-            Account account = _accountRepository.GetAccountByAccountname(req.AccountName).Result;
+            Account account = await _accountRepository.GetAccountByAccountname(req.AccountName);
 
             if (account != null && _passwordEncryptor.IsmatchPassword(req.Password, account.Password))
             {
