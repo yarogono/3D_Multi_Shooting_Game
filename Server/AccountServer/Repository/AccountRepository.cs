@@ -63,7 +63,7 @@ namespace AccountServer.Repository
             return account;
         }
 
-        public async void UpdateAccountLastLogin(int accountId)
+        public async Task UpdateAccountLastLogin(int accountId)
         {
             try
             {
