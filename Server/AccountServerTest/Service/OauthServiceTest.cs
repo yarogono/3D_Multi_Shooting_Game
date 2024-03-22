@@ -11,7 +11,7 @@ namespace AccountServerTest.Service
     {
 
         [Fact(DisplayName = "구글 로그인")]
-        public void GoogleLogin()
+        public async void GoogleLogin()
         {
             // Arrange
             var succedMessage = "Google Login";
@@ -32,7 +32,7 @@ namespace AccountServerTest.Service
             var oauthService = new OauthService(mockOauthRepository.Object, mockAccountRepository.Object);
 
             // Act
-            var result = oauthService.GoogleLogin(mockResult, null);
+            var result = await oauthService.GoogleLogin(mockResult, null);
 
             // Assert
             Assert.Equal(succedMessage, result.Message);

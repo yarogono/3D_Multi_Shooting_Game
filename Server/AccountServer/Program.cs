@@ -10,7 +10,6 @@ using ZLogger;
 using SqlKata.Execution;
 using MySqlConnector;
 using SqlKata.Compilers;
-using System.Data;
 using ZLogger.Providers;
 
 namespace AccountServer
@@ -30,7 +29,7 @@ namespace AccountServer
 
         private static WebApplication BuilderSetting(WebApplicationBuilder builder)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
+            IConfigurationRoot configuration = builder.Configuration
                                                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                                                 .AddJsonFile("config.json")
                                                 .Build();
