@@ -5,12 +5,17 @@ namespace AccountServer.Utils
 {
     public class PasswordEncryptor
     {
-        private SHA256Managed sha256Managed = new SHA256Managed();
+        private SHA256Managed _sha256Managed;
 
         private readonly IConfiguration _configuration;
 
         public PasswordEncryptor(IConfiguration configuration)
         {
+            if (_sha256Managed == null)
+            {
+                _sha256Managed = new SHA256Managed();
+            }
+
             _configuration = configuration;
         }
 
@@ -19,7 +24,7 @@ namespace AccountServer.Utils
 
             string salt = _configuration["salt"];
             string saltedPassword = password + salt;
-            byte[] encryptBytes = sha256Managed.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));
+            byte[] encryptBytes = _sha256Managed.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));
 
             //base64
             String encryptString = Convert.ToBase64String(encryptBytes);

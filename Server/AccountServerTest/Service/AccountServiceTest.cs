@@ -3,8 +3,9 @@ using AccountServer.Repository.Contract;
 using AccountServer.Service;
 using AccountServer.Utils;
 using AutoMapper;
-using Castle.Core.Configuration;
+using Microsoft.Extensions.Configuration;
 using Moq;
+using System.Security.Cryptography;
 
 namespace AccountServerTest.Service
 {
@@ -13,14 +14,21 @@ namespace AccountServerTest.Service
         private readonly Mock<IAccountRepository> _mockRepository;
         private readonly Mock<PasswordEncryptor> _mockPasswordEncryptor;
         private readonly Mock<IMapper> _mockImapper;
-        private readonly Mock<IConfiguration> _configuration;
         private readonly AccountService _accountService;
 
         public AccountServiceTest()
         {
+            var configForSmsApi = new Dictionary<string, string>
+            {
+                {"salt", "http://example.com"},
+            };
+            
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(configForSmsApi)
+                .Build();
+
             _mockRepository = new Mock<IAccountRepository>();
-            _configuration = new Mock<IConfiguration>();
-            _mockPasswordEncryptor = new Mock<PasswordEncryptor>(_configuration);
+            _mockPasswordEncryptor = new Mock<PasswordEncryptor>(configuration);
             _mockImapper = new Mock<IMapper>();
 
             _accountService = new AccountService(_mockPasswordEncryptor.Object, _mockRepository.Object, _mockImapper.Object);
