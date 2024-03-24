@@ -1,6 +1,7 @@
 using Server.Data;
 using Server.Game.Room;
 using Server.Session;
+using ServerCore;
 
 namespace Server
 {
@@ -35,6 +36,8 @@ namespace Server
         {
             ConfigManager.LoadConfig();
             DataManager.LoadData();
+
+            LoggerConfig.CreateLogger("../../../log/zlogFile.log");
 
             GameLogic.Instance.Push(() =>
             {

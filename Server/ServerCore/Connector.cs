@@ -1,5 +1,7 @@
 using System.Net.Sockets;
 using System.Net;
+using Microsoft.Extensions.Logging;
+using ZLogger;
 
 namespace ServerCore
 {
@@ -9,6 +11,13 @@ namespace ServerCore
 
         SocketAsyncEventArgsPool ReceiveEventArgsPool;
         SocketAsyncEventArgsPool SendEventArgsPool;
+
+        private readonly ILogger<Connector> _logger;
+
+        public Connector()
+        {
+            _logger = LoggerConfig.Factory.CreateLogger<Connector>();
+        }
 
         public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory, int count = 1)
         {
@@ -41,7 +50,7 @@ namespace ServerCore
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.ZLogError($"Connector: {ex.Message}");
             }
         }
 
@@ -58,12 +67,12 @@ namespace ServerCore
                 }
                 else
                 {
-                    Console.WriteLine($"OnConnectCompleted Fail: {args.SocketError}");
+                    _logger.ZLogError($"OnConnectCompleted Fail: {args.SocketError}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.ZLogError($"Connector: {ex.Message}");
             }
         }
 

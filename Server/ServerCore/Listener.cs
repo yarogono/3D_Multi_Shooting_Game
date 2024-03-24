@@ -1,5 +1,6 @@
 using System.Net.Sockets;
 using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace ServerCore
 {
@@ -10,6 +11,13 @@ namespace ServerCore
 
         SocketAsyncEventArgsPool ReceiveEventArgsPool;
         SocketAsyncEventArgsPool SendEventArgsPool;
+
+        private readonly ILogger<Listener> _logger;
+
+        public Listener()
+        {
+            _logger = LoggerConfig.Factory.CreateLogger<Listener>();
+        }
 
         public void Init(IPEndPoint endPoint, Func<Session> sessionFactory, int register = 10, int backlog = 100)
         {
@@ -42,7 +50,7 @@ namespace ServerCore
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.LogError($"Listener: {ex.Message}");
             }
         }
 
@@ -62,7 +70,7 @@ namespace ServerCore
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.LogError($"Listener: {ex.Message}");
             }
 
             RegisterAccept(args);

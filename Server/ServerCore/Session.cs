@@ -1,5 +1,7 @@
 using System.Net.Sockets;
 using System.Net;
+using Microsoft.Extensions.Logging;
+using ZLogger;
 
 namespace ServerCore
 {
@@ -50,6 +52,14 @@ namespace ServerCore
 
         public SocketAsyncEventArgs ReceiveEventArgs { get; private set; }
         public SocketAsyncEventArgs SendEventArgs { get; private set; }
+
+
+        private readonly ILogger<Session> _logger;
+
+        protected Session()
+        {
+            _logger = LoggerConfig.Factory.CreateLogger<Session>();
+        }
 
 
         public abstract void OnConnected(EndPoint endPoint);
@@ -121,8 +131,17 @@ namespace ServerCore
             SendEventArgsPool.Push(SendEventArgs);
 
             OnDisconnected(_socket.RemoteEndPoint);
-            _socket.Shutdown(SocketShutdown.Both);
-            _socket.Close();
+
+            try
+            {
+                _socket.Shutdown(SocketShutdown.Both);
+                _socket.Close();
+            }
+            catch (Exception ex)
+            {
+                _logger.ZLogError($"Session.Disconnect: {ex.Message}");
+            }
+
             Clear();
         }
 
@@ -146,9 +165,9 @@ namespace ServerCore
                 if (pending == false)
                     OnSendCompleted(null, SendEventArgs);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine($"RegisterSend Failed {e}");
+                _logger.ZLogError($"Session.ResigerSend: {ex.Message}");
             }
         }
 
