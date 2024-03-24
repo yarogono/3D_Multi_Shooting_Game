@@ -9,6 +9,10 @@ namespace ServerCore
     {
         public static readonly int HeaderSize = 2;
 
+        protected PacketSession(ILogger<Session> logger) : base(logger)
+        {
+        }
+
         public sealed override int OnRecv(ArraySegment<byte> buffer)
         {
             int processLen = 0;
@@ -56,9 +60,9 @@ namespace ServerCore
 
         private readonly ILogger<Session> _logger;
 
-        protected Session()
+        protected Session(ILogger<Session> logger)
         {
-            _logger = LoggerConfig.Factory.CreateLogger<Session>();
+            _logger = logger;
         }
 
 

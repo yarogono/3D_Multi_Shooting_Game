@@ -14,9 +14,9 @@ namespace ServerCore
 
         private readonly ILogger<Connector> _logger;
 
-        public Connector()
+        public Connector(ILogger<Connector> logger)
         {
-            _logger = LoggerConfig.Factory.CreateLogger<Connector>();
+            _logger = logger;
         }
 
         public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory, int count = 1)

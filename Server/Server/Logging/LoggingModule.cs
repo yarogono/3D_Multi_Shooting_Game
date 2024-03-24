@@ -2,9 +2,9 @@ using Microsoft.Extensions.Logging;
 using ZLogger;
 using ZLogger.Providers;
 
-namespace ServerCore
+namespace Server.Logging
 {
-    public static class LoggerConfig
+    public static class LoggingModule
     {
 
         public static ILoggerFactory Factory;

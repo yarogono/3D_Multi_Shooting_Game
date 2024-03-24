@@ -1,4 +1,6 @@
-﻿using Server.Session;
+using Microsoft.Extensions.Logging;
+using Server.Logging;
+using Server.Session;
 
 namespace Server
 {
@@ -29,7 +31,7 @@ namespace Server
 			{
 				int sessionId = ++_sessionId;
 
-				ClientSession session = new ClientSession();
+                ClientSession session = new ClientSession(LoggingModule.Factory.CreateLogger<ClientSession>());
 				session.SessionId = sessionId;
 				_sessions.Add(sessionId, session);
 

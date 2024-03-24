@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+using Server.Logging;
 using ServerCore;
 using System.Net;
 
@@ -5,7 +7,7 @@ namespace Server;
 
 public class NetworkService
 {
-    Listener ClientListener = new();
+    Listener ClientListener;
 
     Int64 ConnectdSessionCount;
 
@@ -20,6 +22,8 @@ public class NetworkService
     public NetworkService()
     {
         ServerOption = new();
+
+        ClientListener = new Listener(LoggingModule.Factory.CreateLogger<Listener>());
     }
 
     public void Star()

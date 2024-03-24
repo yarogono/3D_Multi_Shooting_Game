@@ -14,9 +14,9 @@ namespace ServerCore
 
         private readonly ILogger<Listener> _logger;
 
-        public Listener()
+        public Listener(ILogger<Listener> logger)
         {
-            _logger = LoggerConfig.Factory.CreateLogger<Listener>();
+            _logger = logger;
         }
 
         public void Init(IPEndPoint endPoint, Func<Session> sessionFactory, int register = 10, int backlog = 100)

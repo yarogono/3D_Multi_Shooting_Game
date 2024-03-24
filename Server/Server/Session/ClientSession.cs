@@ -4,6 +4,7 @@ using Server.Game.Room;
 using Server.Game.Object;
 using Google.Protobuf.Protocol;
 using Google.Protobuf;
+using Microsoft.Extensions.Logging;
 
 namespace Server.Session
 {
@@ -51,6 +52,11 @@ namespace Server.Session
         private const int SizeOffset = 0;
         private const int MsgIdOffset = 2;
         private const int HeaderSize = 4;
+
+        public ClientSession(ILogger<ServerCore.Session> logger) : base(logger)
+        {
+        }
+
         // 예약만 하고 보내지는 않는다
         public void Send(IMessage packet)
         {
