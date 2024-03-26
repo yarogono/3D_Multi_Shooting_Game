@@ -1,7 +1,10 @@
+using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 using Server.Data;
 using Server.Game.Room;
 using Server.Logging;
 using Server.Session;
+using ServerCore;
 
 namespace Server
 {
@@ -36,8 +39,12 @@ namespace Server
         {
             ConfigManager.LoadConfig();
             DataManager.LoadData();
+            LoggingModule.Load();
+            LoggingModule.CreateFactory();
 
-            LoggingModule.CreateLogger("../../../log/file.log");
+            var services = new ServiceCollection();
+            services.AddScoped<IListener, Listener>();
+
 
             GameLogic.Instance.Push(() =>
             {
@@ -45,7 +52,8 @@ namespace Server
                 room.Init();
             });
 
-            NetworkService networkService = new NetworkService();
+            // ToDo : networkSerive NullException
+            NetworkService networkService = new NetworkService(null);
             networkService.Star();
             
             Console.WriteLine("Listening...");

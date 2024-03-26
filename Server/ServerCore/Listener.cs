@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ServerCore
 {
-    public class Listener
+    public sealed class Listener : IListener
     {
         Socket _listenSocket;
         Func<Session> _sessionFactory;

@@ -31,7 +31,7 @@ namespace Server
 			{
 				int sessionId = ++_sessionId;
 
-                ClientSession session = new ClientSession(LoggingModule.Factory.CreateLogger<ClientSession>());
+                ClientSession session = new(LoggingModule.Factory.CreateLogger<ClientSession>());
 				session.SessionId = sessionId;
 				_sessions.Add(sessionId, session);
 

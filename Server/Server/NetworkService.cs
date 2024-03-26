@@ -7,7 +7,7 @@ namespace Server;
 
 public class NetworkService
 {
-    Listener ClientListener;
+    IListener ClientListener;
 
     Int64 ConnectdSessionCount;
 
@@ -19,11 +19,11 @@ public class NetworkService
         private set => _serverOption = value; 
     }
 
-    public NetworkService()
+    public NetworkService(IListener listener)
     {
         ServerOption = new();
 
-        ClientListener = new Listener(LoggingModule.Factory.CreateLogger<Listener>());
+        ClientListener = listener;
     }
 
     public void Star()
