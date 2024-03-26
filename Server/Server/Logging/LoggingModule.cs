@@ -12,30 +12,6 @@ namespace Server.Logging
 
         public static ILoggerFactory Factory;
 
-        public static void Load()
-        {
-            var services = new ServiceCollection();
-
-            services.AddLogging(logging =>
-            {
-                logging.ClearProviders();
-
-                logging.AddZLoggerConsole();
-                logging.AddZLoggerFile(LOG_FILE_PATH)
-                          .AddZLoggerRollingFile(options =>
-                          {
-                              // File name determined by parameters to be rotated
-                              options.FilePathSelector = (timestamp, sequenceNumber) => $"logs/{timestamp.ToLocalTime():yyyy-MM-dd}_{sequenceNumber:000}.log";
-
-                              // The period of time for which you want to rotate files at time intervals.
-                              options.RollingInterval = RollingInterval.Day;
-
-                              // Limit of size if you want to rotate by file size. (KB)
-                              options.RollingSizeKB = 1024;
-                          });
-            });
-        }
-
         public static void CreateFactory()
         {
             Factory = LoggerFactory.Create(logging =>
