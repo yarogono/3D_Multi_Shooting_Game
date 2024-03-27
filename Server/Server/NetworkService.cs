@@ -19,11 +19,11 @@ public class NetworkService : INetworkService
         private set => _serverOption = value; 
     }
 
-    public NetworkService(IListener listener)
+    public NetworkService()
     {
         ServerOption = new();
 
-        ClientListener = listener;
+        ClientListener = new Listener(LoggingModule.Factory.CreateLogger<Listener>());
     }
 
     public void Star()

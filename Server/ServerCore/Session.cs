@@ -40,7 +40,7 @@ namespace ServerCore
         public abstract void OnRecvPacket(ArraySegment<byte> buffer);
     }
 
-    public abstract class Session : ISession
+    public abstract class Session
     {
         Socket _socket;
         int _disconnected = 0;

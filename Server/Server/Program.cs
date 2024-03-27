@@ -43,11 +43,6 @@ namespace Server
             DataManager.LoadData();
             LoggingModule.CreateFactory();
 
-            //var services = new ServiceCollection();
-            //services.AddScoped<IListener, Listener>();
-
-
-
             GameLogic.Instance.Push(() =>
             {
                 GameRoom room = GameLogic.Instance.Add();
@@ -55,18 +50,17 @@ namespace Server
             });
 
             var builder = new ContainerBuilder();
-            builder.Register(c => new LoggingModule())
-                    .As<ILogger>();
+            builder.RegisterType<NetworkService>()
+                     .As<INetworkService>();
 
             builder.RegisterType<Listener>()
-                       .As<IListener>()
-                      .AsImplementedInterfaces();
-
-            builder.RegisterType<NetworkService>()
-                  .As<INetworkService>()
-                  .OnActivated(e => e.Instance.Star());
+                     .As<IListener>();
 
             var container = builder.Build();
+
+            var networkService = container.Resolve<INetworkService>();
+
+            networkService.Star();
 
             Console.WriteLine("Listening...");
 
