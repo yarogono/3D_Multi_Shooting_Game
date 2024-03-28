@@ -49,18 +49,7 @@ namespace Server
                 room.Init();
             });
 
-            var builder = new ContainerBuilder();
-            builder.RegisterType<NetworkService>()
-                     .As<INetworkService>();
-
-            builder.RegisterType<Listener>()
-                     .As<IListener>();
-
-            var container = builder.Build();
-
-            var networkService = container.Resolve<INetworkService>();
-
-            networkService.Star();
+            BuildContainer();
 
             Console.WriteLine("Listening...");
 
@@ -74,6 +63,21 @@ namespace Server
             // GameLogic
             Thread.CurrentThread.Name = "GameLogic";
             GameLogicTask();
+        }
+
+        private static void BuildContainer()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterType<NetworkService>()
+                     .As<INetworkService>();
+
+            builder.RegisterType<Listener>()
+                     .As<IListener>();
+
+            var container = builder.Build();
+
+            var networkService = container.Resolve<INetworkService>();
+            networkService.Star();
         }
     }
 }
